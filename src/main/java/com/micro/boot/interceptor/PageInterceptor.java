@@ -19,7 +19,7 @@ import java.util.Properties;
 
 /**
  * 分页用拦截器
- * Created by czx on 2017/11/15.
+ * Created by huliang on 2017/11/15.
  */
 @Intercepts({@Signature(type=Executor.class,method="query",args={ MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class })})
 public class PageInterceptor implements Interceptor{

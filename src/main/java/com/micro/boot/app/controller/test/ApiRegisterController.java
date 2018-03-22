@@ -1,10 +1,11 @@
-package com.micro.boot.app.controller;
+package com.micro.boot.app.controller.test;
 
 
 import com.google.gson.Gson;
+import com.micro.boot.common.Constants;
 import com.micro.boot.common.utils.AppBaseResult;
 import com.micro.boot.common.validator.Assert;
-import com.micro.boot.app.service.user.AppUserService;
+import com.micro.boot.app.service.test.AppUserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ import java.util.HashMap;
  * @date 2018-01-26 17:27
  */
 @RestController
-@RequestMapping("/app")
+@RequestMapping(Constants.APP)
 public class ApiRegisterController {
 
     @Resource(name = "appUserService")

@@ -1,11 +1,12 @@
-package com.micro.boot.app.controller;
+package com.micro.boot.app.controller.test;
 
 
 import com.google.gson.Gson;
+import com.micro.boot.common.Constants;
 import com.micro.boot.common.exception.RRException;
 import com.micro.boot.common.utils.AppBaseResult;
 import com.micro.boot.common.validator.Assert;
-import com.micro.boot.app.service.user.AppUserService;
+import com.micro.boot.app.service.test.AppUserService;
 import com.micro.boot.app.utils.JwtUtils;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -28,7 +29,7 @@ import java.util.HashMap;
  * @date 2018-01-23 15:31
  */
 @RestController
-@RequestMapping("/app")
+@RequestMapping(Constants.APP)
 public class ApiLoginController {
 
     private org.slf4j.Logger logger = LoggerFactory.getLogger(getClass());

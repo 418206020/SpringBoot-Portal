@@ -1,10 +1,11 @@
-package com.micro.boot.app.controller.appUpdate;
+package com.micro.boot.app.controller.test;
 
 import com.google.gson.Gson;
+import com.micro.boot.common.Constants;
 import com.micro.boot.common.utils.AppBaseResult;
 import com.micro.boot.common.utils.PageUtils;
 import com.micro.boot.common.utils.Query;
-import com.micro.boot.app.service.appUpdate.AppUpdateService;
+import com.micro.boot.app.service.test.AppUpdateService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -29,7 +30,7 @@ import java.util.List;
  */
 @Api(value = "API - AppUpdateController ", description = "APP版本管理")
 @RestController
-@RequestMapping("/app")
+@RequestMapping(Constants.APP)
 public class AppUpdateController {
 
     private org.slf4j.Logger logger = LoggerFactory.getLogger(getClass());

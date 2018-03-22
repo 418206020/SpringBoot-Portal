@@ -1,4 +1,4 @@
-package com.micro.boot.app.service.user;
+package com.micro.boot.app.service.test;
 
 import com.micro.boot.common.exception.RRException;
 import com.micro.boot.common.validator.Assert;
@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 /**
- * Created by czx on 2018/1/5.
+ * Created by huliang on 2018/1/5.
  */
 
 @Service("appUserService")

@@ -1,4 +1,5 @@
-package com.micro.boot.app.controller;
+package com.micro.boot.app.controller.test;
+import com.micro.boot.common.Constants;
 import com.micro.boot.common.utils.R;
 import com.micro.boot.common.utils.RedisUtils;
 import com.micro.boot.app.annotation.AuthIgnore;
@@ -21,7 +22,7 @@ import javax.annotation.Resource;
  * @date 2018-01-23 15:47
  */
 @RestController
-@RequestMapping("/app")
+@RequestMapping(Constants.APP)
 public class ApiTestController {
 
     @Resource

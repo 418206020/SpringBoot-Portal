@@ -3,7 +3,7 @@ package com.micro.boot.common.utils;
 import java.util.Calendar;
 
 /**
- * Created by czx on 2017/9/19.
+ * Created by huliang on 2017/9/19.
  */
 public class UUIDS {
 

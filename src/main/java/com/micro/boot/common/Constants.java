@@ -22,6 +22,18 @@ public class Constants {
      * WEB版本
      */
     public static final String VERSION_WEB = "1.0";
+
+
+    /**
+     * RESTFUL接口USER模块APP访问前缀
+     */
+    public static final String APP = "/app";
+
+
+    /**
+     * USER 模块
+     */
+    public static final String REST_MODULE_USER = APP + "user";
     
 
 }

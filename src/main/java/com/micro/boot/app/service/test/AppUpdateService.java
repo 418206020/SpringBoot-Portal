@@ -1,4 +1,4 @@
-package com.micro.boot.app.service.appUpdate;
+package com.micro.boot.app.service.test;
 
 import com.micro.boot.app.service.ServiceSupport;
 import org.springframework.stereotype.Service;
