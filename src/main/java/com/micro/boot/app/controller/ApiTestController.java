@@ -16,9 +16,9 @@ import javax.annotation.Resource;
 /**
  * APP测试接口
  *
- * @author czx
- * @email object_czx@163.com
- * @date 2017-03-23 15:47
+ * @author huliang
+ * @email 418206020@qq.com
+ * @date 2018-01-23 15:47
  */
 @RestController
 @RequestMapping("/app")

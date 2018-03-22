@@ -8,8 +8,8 @@ import java.util.Map;
 /**
  * 系统配置信息
  * 
- * @author czx
- * @email object_czx@163.com
+ * @author huliang
+ * @email 418206020@qq.com
  * @date 2016年12月4日 下午6:49:01
  */
 public interface SysConfigService {

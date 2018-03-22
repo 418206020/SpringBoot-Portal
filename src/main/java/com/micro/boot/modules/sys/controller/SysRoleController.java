@@ -20,8 +20,8 @@ import java.util.Map;
 /**
  * 角色管理
  * 
- * @author czx
- * @email object_czx@163.com
+ * @author huliang
+ * @email 418206020@qq.com
  * @date 2016年11月8日 下午2:18:33
  */
 @RestController

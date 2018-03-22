@@ -6,9 +6,9 @@ import java.util.Map;
 /**
  * 查询参数
  *
- * @author czx
- * @email object_czx@163.com
- * @date 2017-03-14 23:15
+ * @author huliang
+ * @email 418206020@qq.com
+ * @date 2018-01-14 23:15
  */
 public class Query extends LinkedHashMap<String, Object> {
 	private static final long serialVersionUID = 1L;

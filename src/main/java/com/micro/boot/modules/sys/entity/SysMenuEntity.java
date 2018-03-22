@@ -7,8 +7,8 @@ import java.util.List;
 /**
  * 菜单管理
  * 
- * @author czx
- * @email object_czx@163.com
+ * @author huliang
+ * @email 418206020@qq.com
  * @date 2016年9月18日 上午9:26:39
  */
 public class SysMenuEntity implements Serializable {

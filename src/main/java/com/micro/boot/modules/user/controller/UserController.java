@@ -16,8 +16,8 @@ import java.util.Map;
 /**
  * 用户
  * 
- * @author czx
- * @email object_czx@163.com
+ * @author huliang
+ * @email 418206020@qq.com
  * @date 2017-10-23 21:23:54
  */
 @RestController

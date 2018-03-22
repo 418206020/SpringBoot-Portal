@@ -10,8 +10,8 @@ import java.lang.reflect.Method;
 /**
  * 执行定时任务
  * 
- * @author czx
- * @email object_czx@163.com
+ * @author huliang
+ * @email 418206020@qq.com
  * @date 2016年11月30日 下午12:49:33
  */
 public class ScheduleRunnable implements Runnable {

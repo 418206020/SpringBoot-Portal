@@ -9,8 +9,8 @@ import java.util.Map;
 /**
  * 定时任务
  * 
- * @author czx
- * @email object_czx@163.com
+ * @author huliang
+ * @email 418206020@qq.com
  * @date 2016年12月1日 下午10:29:57
  */
 @Mapper

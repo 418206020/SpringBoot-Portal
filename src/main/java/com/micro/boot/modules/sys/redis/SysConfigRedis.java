@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 /**
  * 系统配置Redis
  *
- * @author czx
- * @email object_czx@163.com
+ * @author huliang
+ * @email 418206020@qq.com
  * @date 2017/7/18 21:08
  */
 @Component

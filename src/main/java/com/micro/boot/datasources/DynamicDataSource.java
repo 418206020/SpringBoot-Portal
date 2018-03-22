@@ -8,8 +8,8 @@ import java.util.Map;
 
 /**
  * 动态数据源
- * @author czx
- * @email object_czx@163.com
+ * @author huliang
+ * @email 418206020@qq.com
  * @date 2017/8/19 1:03
  */
 public class DynamicDataSource extends AbstractRoutingDataSource {

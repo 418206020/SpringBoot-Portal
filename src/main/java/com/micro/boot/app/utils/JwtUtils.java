@@ -12,8 +12,8 @@ import java.util.Date;
 
 /**
  * jwt工具类
- * @author czx
- * @email object_czx@163.com
+ * @author huliang
+ * @email 418206020@qq.com
  * @date 2017/9/21 22:21
  */
 @ConfigurationProperties(prefix = "jwtconfig.jwt")

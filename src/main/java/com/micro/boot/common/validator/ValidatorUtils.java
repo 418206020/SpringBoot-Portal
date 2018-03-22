@@ -12,9 +12,9 @@ import java.util.Set;
  *
  * 参考文档：http://docs.jboss.org/hibernate/validator/5.4/reference/en-US/html_single/
  *
- * @author czx
- * @email object_czx@163.com
- * @date 2017-03-15 10:50
+ * @author huliang
+ * @email 418206020@qq.com
+ * @date 2018-01-15 10:50
  */
 public class ValidatorUtils {
     private static Validator validator;

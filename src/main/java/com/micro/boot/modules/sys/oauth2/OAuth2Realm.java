@@ -16,8 +16,8 @@ import java.util.Set;
 /**
  * 认证
  *
- * @author czx
- * @email object_czx@163.com
+ * @author huliang
+ * @email 418206020@qq.com
  * @date 2017-05-20 14:00
  */
 @Component

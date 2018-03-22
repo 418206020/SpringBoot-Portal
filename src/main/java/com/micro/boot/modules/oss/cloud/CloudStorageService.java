@@ -9,9 +9,9 @@ import java.util.UUID;
 
 /**
  * 云存储(支持七牛、阿里云、腾讯云、又拍云)
- * @author czx
- * @email object_czx@163.com
- * @date 2017-03-25 14:58
+ * @author huliang
+ * @email 418206020@qq.com
+ * @date 2018-01-25 14:58
  */
 public abstract class CloudStorageService {
     /** 云存储配置信息 */

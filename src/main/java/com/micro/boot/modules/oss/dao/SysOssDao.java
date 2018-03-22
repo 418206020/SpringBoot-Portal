@@ -7,9 +7,9 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * 文件上传
  * 
- * @author czx
- * @email object_czx@163.com
- * @date 2017-03-25 12:13:26
+ * @author huliang
+ * @email 418206020@qq.com
+ * @date 2018-01-25 12:13:26
  */
 @Mapper
 public interface SysOssDao extends BaseDao<SysOssEntity> {

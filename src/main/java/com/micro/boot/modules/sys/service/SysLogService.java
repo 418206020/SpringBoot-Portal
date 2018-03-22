@@ -8,9 +8,9 @@ import java.util.Map;
 /**
  * 系统日志
  * 
- * @author czx
- * @email object_czx@163.com
- * @date 2017-03-08 10:40:56
+ * @author huliang
+ * @email 418206020@qq.com
+ * @date 2018-01-08 10:40:56
  */
 public interface SysLogService {
 	

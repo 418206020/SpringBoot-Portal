@@ -13,8 +13,8 @@ import java.util.Map;
 /**
  * 用户与角色对应关系
  * 
- * @author czx
- * @email object_czx@163.com
+ * @author huliang
+ * @email 418206020@qq.com
  * @date 2016年9月18日 上午9:45:48
  */
 @Service("sysUserRoleService")

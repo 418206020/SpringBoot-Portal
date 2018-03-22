@@ -8,9 +8,9 @@ import java.io.InputStream;
 
 /**
  * 阿里云存储
- * @author czx
- * @email object_czx@163.com
- * @date 2017-03-26 16:22
+ * @author huliang
+ * @email 418206020@qq.com
+ * @date 2018-01-26 16:22
  */
 public class AliyunCloudStorageService extends CloudStorageService {
     private OSSClient client;

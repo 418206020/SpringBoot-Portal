@@ -10,8 +10,8 @@ import java.util.Locale;
 /**
  * 日期处理
  * 
- * @author czx
- * @email object_czx@163.com
+ * @author huliang
+ * @email 418206020@qq.com
  * @date 2017年12月21日 下午12:53:33
  */
 public class DateUtils {

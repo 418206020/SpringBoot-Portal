@@ -21,8 +21,8 @@ import java.util.concurrent.Future;
 /**
  * 定时任务
  * 
- * @author czx
- * @email object_czx@163.com
+ * @author huliang
+ * @email 418206020@qq.com
  * @date 2016年11月30日 下午12:44:21
  */
 public class ScheduleJob extends QuartzJobBean {

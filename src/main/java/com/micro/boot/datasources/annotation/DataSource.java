@@ -4,8 +4,8 @@ import java.lang.annotation.*;
 
 /**
  * 多数据源注解
- * @author czx
- * @email object_czx@163.com
+ * @author huliang
+ * @email 418206020@qq.com
  * @date 2017/9/16 22:16
  */
 @Target(ElementType.METHOD)

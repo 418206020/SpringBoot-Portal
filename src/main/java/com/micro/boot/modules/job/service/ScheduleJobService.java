@@ -8,8 +8,8 @@ import java.util.Map;
 /**
  * 定时任务
  * 
- * @author czx
- * @email object_czx@163.com
+ * @author huliang
+ * @email 418206020@qq.com
  * @date 2016年11月28日 上午9:55:32
  */
 public interface ScheduleJobService {

@@ -3,8 +3,8 @@ package com.micro.boot.common.utils;
 /**
  * Redis所有Keys
  *
- * @author czx
- * @email object_czx@163.com
+ * @author huliang
+ * @email 418206020@qq.com
  * @date 2017-07-18 19:51
  */
 public class RedisKeys {

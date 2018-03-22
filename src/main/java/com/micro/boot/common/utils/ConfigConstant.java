@@ -2,9 +2,9 @@ package com.micro.boot.common.utils;
 
 /**
  * 系统参数相关Key
- * @author czx
- * @email object_czx@163.com
- * @date 2017-03-26 10:33
+ * @author huliang
+ * @email 418206020@qq.com
+ * @date 2018-01-26 10:33
  */
 public class ConfigConstant {
     /**
