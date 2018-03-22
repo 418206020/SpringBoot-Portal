@@ -58,7 +58,7 @@ public class ApiLoginController {
 
         //用户登录
         HashMap<String,Object> user = appUserService.queryByMobile(pd);
-        //生成token
+        //生成token todo 添加redis
         String token = jwtUtils.generateToken(user.get("user_id"));
         user.put("token", token);
         user.put("expire", jwtUtils.getExpire());
