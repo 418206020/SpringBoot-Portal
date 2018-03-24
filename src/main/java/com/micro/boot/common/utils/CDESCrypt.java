@@ -1,5 +1,6 @@
 package com.micro.boot.common.utils;
 
+import com.micro.boot.common.Constants;
 import org.apache.commons.codec.binary.Base64;
 
 import javax.crypto.Cipher;
@@ -23,18 +24,18 @@ public class CDESCrypt {
 
 	    public static byte[] encrypt(String message, String key) throws Exception {
 	        Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
-	        DESKeySpec desKeySpec = new DESKeySpec(key.getBytes("UTF-8"));
+	        DESKeySpec desKeySpec = new DESKeySpec(key.getBytes(Constants.CHARSET_NAME));
 	        SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
 	        SecretKey secretKey = keyFactory.generateSecret(desKeySpec);
-	        IvParameterSpec iv = new IvParameterSpec(key.getBytes("UTF-8"));
+	        IvParameterSpec iv = new IvParameterSpec(key.getBytes(Constants.CHARSET_NAME));
 	        cipher.init(1, secretKey, iv);
-	        byte[] bytes = message.getBytes("UTF-8");
+	        byte[] bytes = message.getBytes(Constants.CHARSET_NAME);
 	        return cipher.doFinal(bytes);
 	    }
 
 	    public static String decryptString(String message,String key) throws Exception {
 	  
-            byte[] bytes = Base64.decodeBase64(message.getBytes("UTF-8"));
+            byte[] bytes = Base64.decodeBase64(message.getBytes(Constants.CHARSET_NAME));
             return decrypt(bytes, key);
 	        
 	    }
@@ -46,10 +47,10 @@ public class CDESCrypt {
 
 	    public static String decrypt(byte[] bytes, String key) throws Exception {
 	        Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
-	        DESKeySpec desKeySpec = new DESKeySpec(key.getBytes("UTF-8"));
+	        DESKeySpec desKeySpec = new DESKeySpec(key.getBytes(Constants.CHARSET_NAME));
 	        SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
 	        SecretKey secretKey = keyFactory.generateSecret(desKeySpec);
-	        IvParameterSpec iv = new IvParameterSpec(key.getBytes("UTF-8"));
+	        IvParameterSpec iv = new IvParameterSpec(key.getBytes(Constants.CHARSET_NAME));
 	        cipher.init(2, secretKey, iv);
 	        byte[] retBytes = cipher.doFinal(bytes);
 	        return new String(retBytes);

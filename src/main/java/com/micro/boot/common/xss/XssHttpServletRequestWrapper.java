@@ -1,5 +1,6 @@
 package com.micro.boot.common.xss;
 
+import com.micro.boot.common.Constants;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpHeaders;
@@ -39,14 +40,14 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
         }
 
         //为空，直接返回
-        String json = IOUtils.toString(super.getInputStream(), "utf-8");
+        String json = IOUtils.toString(super.getInputStream(), Constants.CHARSET_NAME);
         if (StringUtils.isBlank(json)) {
             return super.getInputStream();
         }
 
         //xss过滤
         json = xssEncode(json);
-        final ByteArrayInputStream bis = new ByteArrayInputStream(json.getBytes("utf-8"));
+        final ByteArrayInputStream bis = new ByteArrayInputStream(json.getBytes(Constants.CHARSET_NAME));
         return new ServletInputStream() {
             @Override
             public boolean isFinished() {

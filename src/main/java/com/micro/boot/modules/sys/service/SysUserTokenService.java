@@ -1,6 +1,6 @@
 package com.micro.boot.modules.sys.service;
 
-import com.micro.boot.common.utils.R;
+import com.micro.boot.common.utils.RequestInfo;
 import com.micro.boot.modules.sys.entity.SysUserTokenEntity;
 
 /**
@@ -22,7 +22,7 @@ public interface SysUserTokenService {
 	 * 生成token
 	 * @param userId  用户ID
 	 */
-	R createToken(long userId);
+	RequestInfo createToken(long userId);
 
 	/**
 	 * 退出，修改token值

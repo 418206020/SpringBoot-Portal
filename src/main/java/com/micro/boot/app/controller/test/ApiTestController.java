@@ -1,12 +1,15 @@
 package com.micro.boot.app.controller.test;
+
 import com.micro.boot.common.Constants;
-import com.micro.boot.common.utils.R;
+import com.micro.boot.common.utils.PropertiesConfig;
+import com.micro.boot.common.utils.RequestInfo;
 import com.micro.boot.common.utils.RedisUtils;
 import com.micro.boot.app.annotation.AuthIgnore;
 import com.micro.boot.app.annotation.Login;
 import com.micro.boot.app.annotation.LoginUser;
+import com.micro.boot.common.utils.Tools;
 import com.micro.boot.modules.user.entity.UserEntity;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.micro.boot.thirdparty.ucpaas.send.PostApp;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,8 +36,8 @@ public class ApiTestController {
      */
     @Login
     @GetMapping("userInfo")
-    public R userInfo(@LoginUser UserEntity user){
-        return R.ok().put("user", user);
+    public RequestInfo userInfo(@LoginUser UserEntity user) {
+        return RequestInfo.ok().put("user", user);
     }
 
     /**
@@ -42,8 +45,8 @@ public class ApiTestController {
      */
     @Login
     @GetMapping("userId")
-    public R userInfo(@RequestAttribute("userId") Integer userId){
-        return R.ok().put("userId", userId);
+    public RequestInfo userInfo(@RequestAttribute("userId") Integer userId) {
+        return RequestInfo.ok().put("userId", userId);
     }
 
     /**
@@ -51,9 +54,23 @@ public class ApiTestController {
      */
     @AuthIgnore
     @GetMapping("notToken")
-    public R notToken(){
-        redisUtils.set("key_test","keyValue1s");
-        return R.ok().put("msg", "无需token也能访问。。。");
+    public RequestInfo notToken() {
+        redisUtils.set("key_test",
+                PropertiesConfig.getInstance().getProperty(Constants.UCPAAS_CONFIG + Constants.SEPPARATOR_DOT + "sid"));
+        return RequestInfo.ok().put("msg", "无需token也能访问。。。");
+    }
+
+    /**
+     * 发送短信验证码
+     */
+    @AuthIgnore
+    @GetMapping("sendSms")
+    public RequestInfo sendSms() {
+        String userName = "huliang";
+        String mobile = "15094011640";
+        String verifyCode = String.valueOf(Tools.getRandomNum());
+        PostApp.sendSms(userName, verifyCode, mobile);
+        return RequestInfo.ok().put("msg", "验证码=" + verifyCode);
     }
 
 }

@@ -2,7 +2,7 @@ package com.micro.boot.modules.sys.controller;
 
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
-import com.micro.boot.common.utils.R;
+import com.micro.boot.common.utils.RequestInfo;
 import com.micro.boot.common.utils.ShiroUtils;
 import com.micro.boot.modules.sys.entity.SysUserEntity;
 import com.micro.boot.modules.sys.service.SysUserService;
@@ -67,7 +67,7 @@ public class SysLoginController extends AbstractController {
 		//如果想把页面单独放到nginx里，实现前后端完全分离，则需要把验证码注释掉(因为不再依赖session了)
 		String kaptcha = ShiroUtils.getKaptcha(Constants.KAPTCHA_SESSION_KEY);
 		if(!captcha.equalsIgnoreCase(kaptcha)){
-			return R.error("验证码不正确");
+			return RequestInfo.error("验证码不正确");
 		}
 
 		//用户信息
@@ -75,17 +75,17 @@ public class SysLoginController extends AbstractController {
 
 		//账号不存在、密码错误
 		if(user == null || !user.getPassword().equals(new Sha256Hash(password, user.getSalt()).toHex())) {
-			return R.error("账号或密码不正确");
+			return RequestInfo.error("账号或密码不正确");
 		}
 
 		//账号锁定
 		if(user.getStatus() == 0){
-			return R.error("账号已被锁定,请联系管理员");
+			return RequestInfo.error("账号已被锁定,请联系管理员");
 		}
 
 		//生成token，并保存到数据库
-		R r = sysUserTokenService.createToken(user.getUserId());
-		return r;
+		RequestInfo requestInfo = sysUserTokenService.createToken(user.getUserId());
+		return requestInfo;
 	}
 
 
@@ -93,9 +93,9 @@ public class SysLoginController extends AbstractController {
 	 * 退出
 	 */
 	@RequestMapping(value = "/sys/logout", method = RequestMethod.POST)
-	public R logout() {
+	public RequestInfo logout() {
 		sysUserTokenService.logout(getUserId());
-		return R.ok();
+		return RequestInfo.ok();
 	}
 	
 }

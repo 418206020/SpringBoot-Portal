@@ -99,13 +99,13 @@
                     url: baseURL + "sys/login",
                     data: data,
                     dataType: "json",
-                    success: function(r){
-                        if(r.code == 0){//登录成功
-                            localStorage.setItem("token", r.token);
+                    success: function(requestInfo){
+                        if(requestInfo.code == 0){//登录成功
+                            localStorage.setItem("token", requestInfo.token);
                             parent.location.href ='index.html';
                         }else{
                             vm.error = true;
-                            vm.errorMsg = r.msg;
+                            vm.errorMsg = requestInfo.msg;
                             vm.refreshCode();
                         }
                     }

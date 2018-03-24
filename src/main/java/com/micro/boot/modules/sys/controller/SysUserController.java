@@ -4,7 +4,7 @@ import com.micro.boot.common.annotation.SysLog;
 import com.micro.boot.common.utils.Constant;
 import com.micro.boot.common.utils.PageUtils;
 import com.micro.boot.common.utils.Query;
-import com.micro.boot.common.utils.R;
+import com.micro.boot.common.utils.RequestInfo;
 import com.micro.boot.common.validator.Assert;
 import com.micro.boot.common.validator.ValidatorUtils;
 import com.micro.boot.common.validator.group.AddGroup;
@@ -41,7 +41,7 @@ public class SysUserController extends AbstractController {
 	 */
 	@RequestMapping("/list")
 	@RequiresPermissions("sys:user:list")
-	public R list(@RequestParam Map<String, Object> params){
+	public RequestInfo list(@RequestParam Map<String, Object> params){
 		//只有超级管理员，才能查看所有管理员列表
 		if(getUserId() != Constant.SUPER_ADMIN){
 			params.put("createUserId", getUserId());
@@ -54,15 +54,15 @@ public class SysUserController extends AbstractController {
 		
 		PageUtils pageUtil = new PageUtils(userList, total, query.getLimit(), query.getPage());
 		
-		return R.ok().put("page", pageUtil);
+		return RequestInfo.ok().put("page", pageUtil);
 	}
 	
 	/**
 	 * 获取登录的用户信息
 	 */
 	@RequestMapping("/info")
-	public R info(){
-		return R.ok().put("user", getUser());
+	public RequestInfo info(){
+		return RequestInfo.ok().put("user", getUser());
 	}
 	
 	/**
@@ -70,7 +70,7 @@ public class SysUserController extends AbstractController {
 	 */
 	@SysLog("修改密码")
 	@RequestMapping("/password")
-	public R password(String password, String newPassword){
+	public RequestInfo password(String password, String newPassword){
 		Assert.isBlank(newPassword, "新密码不为能空");
 		
 		//sha256加密
@@ -81,10 +81,10 @@ public class SysUserController extends AbstractController {
 		//更新密码
 		int count = sysUserService.updatePassword(getUserId(), password, newPassword);
 		if(count == 0){
-			return R.error("原密码不正确");
+			return RequestInfo.error("原密码不正确");
 		}
 		
-		return R.ok();
+		return RequestInfo.ok();
 	}
 	
 	/**
@@ -92,14 +92,14 @@ public class SysUserController extends AbstractController {
 	 */
 	@RequestMapping("/info/{userId}")
 	@RequiresPermissions("sys:user:info")
-	public R info(@PathVariable("userId") Long userId){
+	public RequestInfo info(@PathVariable("userId") Long userId){
 		SysUserEntity user = sysUserService.queryObject(userId);
 		
 		//获取用户所属的角色列表
 		List<Long> roleIdList = sysUserRoleService.queryRoleIdList(userId);
 		user.setRoleIdList(roleIdList);
 		
-		return R.ok().put("user", user);
+		return RequestInfo.ok().put("user", user);
 	}
 	
 	/**
@@ -108,13 +108,13 @@ public class SysUserController extends AbstractController {
 	@SysLog("保存用户")
 	@RequestMapping("/save")
 	@RequiresPermissions("sys:user:save")
-	public R save(@RequestBody SysUserEntity user){
+	public RequestInfo save(@RequestBody SysUserEntity user){
 		ValidatorUtils.validateEntity(user, AddGroup.class);
 		
 		user.setCreateUserId(getUserId());
 		sysUserService.save(user);
 		
-		return R.ok();
+		return RequestInfo.ok();
 	}
 	
 	/**
@@ -123,13 +123,13 @@ public class SysUserController extends AbstractController {
 	@SysLog("修改用户")
 	@RequestMapping("/update")
 	@RequiresPermissions("sys:user:update")
-	public R update(@RequestBody SysUserEntity user){
+	public RequestInfo update(@RequestBody SysUserEntity user){
 		ValidatorUtils.validateEntity(user, UpdateGroup.class);
 		
 		user.setCreateUserId(getUserId());
 		sysUserService.update(user);
 		
-		return R.ok();
+		return RequestInfo.ok();
 	}
 	
 	/**
@@ -138,17 +138,17 @@ public class SysUserController extends AbstractController {
 	@SysLog("删除用户")
 	@RequestMapping("/delete")
 	@RequiresPermissions("sys:user:delete")
-	public R delete(@RequestBody Long[] userIds){
+	public RequestInfo delete(@RequestBody Long[] userIds){
 		if(ArrayUtils.contains(userIds, 1L)){
-			return R.error("系统管理员不能删除");
+			return RequestInfo.error("系统管理员不能删除");
 		}
 		
 		if(ArrayUtils.contains(userIds, getUserId())){
-			return R.error("当前用户不能删除");
+			return RequestInfo.error("当前用户不能删除");
 		}
 		
 		sysUserService.deleteBatch(userIds);
 		
-		return R.ok();
+		return RequestInfo.ok();
 	}
 }

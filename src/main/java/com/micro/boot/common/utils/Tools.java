@@ -1,5 +1,7 @@
 package com.micro.boot.common.utils;
 
+import com.micro.boot.common.Constants;
+
 import java.io.*;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -167,7 +169,7 @@ public class Tools {
 			filePath = File.separator + filePath;
 		}
 		try {
-			OutputStreamWriter write = new OutputStreamWriter(new FileOutputStream(filePath), "utf-8");
+			OutputStreamWriter write = new OutputStreamWriter(new FileOutputStream(filePath), Constants.CHARSET_NAME);
 			BufferedWriter writer = new BufferedWriter(write);
 			writer.write(content);
 			writer.close();
@@ -229,7 +231,7 @@ public class Tools {
 			if (filePath.indexOf(":") != 1) {
 				filePath = File.separator + filePath;
 			}
-			String encoding = "utf-8";
+			String encoding = Constants.CHARSET_NAME;
 			File file = new File(filePath);
 			if (file.isFile() && file.exists()) { // 判断文件是否存在
 				InputStreamReader read = new InputStreamReader(new FileInputStream(file), encoding); // 考虑到编码格式

@@ -2,7 +2,7 @@ package com.micro.boot.modules.user.controller;
 
 import com.micro.boot.common.utils.PageUtils;
 import com.micro.boot.common.utils.Query;
-import com.micro.boot.common.utils.R;
+import com.micro.boot.common.utils.RequestInfo;
 import com.micro.boot.modules.user.entity.UserEntity;
 import com.micro.boot.modules.user.service.UserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -31,13 +31,13 @@ public class UserController {
 	 */
 	@RequestMapping("/list")
 	@RequiresPermissions("user:user:list")
-	public R list(@RequestParam Map<String, Object> params){
+	public RequestInfo list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
 		query.isPaging(true);
 		List<UserEntity> userList = userService.queryList(query);
 		PageUtils pageUtil = new PageUtils(userList, query.getTotle(), query.getLimit(), query.getPage());
-		return R.ok().put("page", pageUtil);
+		return RequestInfo.ok().put("page", pageUtil);
 	}
 	
 	
@@ -46,10 +46,10 @@ public class UserController {
 	 */
 	@RequestMapping("/info/{userId}")
 	@RequiresPermissions("user:user:info")
-	public R info(@PathVariable("userId") Long userId){
+	public RequestInfo info(@PathVariable("userId") Long userId){
 		UserEntity user = userService.queryObject(userId);
 		
-		return R.ok().put("user", user);
+		return RequestInfo.ok().put("user", user);
 	}
 	
 	/**
@@ -57,10 +57,10 @@ public class UserController {
 	 */
 	@RequestMapping("/save")
 	@RequiresPermissions("user:user:save")
-	public R save(@RequestBody UserEntity user){
+	public RequestInfo save(@RequestBody UserEntity user){
 		userService.save(user);
 		
-		return R.ok();
+		return RequestInfo.ok();
 	}
 	
 	/**
@@ -68,10 +68,10 @@ public class UserController {
 	 */
 	@RequestMapping("/update")
 	@RequiresPermissions("user:user:update")
-	public R update(@RequestBody UserEntity user){
+	public RequestInfo update(@RequestBody UserEntity user){
 		userService.update(user);
 		
-		return R.ok();
+		return RequestInfo.ok();
 	}
 	
 	/**
@@ -79,10 +79,10 @@ public class UserController {
 	 */
 	@RequestMapping("/delete")
 	@RequiresPermissions("user:user:delete")
-	public R delete(@RequestBody Long[] userIds){
+	public RequestInfo delete(@RequestBody Long[] userIds){
 		userService.deleteBatch(userIds);
 		
-		return R.ok();
+		return RequestInfo.ok();
 	}
 	
 }

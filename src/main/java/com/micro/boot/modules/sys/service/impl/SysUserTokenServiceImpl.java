@@ -1,6 +1,6 @@
 package com.micro.boot.modules.sys.service.impl;
 
-import com.micro.boot.common.utils.R;
+import com.micro.boot.common.utils.RequestInfo;
 import com.micro.boot.modules.sys.dao.SysUserTokenDao;
 import com.micro.boot.modules.sys.entity.SysUserTokenEntity;
 import com.micro.boot.modules.sys.oauth2.TokenGenerator;
@@ -34,7 +34,7 @@ public class SysUserTokenServiceImpl implements SysUserTokenService {
 	}
 
 	@Override
-	public R createToken(long userId) {
+	public RequestInfo createToken(long userId) {
 		//生成一个token
 		String token = TokenGenerator.generateValue();
 
@@ -63,9 +63,9 @@ public class SysUserTokenServiceImpl implements SysUserTokenService {
 			update(tokenEntity);
 		}
 
-		R r = R.ok().put("token", token).put("expire", EXPIRE);
+		RequestInfo requestInfo = RequestInfo.ok().put("token", token).put("expire", EXPIRE);
 
-		return r;
+		return requestInfo;
 	}
 
 	@Override

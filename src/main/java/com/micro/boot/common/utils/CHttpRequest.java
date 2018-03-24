@@ -1,5 +1,6 @@
 package com.micro.boot.common.utils;
 
+import com.micro.boot.common.Constants;
 import net.sf.json.JSONObject;
 
 import java.io.*;
@@ -43,7 +44,7 @@ public class CHttpRequest
 
 			// 将返回的输入流转换成字符串
 			inputStream = httpUrlConn.getInputStream();
-			inputStreamReader = new InputStreamReader(inputStream, "utf-8");
+			inputStreamReader = new InputStreamReader(inputStream, Constants.CHARSET_NAME);
 			bufferedReader = new BufferedReader(inputStreamReader);
 
 			String str = null;
@@ -156,10 +157,10 @@ public class CHttpRequest
 			connection.connect();
 			
 			DataOutputStream out = new DataOutputStream(connection.getOutputStream());
-			out.write(param.getBytes("utf-8"));
+			out.write(param.getBytes(Constants.CHARSET_NAME));
 			out.flush();
 			out.close();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "utf-8"));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), Constants.CHARSET_NAME));
 			
 			String lines;
 			StringBuffer sbf = new StringBuffer();
