@@ -56,12 +56,18 @@ public class ApiLoginController {
             throw new RRException("请输入正确的手机号");
         }
 
+        //test
+//        pd = new HashMap<String,Object>();
+//        pd.put("mobile", "15094011640");
+//        pd.put("password", "admin");
         //用户登录
         HashMap<String,Object> user = appUserService.queryByMobile(pd);
         //生成token todo 添加redis
         String token = jwtUtils.generateToken(user.get("user_id"));
         user.put("token", token);
         user.put("expire", jwtUtils.getExpire());
+        //
+        user.put("password", "admin");
         return AppBaseResult.success().setEncryptData(user);
     }
 
