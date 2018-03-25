@@ -29,7 +29,7 @@
 	<select id="queryByMobile" resultType="java.util.HashMap">
 		select * from tb_user where mobile = #{value}
 	</select>
-	 
+
 	<insert id="save" parameterType="java.util.HashMap" useGeneratedKeys="true" keyProperty="userId">
 		insert into tb_user
 		(

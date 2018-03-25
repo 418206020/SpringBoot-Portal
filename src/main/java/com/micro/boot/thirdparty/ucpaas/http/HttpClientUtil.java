@@ -44,7 +44,7 @@ public class HttpClientUtil {
                 httpPost.setHeader("Content-Type", Constants.CONTENT_TYPE);
 
                 // 设置参数
-                StringEntity se = new StringEntity(body, Constants.CHARSET_NAME);
+                StringEntity se = new StringEntity(body, charset);
                 httpPost.setEntity(se);
                 //TODO 测试中，注释以下代码，发短信要钱啊
 //                HttpResponse response = httpClient.execute(httpPost);
