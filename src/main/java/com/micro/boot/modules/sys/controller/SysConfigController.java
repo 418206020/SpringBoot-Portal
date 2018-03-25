@@ -1,9 +1,9 @@
 package com.micro.boot.modules.sys.controller;
 
 import com.micro.boot.common.annotation.SysLog;
+import com.micro.boot.common.response.ReturnMapInfo;
 import com.micro.boot.common.utils.PageUtils;
 import com.micro.boot.common.utils.Query;
-import com.micro.boot.common.utils.RequestInfo;
 import com.micro.boot.common.validator.ValidatorUtils;
 import com.micro.boot.modules.sys.entity.SysConfigEntity;
 import com.micro.boot.modules.sys.service.SysConfigService;
@@ -32,7 +32,7 @@ public class SysConfigController extends AbstractController {
 	 */
 	@RequestMapping("/list")
 	@RequiresPermissions("sys:config:list")
-	public RequestInfo list(@RequestParam Map<String, Object> params){
+	public ReturnMapInfo list(@RequestParam Map<String, Object> params){
 		//查询列表数据
 		Query query = new Query(params);
 		List<SysConfigEntity> configList = sysConfigService.queryList(query);
@@ -40,7 +40,7 @@ public class SysConfigController extends AbstractController {
 		
 		PageUtils pageUtil = new PageUtils(configList, total, query.getLimit(), query.getPage());
 		
-		return RequestInfo.ok().put("page", pageUtil);
+		return ReturnMapInfo.ok().put("page", pageUtil);
 	}
 	
 	
@@ -49,10 +49,10 @@ public class SysConfigController extends AbstractController {
 	 */
 	@RequestMapping("/info/{id}")
 	@RequiresPermissions("sys:config:info")
-	public RequestInfo info(@PathVariable("id") Long id){
+	public ReturnMapInfo info(@PathVariable("id") Long id){
 		SysConfigEntity config = sysConfigService.queryObject(id);
 		
-		return RequestInfo.ok().put("config", config);
+		return ReturnMapInfo.ok().put("config", config);
 	}
 	
 	/**
@@ -61,12 +61,12 @@ public class SysConfigController extends AbstractController {
 	@SysLog("保存配置")
 	@RequestMapping("/save")
 	@RequiresPermissions("sys:config:save")
-	public RequestInfo save(@RequestBody SysConfigEntity config){
+	public ReturnMapInfo save(@RequestBody SysConfigEntity config){
 		ValidatorUtils.validateEntity(config);
 
 		sysConfigService.save(config);
 		
-		return RequestInfo.ok();
+		return ReturnMapInfo.ok();
 	}
 	
 	/**
@@ -75,12 +75,12 @@ public class SysConfigController extends AbstractController {
 	@SysLog("修改配置")
 	@RequestMapping("/update")
 	@RequiresPermissions("sys:config:update")
-	public RequestInfo update(@RequestBody SysConfigEntity config){
+	public ReturnMapInfo update(@RequestBody SysConfigEntity config){
 		ValidatorUtils.validateEntity(config);
 		
 		sysConfigService.update(config);
 		
-		return RequestInfo.ok();
+		return ReturnMapInfo.ok();
 	}
 	
 	/**
@@ -89,10 +89,10 @@ public class SysConfigController extends AbstractController {
 	@SysLog("删除配置")
 	@RequestMapping("/delete")
 	@RequiresPermissions("sys:config:delete")
-	public RequestInfo delete(@RequestBody Long[] ids){
+	public ReturnMapInfo delete(@RequestBody Long[] ids){
 		sysConfigService.deleteBatch(ids);
 		
-		return RequestInfo.ok();
+		return ReturnMapInfo.ok();
 	}
 
 }

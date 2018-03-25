@@ -1,9 +1,9 @@
 package com.micro.boot.modules.job.controller;
 
 import com.micro.boot.common.annotation.SysLog;
+import com.micro.boot.common.response.ReturnMapInfo;
 import com.micro.boot.common.utils.PageUtils;
 import com.micro.boot.common.utils.Query;
-import com.micro.boot.common.utils.RequestInfo;
 import com.micro.boot.common.validator.ValidatorUtils;
 import com.micro.boot.modules.job.entity.ScheduleJobEntity;
 import com.micro.boot.modules.job.service.ScheduleJobService;
@@ -32,7 +32,7 @@ public class ScheduleJobController {
 	 */
 	@RequestMapping("/list")
 	@RequiresPermissions("sys:schedule:list")
-	public RequestInfo list(@RequestParam Map<String, Object> params){
+	public ReturnMapInfo list(@RequestParam Map<String, Object> params){
 		//查询列表数据
 		Query query = new Query(params);
 		List<ScheduleJobEntity> jobList = scheduleJobService.queryList(query);
@@ -40,7 +40,7 @@ public class ScheduleJobController {
 		
 		PageUtils pageUtil = new PageUtils(jobList, total, query.getLimit(), query.getPage());
 		
-		return RequestInfo.ok().put("page", pageUtil);
+		return ReturnMapInfo.ok().put("page", pageUtil);
 	}
 	
 	/**
@@ -48,10 +48,10 @@ public class ScheduleJobController {
 	 */
 	@RequestMapping("/info/{jobId}")
 	@RequiresPermissions("sys:schedule:info")
-	public RequestInfo info(@PathVariable("jobId") Long jobId){
+	public ReturnMapInfo info(@PathVariable("jobId") Long jobId){
 		ScheduleJobEntity schedule = scheduleJobService.queryObject(jobId);
 		
-		return RequestInfo.ok().put("schedule", schedule);
+		return ReturnMapInfo.ok().put("schedule", schedule);
 	}
 	
 	/**
@@ -60,12 +60,12 @@ public class ScheduleJobController {
 	@SysLog("保存定时任务")
 	@RequestMapping("/save")
 	@RequiresPermissions("sys:schedule:save")
-	public RequestInfo save(@RequestBody ScheduleJobEntity scheduleJob){
+	public ReturnMapInfo save(@RequestBody ScheduleJobEntity scheduleJob){
 		ValidatorUtils.validateEntity(scheduleJob);
 		
 		scheduleJobService.save(scheduleJob);
 		
-		return RequestInfo.ok();
+		return ReturnMapInfo.ok();
 	}
 	
 	/**
@@ -74,12 +74,12 @@ public class ScheduleJobController {
 	@SysLog("修改定时任务")
 	@RequestMapping("/update")
 	@RequiresPermissions("sys:schedule:update")
-	public RequestInfo update(@RequestBody ScheduleJobEntity scheduleJob){
+	public ReturnMapInfo update(@RequestBody ScheduleJobEntity scheduleJob){
 		ValidatorUtils.validateEntity(scheduleJob);
 				
 		scheduleJobService.update(scheduleJob);
 		
-		return RequestInfo.ok();
+		return ReturnMapInfo.ok();
 	}
 	
 	/**
@@ -88,10 +88,10 @@ public class ScheduleJobController {
 	@SysLog("删除定时任务")
 	@RequestMapping("/delete")
 	@RequiresPermissions("sys:schedule:delete")
-	public RequestInfo delete(@RequestBody Long[] jobIds){
+	public ReturnMapInfo delete(@RequestBody Long[] jobIds){
 		scheduleJobService.deleteBatch(jobIds);
 		
-		return RequestInfo.ok();
+		return ReturnMapInfo.ok();
 	}
 	
 	/**
@@ -100,10 +100,10 @@ public class ScheduleJobController {
 	@SysLog("立即执行任务")
 	@RequestMapping("/run")
 	@RequiresPermissions("sys:schedule:run")
-	public RequestInfo run(@RequestBody Long[] jobIds){
+	public ReturnMapInfo run(@RequestBody Long[] jobIds){
 		scheduleJobService.run(jobIds);
 		
-		return RequestInfo.ok();
+		return ReturnMapInfo.ok();
 	}
 	
 	/**
@@ -112,10 +112,10 @@ public class ScheduleJobController {
 	@SysLog("暂停定时任务")
 	@RequestMapping("/pause")
 	@RequiresPermissions("sys:schedule:pause")
-	public RequestInfo pause(@RequestBody Long[] jobIds){
+	public ReturnMapInfo pause(@RequestBody Long[] jobIds){
 		scheduleJobService.pause(jobIds);
 		
-		return RequestInfo.ok();
+		return ReturnMapInfo.ok();
 	}
 	
 	/**
@@ -124,10 +124,10 @@ public class ScheduleJobController {
 	@SysLog("恢复定时任务")
 	@RequestMapping("/resume")
 	@RequiresPermissions("sys:schedule:resume")
-	public RequestInfo resume(@RequestBody Long[] jobIds){
+	public ReturnMapInfo resume(@RequestBody Long[] jobIds){
 		scheduleJobService.resume(jobIds);
 		
-		return RequestInfo.ok();
+		return ReturnMapInfo.ok();
 	}
 
 }

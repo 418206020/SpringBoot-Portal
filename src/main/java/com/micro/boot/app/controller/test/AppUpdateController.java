@@ -2,7 +2,7 @@ package com.micro.boot.app.controller.test;
 
 import com.google.gson.Gson;
 import com.micro.boot.common.Constants;
-import com.micro.boot.common.utils.AppBaseResult;
+import com.micro.boot.common.response.ReturnAppInfo;
 import com.micro.boot.common.utils.PageUtils;
 import com.micro.boot.common.utils.Query;
 import com.micro.boot.app.service.test.AppUpdateService;
@@ -44,15 +44,15 @@ public class AppUpdateController {
     @ApiOperation(value="列表", notes="列表")
     @ApiImplicitParams({@ApiImplicitParam(name = "token", value = "token", required = true,dataType = "string", paramType = "query", defaultValue = "")})
 	@PostMapping("/appUpdate/list")
-	public AppBaseResult list(@RequestBody AppBaseResult appBaseResult)throws Exception{
-        logger.info("AppUpdateController 列表",appBaseResult.decryptData());
-        HashMap<String,Object> params = new Gson().fromJson(appBaseResult.decryptData(),HashMap.class);
+	public ReturnAppInfo list(@RequestBody ReturnAppInfo returnAppInfo)throws Exception{
+        logger.info("AppUpdateController 列表", returnAppInfo.decryptData());
+        HashMap<String,Object> params = new Gson().fromJson(returnAppInfo.decryptData(),HashMap.class);
 		//查询列表数据
         Query query = new Query(params);
         query.isPaging(true);
 		List<HashMap<String,Object>> appUpdateList = appUpdateService.queryList(query);
 		PageUtils pageUtil = new PageUtils(appUpdateList, query.getTotle(), query.getLimit(), query.getPage());
-        return AppBaseResult.success().setEncryptData(pageUtil);
+        return ReturnAppInfo.success().setEncryptData(pageUtil);
 	}
 	
 	
@@ -62,11 +62,11 @@ public class AppUpdateController {
     @ApiOperation(value="信息", notes="信息")
     @ApiImplicitParams({@ApiImplicitParam(name = "token", value = "token", required = true,dataType = "string", paramType = "query", defaultValue = "")})
 	@PostMapping("/appUpdate/info")
-	public AppBaseResult info(@RequestBody AppBaseResult appBaseResult)throws Exception{
-        logger.info("AppUpdateController 信息",appBaseResult.decryptData());
-        HashMap<String,Object> params = new Gson().fromJson(appBaseResult.decryptData(),HashMap.class);
+	public ReturnAppInfo info(@RequestBody ReturnAppInfo returnAppInfo)throws Exception{
+        logger.info("AppUpdateController 信息", returnAppInfo.decryptData());
+        HashMap<String,Object> params = new Gson().fromJson(returnAppInfo.decryptData(),HashMap.class);
         HashMap<String,Object> data = appUpdateService.queryObject(params);
-        return AppBaseResult.success().setEncryptData(data);
+        return ReturnAppInfo.success().setEncryptData(data);
 	}
 	
 	/**
@@ -75,11 +75,11 @@ public class AppUpdateController {
     @ApiOperation(value="保存", notes="保存")
     @ApiImplicitParams({@ApiImplicitParam(name = "token", value = "token", required = true,dataType = "string", paramType = "query", defaultValue = "")})
 	@PostMapping("/appUpdate/save")
-	public AppBaseResult save(@RequestBody AppBaseResult appBaseResult)throws Exception{
-        logger.info("AppUpdateController 保存",appBaseResult.decryptData());
-        HashMap<String,Object> params = new Gson().fromJson(appBaseResult.decryptData(),HashMap.class);
+	public ReturnAppInfo save(@RequestBody ReturnAppInfo returnAppInfo)throws Exception{
+        logger.info("AppUpdateController 保存", returnAppInfo.decryptData());
+        HashMap<String,Object> params = new Gson().fromJson(returnAppInfo.decryptData(),HashMap.class);
 		appUpdateService.saveInfo(params);
-        return AppBaseResult.success();
+        return ReturnAppInfo.success();
 	}
 	
 	/**
@@ -88,11 +88,11 @@ public class AppUpdateController {
     @ApiOperation(value="修改", notes="修改")
     @ApiImplicitParams({@ApiImplicitParam(name = "token", value = "token", required = true,dataType = "string", paramType = "query", defaultValue = "")})
 	@PostMapping("/appUpdate/update")
-	public AppBaseResult update(@RequestBody AppBaseResult appBaseResult)throws Exception{
-        logger.info("AppUpdateController 修改",appBaseResult.decryptData());
-        HashMap<String,Object> params = new Gson().fromJson(appBaseResult.decryptData(),HashMap.class);
+	public ReturnAppInfo update(@RequestBody ReturnAppInfo returnAppInfo)throws Exception{
+        logger.info("AppUpdateController 修改", returnAppInfo.decryptData());
+        HashMap<String,Object> params = new Gson().fromJson(returnAppInfo.decryptData(),HashMap.class);
 		appUpdateService.updateInfo(params);
-        return AppBaseResult.success();
+        return ReturnAppInfo.success();
 	}
 	
 	/**
@@ -101,11 +101,11 @@ public class AppUpdateController {
     @ApiOperation(value="删除", notes="删除")
     @ApiImplicitParams({@ApiImplicitParam(name = "token", value = "token", required = true,dataType = "string", paramType = "query", defaultValue = "")})
 	@PostMapping("/appUpdate/delete")
-	public AppBaseResult delete(@RequestBody AppBaseResult appBaseResult)throws Exception{
-        logger.info("AppUpdateController 修改",appBaseResult.decryptData());
-        HashMap<String,Object> params = new Gson().fromJson(appBaseResult.decryptData(),HashMap.class);
+	public ReturnAppInfo delete(@RequestBody ReturnAppInfo returnAppInfo)throws Exception{
+        logger.info("AppUpdateController 修改", returnAppInfo.decryptData());
+        HashMap<String,Object> params = new Gson().fromJson(returnAppInfo.decryptData(),HashMap.class);
 		appUpdateService.deleteInfo(params);
-        return AppBaseResult.success();
+        return ReturnAppInfo.success();
 	}
 	
 }

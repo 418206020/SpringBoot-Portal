@@ -5,7 +5,9 @@ import com.google.gson.Gson;
 import com.micro.boot.app.entity.request.UserLoginBean;
 import com.micro.boot.common.Constants;
 import com.micro.boot.common.exception.RRException;
-import com.micro.boot.common.utils.AppBaseResult;
+import com.micro.boot.common.request.BodyInfo;
+import com.micro.boot.common.response.ReturnAppInfo;
+import com.micro.boot.common.response.ReturnMapInfo;
 import com.micro.boot.common.validator.Assert;
 import com.micro.boot.app.service.test.AppUserService;
 import com.micro.boot.app.utils.JwtUtils;
@@ -48,9 +50,9 @@ public class ApiLoginController {
             @ApiResponse(code = 500, message = "服务器不能完成请求")}
     )
     @PostMapping("loginMap")
-    public AppBaseResult loginMap(@RequestBody AppBaseResult appBaseResult) throws Exception {
-        logger.info("用户登录", appBaseResult.decryptData());
-        HashMap<String, Object> pd = new Gson().fromJson(appBaseResult.decryptData(), HashMap.class);
+    public ReturnAppInfo loginMap(@RequestBody BodyInfo bodyInfo) throws Exception {
+        logger.info("用户登录", bodyInfo.decryptData());
+        HashMap<String, Object> pd = new Gson().fromJson(bodyInfo.decryptData(), HashMap.class);
         Assert.isNull(pd.get("mobile"), "手机号不能为空");
         Assert.isNull(pd.get("password"), "密码不能为空");
         if (!Assert.checkCellphone(pd.get("mobile").toString())) {
@@ -69,12 +71,12 @@ public class ApiLoginController {
         user.put("expire", jwtUtils.getExpire());
         //
         user.put("password", "admin");
-        return AppBaseResult.success().setEncryptData(user);
+        return ReturnAppInfo.success().setJsonData(user);//输出不加密
     }
 
     /**
      * Bean实体加密方式
-     * @param appBaseResult
+     * @param bodyInfo
      * @return
      * @throws Exception
      */
@@ -86,9 +88,9 @@ public class ApiLoginController {
             @ApiResponse(code = 500, message = "服务器不能完成请求")}
     )
     @PostMapping("loginBean")
-    public AppBaseResult loginBean(@RequestBody AppBaseResult appBaseResult) throws Exception {
-        logger.info("用户登录", appBaseResult.decryptData());//TODO 暴露给APP端实现数据加密传输
-        UserLoginBean pd = new Gson().fromJson(appBaseResult.decryptData(), UserLoginBean.class);
+    public ReturnAppInfo loginBean(@RequestBody BodyInfo bodyInfo) throws Exception {
+        logger.info("用户登录", bodyInfo.decryptData());//TODO 暴露给APP端实现数据加密传输
+        UserLoginBean pd = new Gson().fromJson(bodyInfo.decryptData(), UserLoginBean.class);
         Assert.isNull(pd.getMobile(), "手机号不能为空");
         Assert.isNull(pd.getPassword(), "密码不能为空");
         if (!Assert.checkCellphone(pd.getMobile())) {
@@ -107,6 +109,7 @@ public class ApiLoginController {
         user.setExpire(String.valueOf(jwtUtils.getExpire()));
         //
         user.setPassword("admin");
-        return AppBaseResult.success().setEncryptData(user);
+//        return ReturnAppInfo.success().setEncryptData(ReturnMapInfo.ok().put("msg",user));//todo 加密数据封装成Json？
+        return ReturnAppInfo.success().setEncryptData(user);
     }
 }

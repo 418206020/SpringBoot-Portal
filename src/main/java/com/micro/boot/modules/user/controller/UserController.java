@@ -1,8 +1,8 @@
 package com.micro.boot.modules.user.controller;
 
+import com.micro.boot.common.response.ReturnMapInfo;
 import com.micro.boot.common.utils.PageUtils;
 import com.micro.boot.common.utils.Query;
-import com.micro.boot.common.utils.RequestInfo;
 import com.micro.boot.modules.user.entity.UserEntity;
 import com.micro.boot.modules.user.service.UserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -31,13 +31,13 @@ public class UserController {
 	 */
 	@RequestMapping("/list")
 	@RequiresPermissions("user:user:list")
-	public RequestInfo list(@RequestParam Map<String, Object> params){
+	public ReturnMapInfo list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
 		query.isPaging(true);
 		List<UserEntity> userList = userService.queryList(query);
 		PageUtils pageUtil = new PageUtils(userList, query.getTotle(), query.getLimit(), query.getPage());
-		return RequestInfo.ok().put("page", pageUtil);
+		return ReturnMapInfo.ok().put("page", pageUtil);
 	}
 	
 	
@@ -46,10 +46,10 @@ public class UserController {
 	 */
 	@RequestMapping("/info/{userId}")
 	@RequiresPermissions("user:user:info")
-	public RequestInfo info(@PathVariable("userId") Long userId){
+	public ReturnMapInfo info(@PathVariable("userId") Long userId){
 		UserEntity user = userService.queryObject(userId);
 		
-		return RequestInfo.ok().put("user", user);
+		return ReturnMapInfo.ok().put("user", user);
 	}
 	
 	/**
@@ -57,10 +57,10 @@ public class UserController {
 	 */
 	@RequestMapping("/save")
 	@RequiresPermissions("user:user:save")
-	public RequestInfo save(@RequestBody UserEntity user){
+	public ReturnMapInfo save(@RequestBody UserEntity user){
 		userService.save(user);
 		
-		return RequestInfo.ok();
+		return ReturnMapInfo.ok();
 	}
 	
 	/**
@@ -68,10 +68,10 @@ public class UserController {
 	 */
 	@RequestMapping("/update")
 	@RequiresPermissions("user:user:update")
-	public RequestInfo update(@RequestBody UserEntity user){
+	public ReturnMapInfo update(@RequestBody UserEntity user){
 		userService.update(user);
 		
-		return RequestInfo.ok();
+		return ReturnMapInfo.ok();
 	}
 	
 	/**
@@ -79,10 +79,10 @@ public class UserController {
 	 */
 	@RequestMapping("/delete")
 	@RequiresPermissions("user:user:delete")
-	public RequestInfo delete(@RequestBody Long[] userIds){
+	public ReturnMapInfo delete(@RequestBody Long[] userIds){
 		userService.deleteBatch(userIds);
 		
-		return RequestInfo.ok();
+		return ReturnMapInfo.ok();
 	}
 	
 }

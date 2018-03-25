@@ -3,7 +3,7 @@ package com.micro.boot.app.controller.test;
 
 import com.google.gson.Gson;
 import com.micro.boot.common.Constants;
-import com.micro.boot.common.utils.AppBaseResult;
+import com.micro.boot.common.response.ReturnAppInfo;
 import com.micro.boot.common.validator.Assert;
 import com.micro.boot.app.service.test.AppUserService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,11 +31,11 @@ public class ApiRegisterController {
      * 注册
      */
     @PostMapping("register")
-    public AppBaseResult register(@RequestBody AppBaseResult appBaseResult) throws Exception {
-        HashMap<String,Object> pd = new Gson().fromJson(appBaseResult.decryptData(),HashMap.class);
+    public ReturnAppInfo register(@RequestBody ReturnAppInfo returnAppInfo) throws Exception {
+        HashMap<String,Object> pd = new Gson().fromJson(returnAppInfo.decryptData(),HashMap.class);
         Assert.isNull(pd.get("mobile"), "手机号不能为空");
         Assert.isNull(pd.get("password"), "密码不能为空");
         appUserService.save(pd);
-        return AppBaseResult.success();
+        return ReturnAppInfo.success();
     }
 }

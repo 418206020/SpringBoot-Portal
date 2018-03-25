@@ -1,8 +1,8 @@
 package com.micro.boot.app.controller.test;
 
 import com.micro.boot.common.Constants;
+import com.micro.boot.common.response.ReturnMapInfo;
 import com.micro.boot.common.utils.PropertiesConfig;
-import com.micro.boot.common.utils.RequestInfo;
 import com.micro.boot.common.utils.RedisUtils;
 import com.micro.boot.app.annotation.AuthIgnore;
 import com.micro.boot.app.annotation.Login;
@@ -36,8 +36,8 @@ public class ApiTestController {
      */
     @Login
     @GetMapping("userInfo")
-    public RequestInfo userInfo(@LoginUser UserEntity user) {
-        return RequestInfo.ok().put("user", user);
+    public ReturnMapInfo userInfo(@LoginUser UserEntity user) {
+        return ReturnMapInfo.ok().put("user", user);
     }
 
     /**
@@ -45,8 +45,8 @@ public class ApiTestController {
      */
     @Login
     @GetMapping("userId")
-    public RequestInfo userInfo(@RequestAttribute("userId") Integer userId) {
-        return RequestInfo.ok().put("userId", userId);
+    public ReturnMapInfo userInfo(@RequestAttribute("userId") Integer userId) {
+        return ReturnMapInfo.ok().put("userId", userId);
     }
 
     /**
@@ -54,10 +54,10 @@ public class ApiTestController {
      */
     @AuthIgnore
     @GetMapping("notToken")
-    public RequestInfo notToken() {
+    public ReturnMapInfo notToken() {
         redisUtils.set("key_test",
                 PropertiesConfig.getInstance().getProperty(Constants.UCPAAS_CONFIG + Constants.SEPPARATOR_DOT + "sid"));
-        return RequestInfo.ok().put("msg", "无需token也能访问。。。");
+        return ReturnMapInfo.ok().put("msg", "无需token也能访问。。。");
     }
 
     /**
@@ -65,12 +65,12 @@ public class ApiTestController {
      */
     @AuthIgnore
     @GetMapping("sendSms")
-    public RequestInfo sendSms() {
+    public ReturnMapInfo sendSms() {
         String userName = "huliang";
         String mobile = "15094011640";
         String verifyCode = String.valueOf(Tools.getRandomNum());
         PostApp.sendSms(userName, verifyCode, mobile);
-        return RequestInfo.ok().put("msg", "验证码=" + verifyCode);
+        return ReturnMapInfo.ok().put("msg", "验证码=" + verifyCode);
     }
 
 }

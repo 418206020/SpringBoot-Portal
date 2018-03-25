@@ -1,7 +1,7 @@
 package com.micro.boot.modules.sys.oauth2;
 
 import com.google.gson.Gson;
-import com.micro.boot.common.utils.RequestInfo;
+import com.micro.boot.common.response.ReturnMapInfo;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpStatus;
 import org.apache.shiro.authc.AuthenticationException;
@@ -46,7 +46,7 @@ public class OAuth2Filter extends AuthenticatingFilter {
         String token = getRequestToken((HttpServletRequest) request);
         if(StringUtils.isBlank(token)){
             HttpServletResponse httpResponse = (HttpServletResponse) response;
-            String json = new Gson().toJson(RequestInfo.error(HttpStatus.SC_UNAUTHORIZED, "invalid token"));
+            String json = new Gson().toJson(ReturnMapInfo.error(HttpStatus.SC_UNAUTHORIZED, "invalid token"));
             httpResponse.getWriter().print(json);
 
             return false;
@@ -62,9 +62,9 @@ public class OAuth2Filter extends AuthenticatingFilter {
         try {
             //处理登录失败的异常
             Throwable throwable = e.getCause() == null ? e : e.getCause();
-            RequestInfo requestInfo = RequestInfo.error(HttpStatus.SC_UNAUTHORIZED, throwable.getMessage());
+            ReturnMapInfo returnMapInfo = ReturnMapInfo.error(HttpStatus.SC_UNAUTHORIZED, throwable.getMessage());
 
-            String json = new Gson().toJson(requestInfo);
+            String json = new Gson().toJson(returnMapInfo);
             httpResponse.getWriter().print(json);
         } catch (IOException e1) {
 

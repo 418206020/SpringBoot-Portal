@@ -2,6 +2,7 @@ package com.micro.boot.modules.oss.controller;
 
 import com.google.gson.Gson;
 import com.micro.boot.common.exception.RRException;
+import com.micro.boot.common.response.ReturnMapInfo;
 import com.micro.boot.common.utils.*;
 import com.micro.boot.common.validator.ValidatorUtils;
 import com.micro.boot.common.validator.group.AliyunGroup;
@@ -47,7 +48,7 @@ public class SysOssController {
 	 */
 	@RequestMapping("/list")
 	@RequiresPermissions("sys:oss:all")
-	public RequestInfo list(@RequestParam Map<String, Object> params){
+	public ReturnMapInfo list(@RequestParam Map<String, Object> params){
 		//查询列表数据
 		Query query = new Query(params);
 		List<SysOssEntity> sysOssList = sysOssService.queryList(query);
@@ -55,7 +56,7 @@ public class SysOssController {
 		
 		PageUtils pageUtil = new PageUtils(sysOssList, total, query.getLimit(), query.getPage());
 		
-		return RequestInfo.ok().put("page", pageUtil);
+		return ReturnMapInfo.ok().put("page", pageUtil);
 	}
 
 
@@ -64,10 +65,10 @@ public class SysOssController {
      */
     @RequestMapping("/config")
     @RequiresPermissions("sys:oss:all")
-    public RequestInfo config(){
+    public ReturnMapInfo config(){
         CloudStorageConfig config = sysConfigService.getConfigObject(KEY, CloudStorageConfig.class);
 
-        return RequestInfo.ok().put("config", config);
+        return ReturnMapInfo.ok().put("config", config);
     }
 
 
@@ -76,7 +77,7 @@ public class SysOssController {
 	 */
 	@RequestMapping("/saveConfig")
 	@RequiresPermissions("sys:oss:all")
-	public RequestInfo saveConfig(@RequestBody CloudStorageConfig config){
+	public ReturnMapInfo saveConfig(@RequestBody CloudStorageConfig config){
 		//校验类型
 		ValidatorUtils.validateEntity(config);
 
@@ -94,7 +95,7 @@ public class SysOssController {
 
         sysConfigService.updateValueByKey(KEY, new Gson().toJson(config));
 
-		return RequestInfo.ok();
+		return ReturnMapInfo.ok();
 	}
 	
 
@@ -103,7 +104,7 @@ public class SysOssController {
 	 */
 	@RequestMapping("/upload")
 	@RequiresPermissions("sys:oss:all")
-	public RequestInfo upload(@RequestParam("file") MultipartFile file) throws Exception {
+	public ReturnMapInfo upload(@RequestParam("file") MultipartFile file) throws Exception {
 		if (file.isEmpty()) {
 			throw new RRException("上传文件不能为空");
 		}
@@ -118,7 +119,7 @@ public class SysOssController {
 		ossEntity.setCreateDate(new Date());
 		sysOssService.save(ossEntity);
 
-		return RequestInfo.ok().put("url", url);
+		return ReturnMapInfo.ok().put("url", url);
 	}
 
 
@@ -127,10 +128,10 @@ public class SysOssController {
 	 */
 	@RequestMapping("/delete")
 	@RequiresPermissions("sys:oss:all")
-	public RequestInfo delete(@RequestBody Long[] ids){
+	public ReturnMapInfo delete(@RequestBody Long[] ids){
 		sysOssService.deleteBatch(ids);
 
-		return RequestInfo.ok();
+		return ReturnMapInfo.ok();
 	}
 
 }

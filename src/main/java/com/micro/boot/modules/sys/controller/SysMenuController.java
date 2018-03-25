@@ -2,8 +2,8 @@ package com.micro.boot.modules.sys.controller;
 
 import com.micro.boot.common.annotation.SysLog;
 import com.micro.boot.common.exception.RRException;
+import com.micro.boot.common.response.ReturnMapInfo;
 import com.micro.boot.common.utils.Constant.MenuType;
-import com.micro.boot.common.utils.RequestInfo;
 import com.micro.boot.modules.sys.entity.SysMenuEntity;
 import com.micro.boot.modules.sys.service.ShiroService;
 import com.micro.boot.modules.sys.service.SysMenuService;
@@ -38,10 +38,10 @@ public class SysMenuController extends AbstractController {
 	 * 导航菜单
 	 */
 	@RequestMapping("/nav")
-	public RequestInfo nav(){
+	public ReturnMapInfo nav(){
 		List<SysMenuEntity> menuList = sysMenuService.getUserMenuList(getUserId());
 		Set<String> permissions = shiroService.getUserPermissions(getUserId());
-		return RequestInfo.ok().put("menuList", menuList).put("permissions", permissions);
+		return ReturnMapInfo.ok().put("menuList", menuList).put("permissions", permissions);
 	}
 	
 	/**
@@ -60,7 +60,7 @@ public class SysMenuController extends AbstractController {
 	 */
 	@RequestMapping("/select")
 	@RequiresPermissions("sys:menu:select")
-	public RequestInfo select(){
+	public ReturnMapInfo select(){
 		//查询列表数据
 		List<SysMenuEntity> menuList = sysMenuService.queryNotButtonList();
 		
@@ -72,7 +72,7 @@ public class SysMenuController extends AbstractController {
 		root.setOpen(true);
 		menuList.add(root);
 		
-		return RequestInfo.ok().put("menuList", menuList);
+		return ReturnMapInfo.ok().put("menuList", menuList);
 	}
 	
 	/**
@@ -80,9 +80,9 @@ public class SysMenuController extends AbstractController {
 	 */
 	@RequestMapping("/info/{menuId}")
 	@RequiresPermissions("sys:menu:info")
-	public RequestInfo info(@PathVariable("menuId") Long menuId){
+	public ReturnMapInfo info(@PathVariable("menuId") Long menuId){
 		SysMenuEntity menu = sysMenuService.queryObject(menuId);
-		return RequestInfo.ok().put("menu", menu);
+		return ReturnMapInfo.ok().put("menu", menu);
 	}
 	
 	/**
@@ -91,13 +91,13 @@ public class SysMenuController extends AbstractController {
 	@SysLog("保存菜单")
 	@RequestMapping("/save")
 	@RequiresPermissions("sys:menu:save")
-	public RequestInfo save(@RequestBody SysMenuEntity menu){
+	public ReturnMapInfo save(@RequestBody SysMenuEntity menu){
 		//数据校验
 		verifyForm(menu);
 		
 		sysMenuService.save(menu);
 		
-		return RequestInfo.ok();
+		return ReturnMapInfo.ok();
 	}
 	
 	/**
@@ -106,13 +106,13 @@ public class SysMenuController extends AbstractController {
 	@SysLog("修改菜单")
 	@RequestMapping("/update")
 	@RequiresPermissions("sys:menu:update")
-	public RequestInfo update(@RequestBody SysMenuEntity menu){
+	public ReturnMapInfo update(@RequestBody SysMenuEntity menu){
 		//数据校验
 		verifyForm(menu);
 				
 		sysMenuService.update(menu);
 		
-		return RequestInfo.ok();
+		return ReturnMapInfo.ok();
 	}
 	
 	/**
@@ -121,16 +121,16 @@ public class SysMenuController extends AbstractController {
 	@SysLog("删除菜单")
 	@RequestMapping("/delete")
 	@RequiresPermissions("sys:menu:delete")
-	public RequestInfo delete(long menuId){
+	public ReturnMapInfo delete(long menuId){
 		//判断是否有子菜单或按钮
 		List<SysMenuEntity> menuList = sysMenuService.queryListParentId(menuId);
 		if(menuList.size() > 0){
-			return RequestInfo.error("请先删除子菜单或按钮");
+			return ReturnMapInfo.error("请先删除子菜单或按钮");
 		}
 
 		sysMenuService.deleteBatch(new Long[]{menuId});
 		
-		return RequestInfo.ok();
+		return ReturnMapInfo.ok();
 	}
 	
 	/**

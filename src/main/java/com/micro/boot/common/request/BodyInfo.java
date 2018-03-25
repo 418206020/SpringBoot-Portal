@@ -1,24 +1,27 @@
-package com.micro.boot.common.utils;
+package com.micro.boot.common.request;
 
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.micro.boot.common.Constants;
+import com.micro.boot.common.utils.CDESCrypt;
+import com.micro.boot.common.utils.Tools;
 import org.apache.http.HttpStatus;
 
 import java.io.Serializable;
 import java.util.HashMap;
 
 /**
- * @category app返回类
+ * @category app接收
  * @author huliang
  * 2017-04-25
  */
-public class AppBaseResult<T> implements Serializable {
+public class BodyInfo<T> implements Serializable {
 
 	private int code = 500;
 	private String message = "";
 	private String data = "";
-	private String version = "1.0";
+	private String version = Constants.VERSION_APP;
 	private String mobile = "";
 
 	public final static int ERROR = 401;
@@ -28,35 +31,35 @@ public class AppBaseResult<T> implements Serializable {
 	public final static String KEY = "czx12345";
 
 
-	public static AppBaseResult success(String msg){
-		AppBaseResult appBaseResult = new AppBaseResult();
-		appBaseResult.setCode(SUCCESS);
-		appBaseResult.setMessage(msg);
-		return appBaseResult;
+	public static BodyInfo success(String msg){
+		BodyInfo returnAppInfo = new BodyInfo();
+		returnAppInfo.setCode(SUCCESS);
+		returnAppInfo.setMessage(msg);
+		return returnAppInfo;
 	}
 
-	public static AppBaseResult success(){
-		AppBaseResult appBaseResult = new AppBaseResult();
-		appBaseResult.setCode(SUCCESS);
-		appBaseResult.setMessage("请求成功");
-		return appBaseResult;
+	public static BodyInfo success(){
+		BodyInfo returnAppInfo = new BodyInfo();
+		returnAppInfo.setCode(SUCCESS);
+		returnAppInfo.setMessage("请求成功");
+		return returnAppInfo;
 	}
 
-	public static AppBaseResult error(String msg){
-		AppBaseResult appBaseResult = new AppBaseResult();
-		appBaseResult.setCode(FAIL);
-		appBaseResult.setMessage(msg);
-		return appBaseResult;
+	public static BodyInfo error(String msg){
+		BodyInfo returnAppInfo = new BodyInfo();
+		returnAppInfo.setCode(FAIL);
+		returnAppInfo.setMessage(msg);
+		return returnAppInfo;
 	}
 
-	public static AppBaseResult error(int code,String msg){
-		AppBaseResult appBaseResult = new AppBaseResult();
-		appBaseResult.setCode(code);
-		appBaseResult.setMessage(msg);
-		return appBaseResult;
+	public static BodyInfo error(int code, String msg){
+		BodyInfo returnAppInfo = new BodyInfo();
+		returnAppInfo.setCode(code);
+		returnAppInfo.setMessage(msg);
+		return returnAppInfo;
 	}
 
-	public static AppBaseResult error() {
+	public static BodyInfo error() {
 		return error(HttpStatus.SC_INTERNAL_SERVER_ERROR, "未知异常，请联系管理员");
 	}
 
@@ -64,14 +67,14 @@ public class AppBaseResult<T> implements Serializable {
 	public int getCode() {
 		return code;
 	}
-	public AppBaseResult setCode(int status) {
+	public BodyInfo setCode(int status) {
 		this.code = status;
 		return this;
 	}
 	public String getMessage() {
 		return message;
 	}
-	public AppBaseResult setMessage(String message) {
+	public BodyInfo setMessage(String message) {
 		this.message = message;
 		return this;
 	}
@@ -109,7 +112,7 @@ public class AppBaseResult<T> implements Serializable {
 		return mData;
 	}
 	
-	public AppBaseResult setEncryptData(T t) {
+	public BodyInfo setEncryptData(T t) {
 		String mData = new Gson().toJson(t);
 		try {
 			if(!Tools.isEmpty(mData)){
@@ -127,7 +130,7 @@ public class AppBaseResult<T> implements Serializable {
 	public String getVersion() {
 		return version;
 	}
-	public AppBaseResult setVersion(String version) {
+	public BodyInfo setVersion(String version) {
 		this.version = version;
 		return this;
 	}
@@ -136,7 +139,7 @@ public class AppBaseResult<T> implements Serializable {
 		return mobile;
 	}
 
-	public AppBaseResult setMobile(String mobile) {
+	public BodyInfo setMobile(String mobile) {
 		this.mobile = mobile;
 		return this;
 	}

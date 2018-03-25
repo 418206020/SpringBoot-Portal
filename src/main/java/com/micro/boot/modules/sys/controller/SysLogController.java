@@ -1,8 +1,8 @@
 package com.micro.boot.modules.sys.controller;
 
+import com.micro.boot.common.response.ReturnMapInfo;
 import com.micro.boot.common.utils.PageUtils;
 import com.micro.boot.common.utils.Query;
-import com.micro.boot.common.utils.RequestInfo;
 import com.micro.boot.modules.sys.entity.SysLogEntity;
 import com.micro.boot.modules.sys.service.SysLogService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -35,14 +35,14 @@ public class SysLogController {
 	@ResponseBody
 	@RequestMapping("/list")
 	@RequiresPermissions("sys:log:list")
-	public RequestInfo list(@RequestParam Map<String, Object> params){
+	public ReturnMapInfo list(@RequestParam Map<String, Object> params){
 		//查询列表数据
 		Query query = new Query(params);
 		List<SysLogEntity> sysLogList = sysLogService.queryList(query);
 		int total = sysLogService.queryTotal(query);
 		
 		PageUtils pageUtil = new PageUtils(sysLogList, total, query.getLimit(), query.getPage());
-		return RequestInfo.ok().put("page", pageUtil);
+		return ReturnMapInfo.ok().put("page", pageUtil);
 	}
 	
 }
