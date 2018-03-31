@@ -59,7 +59,7 @@ public class SysLoginController extends AbstractController {
 	}
 
 	/**
-	 * 登录
+	 * 登录pa
 	 */
 	@RequestMapping(value = "/sys/login", method = RequestMethod.POST)
 	public Map<String, Object> login(String username, String password, String captcha)throws IOException {

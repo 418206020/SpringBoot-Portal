@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 返回数据
+ * 返回数据-主要用作前端展现扩展
  * 
  * @author huliang
  * @email 418206020@qq.com

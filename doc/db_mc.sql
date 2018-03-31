@@ -45,11 +45,11 @@ CREATE TABLE `mc_user` (
 	`create_user_id` BIGINT(20) NULL DEFAULT NULL COMMENT '创建者ID',
 	`create_time` DATETIME NULL DEFAULT NULL COMMENT '创建时间',
 	PRIMARY KEY (`user_id`),
-	UNIQUE INDEX `username` (`username`)
+	UNIQUE INDEX `username` (`username`),
+	UNIQUE INDEX `mobile` (`mobile`)
 )
 COMMENT='MC用户'
 ENGINE=InnoDB
-;
 
 -- MC主题
 CREATE TABLE `mc_topic` (

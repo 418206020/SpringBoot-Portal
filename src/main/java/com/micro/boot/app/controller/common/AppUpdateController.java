@@ -1,4 +1,4 @@
-package com.micro.boot.app.controller.test;
+package com.micro.boot.app.controller.common;
 
 import com.google.gson.Gson;
 import com.micro.boot.common.Constants;

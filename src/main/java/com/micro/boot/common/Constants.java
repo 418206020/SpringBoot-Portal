@@ -76,9 +76,9 @@ public class Constants {
 
 
     /**
-     * USER 模块
+     * 对称8倍秘钥，可增加秘钥长度增加破解复杂度
      */
-    public static final String REST_MODULE_USER = APP + "user";
+    public static final String CDES_KEY_8BIT = "O0OO00O0";
     
 
 }

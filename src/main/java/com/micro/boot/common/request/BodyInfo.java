@@ -18,77 +18,62 @@ import java.util.HashMap;
  */
 public class BodyInfo<T> implements Serializable {
 
-	private int code = 500;
-	private String message = "";
+	private int code = 0;
 	private String data = "";
 	private String version = Constants.VERSION_APP;
-	private String mobile = "";
 
-	public final static int ERROR = 401;
-	public final static int SUCCESS = 200;
-	public final static int FAIL = 500;
-	public final static int TOKENFAIL = 1000;
-	public final static String KEY = "czx12345";
+	public final static int APP = 0;
 
+	private final static String KEY = Constants.CDES_KEY_8BIT;
 
-	public static BodyInfo success(String msg){
+	/**
+	 * 重载构建消息体
+	 * @param version
+	 * @param object
+	 * @return
+	 */
+	public static BodyInfo build(String version, Object object) {
 		BodyInfo returnAppInfo = new BodyInfo();
-		returnAppInfo.setCode(SUCCESS);
-		returnAppInfo.setMessage(msg);
+		returnAppInfo.setEncryptData(object);
+		returnAppInfo.setVersion(version);
+		returnAppInfo.setCode(APP);
 		return returnAppInfo;
 	}
 
-	public static BodyInfo success(){
-		BodyInfo returnAppInfo = new BodyInfo();
-		returnAppInfo.setCode(SUCCESS);
-		returnAppInfo.setMessage("请求成功");
-		return returnAppInfo;
+	/**
+	 * 完整构建消息体
+	 * @param code
+	 * @param version
+	 * @param object
+	 * @return
+	 */
+	public static BodyInfo build(int code, String version, Object object) {
+		BodyInfo bodyInfo = build(version,object);
+		bodyInfo.setCode(code);
+		return bodyInfo;
 	}
 
-	public static BodyInfo error(String msg){
-		BodyInfo returnAppInfo = new BodyInfo();
-		returnAppInfo.setCode(FAIL);
-		returnAppInfo.setMessage(msg);
-		return returnAppInfo;
-	}
 
-	public static BodyInfo error(int code, String msg){
-		BodyInfo returnAppInfo = new BodyInfo();
-		returnAppInfo.setCode(code);
-		returnAppInfo.setMessage(msg);
-		return returnAppInfo;
-	}
-
-	public static BodyInfo error() {
-		return error(HttpStatus.SC_INTERNAL_SERVER_ERROR, "未知异常，请联系管理员");
-	}
-
-	
 	public int getCode() {
 		return code;
 	}
+
 	public BodyInfo setCode(int status) {
 		this.code = status;
 		return this;
 	}
-	public String getMessage() {
-		return message;
-	}
-	public BodyInfo setMessage(String message) {
-		this.message = message;
-		return this;
-	}
+
 	public String getData() {
-		return  this.data;
+		return this.data;
 	}
 
 	public void setData(String data) {
 		this.data = data;
 	}
 
-	public HashMap<String,Object> decryptData(String data) {
+	private HashMap<String, Object> decryptData(String data) {
 		String mData = null;
-		if(!Tools.isEmpty(data)){
+		if (!Tools.isEmpty(data)) {
 			try {
 				mData = CDESCrypt.decryptString(data, KEY);
 				//mData=data;
@@ -96,12 +81,17 @@ public class BodyInfo<T> implements Serializable {
 				e.printStackTrace();
 			}
 		}
-		return new Gson().fromJson(mData,new TypeToken<HashMap<String,Object>>() {}.getType());
+		return new Gson().fromJson(mData, new TypeToken<HashMap<String, Object>>() {
+		}.getType());
 	}
 
+	/**
+	 * 解密数据
+	 * @return
+	 */
 	public String decryptData() {
 		String mData = null;
-		if(!Tools.isEmpty(this.data)){
+		if (!Tools.isEmpty(this.data)) {
 			try {
 				mData = CDESCrypt.decryptString(this.data, KEY);
 				//mData=this.data;
@@ -111,14 +101,20 @@ public class BodyInfo<T> implements Serializable {
 		}
 		return mData;
 	}
-	
+
+	public BodyInfo<T> setJsonData(T t) {
+		String mData = new Gson().toJson(t);
+		this.data = mData;
+		return this;
+	}
+
 	public BodyInfo setEncryptData(T t) {
 		String mData = new Gson().toJson(t);
 		try {
-			if(!Tools.isEmpty(mData)){
+			if (!Tools.isEmpty(mData)) {
 				this.data = CDESCrypt.encryptString(mData, KEY);
 				//this.data=mData;
-			}else{
+			} else {
 				this.data = mData;
 			}
 		} catch (Exception e) {
@@ -130,28 +126,23 @@ public class BodyInfo<T> implements Serializable {
 	public String getVersion() {
 		return version;
 	}
+
 	public BodyInfo setVersion(String version) {
 		this.version = version;
 		return this;
 	}
 
-	public String getMobile() {
-		return mobile;
-	}
-
-	public BodyInfo setMobile(String mobile) {
-		this.mobile = mobile;
-		return this;
-	}
-
+	/**
+	 * Json数据构造
+	 * @return
+	 */
 	@Override
 	public String toString() {
 		return "{" +
 				"code='" + code + '\'' +
-				", message='" + message + '\'' +
 				", data='" + data + '\'' +
 				", version='" + version + '\'' +
-				", mobile='" + mobile + '\'' +
 				'}';
 	}
+
 }

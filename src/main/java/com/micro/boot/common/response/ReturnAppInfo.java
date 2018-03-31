@@ -22,47 +22,58 @@ public class ReturnAppInfo<T> implements Serializable {
     private String message = "";
     private String data = "";
     private String version = Constants.VERSION_APP;
-    private String mobile = "";
+//    private String mobile = "";
 
     public final static int ERROR = 401;
+    public final static int APP = 0;
     public final static int SUCCESS = 200;
     public final static int FAIL = 500;
     public final static int TOKENFAIL = 1000;
-    public final static String KEY = "czx12345";
 
+    private final static String KEY = Constants.CDES_KEY_8BIT;
 
-    public static ReturnAppInfo success(String msg) {
-        ReturnAppInfo returnAppInfo = new ReturnAppInfo();
-        returnAppInfo.setCode(SUCCESS);
-        returnAppInfo.setMessage(msg);
+    //-------------------------- success start -------------------------------
+
+    /**
+     * 加密数据
+     * @param object
+     * @return
+     */
+    public static ReturnAppInfo successEncrypt(Object object) {
+        ReturnAppInfo returnAppInfo = success();
+        returnAppInfo.setEncryptData(object);
         return returnAppInfo;
     }
 
+    /**
+     * 不加密
+     * @return
+     */
     public static ReturnAppInfo success() {
         ReturnAppInfo returnAppInfo = new ReturnAppInfo();
         returnAppInfo.setCode(SUCCESS);
         returnAppInfo.setMessage("请求成功");
         return returnAppInfo;
     }
+    //-------------------------- success end ----------------------------------
 
-    public static ReturnAppInfo error(String msg) {
-        ReturnAppInfo returnAppInfo = new ReturnAppInfo();
-        returnAppInfo.setCode(FAIL);
-        returnAppInfo.setMessage(msg);
-        return returnAppInfo;
-    }
-
+    //-------------------------- error start ----------------------------------
     public static ReturnAppInfo error(int code, String msg) {
         ReturnAppInfo returnAppInfo = new ReturnAppInfo();
         returnAppInfo.setCode(code);
         returnAppInfo.setMessage(msg);
         return returnAppInfo;
     }
-
+    public static ReturnAppInfo error(String msg) {
+        ReturnAppInfo returnAppInfo = new ReturnAppInfo();
+        returnAppInfo.setCode(FAIL);
+        returnAppInfo.setMessage(msg);
+        return returnAppInfo;
+    }
     public static ReturnAppInfo error() {
         return error(HttpStatus.SC_INTERNAL_SERVER_ERROR, "未知异常，请联系管理员");
     }
-
+    //-------------------------- error end -------------------------------------
 
     public int getCode() {
         return code;
@@ -147,15 +158,6 @@ public class ReturnAppInfo<T> implements Serializable {
         return this;
     }
 
-    public String getMobile() {
-        return mobile;
-    }
-
-    public ReturnAppInfo setMobile(String mobile) {
-        this.mobile = mobile;
-        return this;
-    }
-
     @Override
     public String toString() {
         return "{" +
@@ -163,7 +165,6 @@ public class ReturnAppInfo<T> implements Serializable {
                 ", message='" + message + '\'' +
                 ", data='" + data + '\'' +
                 ", version='" + version + '\'' +
-                ", mobile='" + mobile + '\'' +
                 '}';
     }
 }

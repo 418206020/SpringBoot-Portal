@@ -11,7 +11,7 @@ import java.util.HashMap;
  * @create 2018/3/31
  * @since 1.0.0
  */
-public class RequestHeaders {
+public class CommonHeaders {
 
 
     /**
@@ -31,7 +31,7 @@ public class RequestHeaders {
     /**
      * 构造默认信息
      */
-    public RequestHeaders() {
+    public CommonHeaders() {
         headMap.put(KEY_CONTENT_TYPE, Constants.APPLICATION_JSON);
         headMap.put(KEY_ACCEPT_CHARSET, Constants.CHARSET_NAME);//utf-8
         headMap.put(KEY_ACCEPT_LANGUAGE, Constants.LANG_ZH_CN);
