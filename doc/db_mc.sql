@@ -1,3 +1,29 @@
+-- MC用户Token
+CREATE TABLE `mc_user_login` (
+	`user_id` BIGINT(20) NOT NULL,
+	`token` VARCHAR(100) NOT NULL COMMENT 'token',
+	`expire_time` DATETIME NULL DEFAULT NULL COMMENT '过期时间',
+	`update_time` DATETIME NULL DEFAULT NULL COMMENT '更新时间',
+	PRIMARY KEY (`user_id`),
+	UNIQUE INDEX `token` (`token`)
+)
+COMMENT='MC用户Token'
+ENGINE=InnoDB
+;
+
+-- MC用户Token
+CREATE TABLE `mc_user_login` (
+	`user_id` BIGINT(20) NOT NULL,
+	`token` VARCHAR(100) NOT NULL COMMENT 'token',
+	`expire_time` DATETIME NULL DEFAULT NULL COMMENT '过期时间',
+	`update_time` DATETIME NULL DEFAULT NULL COMMENT '更新时间',
+	PRIMARY KEY (`user_id`),
+	UNIQUE INDEX `token` (`token`)
+)
+COMMENT='MC用户Token'
+ENGINE=InnoDB
+;
+
 -- MC用户
 CREATE TABLE `mc_user` (
 	`user_id` BIGINT(20) NOT NULL AUTO_INCREMENT,
