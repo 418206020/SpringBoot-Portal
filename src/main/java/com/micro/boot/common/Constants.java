@@ -13,17 +13,37 @@ package com.micro.boot.common;
  */
 public class Constants {
 
+    /**
+     * http相关
+     */
 
     public static final String URL_HTTPS = "https://";
     public static final String UCPAAS_CONFIG = "ucpaas.config";
 
+    /**
+     * 配置
+     */
     public static final String WEB_INF_CLASSES = "/WEB-INF/classes";
     public static final String PROP_CONFIG = "/config.properties";
 
-    public static final String CONTENT_TYPE = "application/json;charset=utf-8";
-    public static final String ACCEPT = "application/json";
+
+    /**
+     * rest json
+     */
+    public static final String APPLICATION_JSON_UTF8 = "application/json;charset=utf-8";
+    public static final String APPLICATION_JSON = "application/json";
 
 
+    /**
+     * 语言
+     */
+    public static final String LANG_ZH_CN = "zh-cn";
+    public static final String LANG_ZH_EN = "zh-en";
+    public static final String LANG_ZH_TW = "zh-tw";
+
+    /**
+     * 默认编码
+     */
     public static final String CHARSET_NAME = "UTF-8";
 
     /**

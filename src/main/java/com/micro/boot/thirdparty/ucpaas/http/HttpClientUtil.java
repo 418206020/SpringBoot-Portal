@@ -40,8 +40,8 @@ public class HttpClientUtil {
                         .build();
                 httpPost.setConfig(requestConfig);
 
-                httpPost.setHeader("Accept", Constants.ACCEPT);
-                httpPost.setHeader("Content-Type", Constants.CONTENT_TYPE);
+                httpPost.setHeader("Accept", Constants.APPLICATION_JSON);
+                httpPost.setHeader("Content-Type", Constants.APPLICATION_JSON_UTF8);
 
                 // 设置参数
                 StringEntity se = new StringEntity(body, charset);
