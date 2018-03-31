@@ -35,9 +35,10 @@ public class UserLoginBean  implements Serializable {
     private Date createTime;
     //过期时间
     private Date expireTime;
+    //过期时常
     private String expire;
-    //token
-    private String token;
+//    //token
+//    private String token;
 
     public String getExpire() {
         return expire;
@@ -93,14 +94,6 @@ public class UserLoginBean  implements Serializable {
 
     public void setExpireTime(Date expireTime) {
         this.expireTime = expireTime;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 
     public String getWechatId() {
