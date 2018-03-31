@@ -1,7 +1,7 @@
 package com.micro.boot.app.service.test;
 
 import com.micro.boot.app.dao.UserLoginDao;
-import com.micro.boot.app.entity.request.UserLoginBean;
+import com.micro.boot.app.object.request.UserLoginBean;
 import com.micro.boot.common.exception.RRException;
 import com.micro.boot.common.validator.Assert;
 import com.micro.boot.app.service.ServiceSupport;

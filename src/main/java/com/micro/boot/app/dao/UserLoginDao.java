@@ -1,6 +1,6 @@
 package com.micro.boot.app.dao;
 
-import com.micro.boot.app.entity.request.UserLoginBean;
+import com.micro.boot.app.object.request.UserLoginBean;
 import com.micro.boot.modules.sys.dao.BaseDao;
 import org.apache.ibatis.annotations.Mapper;
 

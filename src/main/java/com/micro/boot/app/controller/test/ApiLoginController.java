@@ -2,12 +2,11 @@ package com.micro.boot.app.controller.test;
 
 
 import com.google.gson.Gson;
-import com.micro.boot.app.entity.request.UserLoginBean;
+import com.micro.boot.app.object.request.UserLoginBean;
 import com.micro.boot.common.Constants;
 import com.micro.boot.common.exception.RRException;
 import com.micro.boot.common.request.BodyInfo;
 import com.micro.boot.common.response.ReturnAppInfo;
-import com.micro.boot.common.response.ReturnMapInfo;
 import com.micro.boot.common.validator.Assert;
 import com.micro.boot.app.service.test.AppUserService;
 import com.micro.boot.app.utils.JwtUtils;
@@ -107,7 +106,7 @@ public class ApiLoginController {
         String token = jwtUtils.generateToken(user.getUserId());
         user.setToken(token);
         user.setExpire(String.valueOf(jwtUtils.getExpire()));
-        //
+        // 78
         user.setPassword("admin");
 //        return ReturnAppInfo.success().setEncryptData(ReturnMapInfo.ok().put("msg",user));//todo 加密数据封装成Json？
         return ReturnAppInfo.success().setEncryptData(user);

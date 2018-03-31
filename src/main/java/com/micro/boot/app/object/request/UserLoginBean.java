@@ -35,9 +35,17 @@ public class UserLoginBean  implements Serializable {
     private Date createTime;
     //过期时间
     private Date expireTime;
+    private String expire;
     //token
     private String token;
 
+    public String getExpire() {
+        return expire;
+    }
+
+    public void setExpire(String expire) {
+        this.expire = expire;
+    }
 
     public Long getUserId() {
         return userId;
