@@ -14,6 +14,11 @@ package com.micro.boot.common;
 public class Constants {
 
     /**
+     * 系统错误 服务器不能完成请求
+     */
+    public final static int EXCETPTION_SYSTEM = 500;
+
+    /**
      * http相关
      */
 
@@ -66,6 +71,11 @@ public class Constants {
      * 反斜杠，分隔符
      */
     public static final String SEPPARATOR_BACKSLASH = "\\";
+
+    /**
+     * 反斜杠，分隔符
+     */
+    public static final int COUNT_SALT = 20;
 
 
 
