@@ -3,19 +3,30 @@
 
 <mapper namespace="com.micro.boot.app.dao.McUserDao">
 
-    <!-- 可根据自己的需求，是否要使用，数据库字段映射 -->
+    <!-- 数据库字段映射 -->
     <resultMap type="com.micro.boot.app.object.response.UserRegisterRep" id="userRegisterRep">
-        <result property="userId" column="user_id"/>
+        <result property="id" column="id"/>
         <result property="username" column="username"/>
         <result property="mobile" column="mobile"/>
+        <result property="nickname" column="nickname"/>
+        <result property="wechatId" column="wechat_id"/>
+        <result property="qqId" column="qq_id"/>
+        <result property="alipayId" column="alipay_id"/>
         <result property="password" column="password"/>
+        <result property="salt" column="salt"/>
+        <result property="idCard" column="id_card"/>
+        <result property="email" column="email"/>
+        <result property="sex" column="sex"/>
+        <result property="birthday" column="birthday"/>
+        <result property="headUrl" column="head_url"/>
+        <result property="headUrlThumb" column="head_url_thumb"/>
+        <result property="status" column="status"/>
+        <result property="createUserId" column="create_user_id"/>
         <result property="createTime" column="create_time"/>
-        <result property="token" column="token"/>
-        <result property="expire" column="expire"/>
     </resultMap>
 
 
-    <insert id="registerMcUser" useGeneratedKeys="true" keyProperty="user_id"
+    <insert id="registerMcUser" useGeneratedKeys="true" keyProperty="id"
             parameterType="com.micro.boot.app.object.request.UserRegisterReq">
         insert into mc_user
         (
@@ -59,8 +70,12 @@
         )
     </insert>
 
+    <select id="getUserByMobile" resultType="com.micro.boot.app.object.response.UserRegisterRep">
+        select * from tb_user where mobile = #{value}
+    </select>
+
     <select id="existUserCount" resultType="int">
-        select count(1) from mc_user
+        select count(1) from mc_user where mobile = #{value}
     </select>
 
     <update id="update" parameterType="com.micro.boot.modules.user.entity.UserEntity">

@@ -1,6 +1,10 @@
 package com.micro.boot.common.utils;
 
 import com.google.gson.Gson;
+import com.micro.boot.common.AppCode;
+import com.micro.boot.common.Message;
+import com.micro.boot.common.exception.RRException;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Component;
@@ -44,6 +48,8 @@ public class RedisUtils {
      * 60秒
      */
     public final static long EXPIRE_60S = 60;
+
+    public final static String verify = "!@#$%%$#@!";
     /**
      * 7天
      */
@@ -64,18 +70,32 @@ public class RedisUtils {
     }
 
     /**
-     * 查询md5Key
-     *
-     * @param key
+     * redisGetKey
      *
      * @return
      */
-    public static String md5ByKey(String key) {
-        return MD5.md5(key);
+    public static String redisGetKey(String key, String type) {
+        if (!StringUtils.isEmpty(key) && !StringUtils.isEmpty(type)) {
+            return MD5.md5(type.concat(verify).concat(key));
+        } else {
+            throw new RRException(AppCode.EXCETPTION_FAIL, Message.MSG_EN_ERROR_SYSTEM);
+        }
     }
 
+    /**
+     * redisSetKey
+     *
+     * @return
+     */
+    public static String redisSetKey(String key, String type) {
+        if (!StringUtils.isEmpty(key) && !StringUtils.isEmpty(type)) {
+            return type.concat(verify).concat(key);
+        } else {
+            throw new RRException(AppCode.EXCETPTION_FAIL, Message.MSG_EN_ERROR_SYSTEM);
+        }
+    }
 
-    /* set
+    /* set key after redisSetKey
      */
     public void set(String key, Object value, long expire) {
         valueOperations.set(md5Key(key), toJson(value));
@@ -83,39 +103,43 @@ public class RedisUtils {
             redisTemplate.expire(md5Key(key), expire, TimeUnit.SECONDS);
         }
     }
+
     public void set(String key, Object value) {
         set(key, value, DEFAULT_EXPIRE);
     }
 
-    /* get clazz
+    /* get key after redisGetKey
      */
     public <T> T get(String key, Class<T> clazz, long expire) {
-        String value = valueOperations.get(md5Key(key));
+        String value = valueOperations.get(key);
         if (expire != NOT_EXPIRE) {
-            redisTemplate.expire(md5Key(key), expire, TimeUnit.SECONDS);
+            redisTemplate.expire(key, expire, TimeUnit.SECONDS);
         }
         return value == null ? null : fromJson(value, clazz);
     }
+
     public <T> T get(String key, Class<T> clazz) {
         return get(key, clazz, NOT_EXPIRE);
     }
-    /* get
+
+    /* get key after redisGetKey
      */
     public String get(String key, long expire) {
-        String value = valueOperations.get(md5Key(key));
+        String value = valueOperations.get(key);
         if (expire != NOT_EXPIRE) {
-            redisTemplate.expire(md5Key(key), expire, TimeUnit.SECONDS);
+            redisTemplate.expire(key, expire, TimeUnit.SECONDS);
         }
         return value;
     }
+
     public String get(String key) {
         return get(key, NOT_EXPIRE);
     }
 
-    /* delete
+    /* delete  key after redisGetKey
      */
     public void delete(String key) {
-        redisTemplate.delete(md5Key(key));
+        redisTemplate.delete(key);
     }
 
     /**

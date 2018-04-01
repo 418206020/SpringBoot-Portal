@@ -14,7 +14,7 @@ public class UserRegisterReq implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //用户id
-    private Long userId;
+    private Long id;
 
     //手机号
     private String mobile;
@@ -173,12 +173,12 @@ public class UserRegisterReq implements Serializable {
         this.headUrlThumb = headUrlThumb;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getId() {
+        return id;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getCreateUserId() {

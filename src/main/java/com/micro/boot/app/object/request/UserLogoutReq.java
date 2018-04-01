@@ -14,7 +14,7 @@ public class UserLogoutReq implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //用户id
-    private Long userId;
+    private Long id;
     //用户名
     private String username;
     //手机号
@@ -29,12 +29,12 @@ public class UserLogoutReq implements Serializable {
     private String token;
 
 
-    public Long getUserId() {
-        return userId;
+    public Long getId() {
+        return id;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getUsername() {

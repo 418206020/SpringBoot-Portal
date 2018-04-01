@@ -21,9 +21,14 @@ public class Message {
     public final static String MSG_EN_ERROR_TOKEN = "the token is fail";
 
     /**
+     * MSG_EN_ERROR_VERIFY_CODE
+     */
+    public final static String MSG_EN_ERROR_VERIFY_CODE = "the verify code is fail";
+
+    /**
      * MSG_EN_ERROR_MOBILE
      */
-    public final static String MSG_EN_ERROR_system = "please contact admin";
+    public final static String MSG_EN_ERROR_SYSTEM = "please contact admin";
 
     /**
      * MSG_EN_PARAMETERS_ERROR
@@ -34,6 +39,12 @@ public class Message {
      * MSG_EN_ERROR_TOKEN
      */
     public final static String MSG_EN_EXIST_USER = "user has been register";
+
+    /**
+     * MSG_EN_DATABASE
+     */
+    public final static String MSG_EN_DATABASE = "database operator fail";
+
 
 
 }

@@ -18,6 +18,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -29,6 +30,7 @@ import javax.annotation.Resource;
  * @since 1.0.0
  */
 @Service
+@Transactional
 public class RegisterServiceImpl implements RegisterService {
 
     @Resource
@@ -56,7 +58,7 @@ public class RegisterServiceImpl implements RegisterService {
         verifyCode = "111222";// todo 测试
 
         //存储到redis，时常60秒
-        redisUtils.set(mobile, verifyCode, RedisUtils.EXPIRE_TEST);//
+        redisUtils.set(RedisUtils.redisSetKey(mobile, AppCode.REDIS_VERIFY_CODE), verifyCode, RedisUtils.EXPIRE_TEST);
 
         return verifyCode;
     }
@@ -76,11 +78,12 @@ public class RegisterServiceImpl implements RegisterService {
         {
             throw new RRException(AppCode.EXCETPTION_FAIL, Message.MSG_EN_PARAMETERS_ERROR);
         }
-        //校验token是否失效
-        if (StringUtils.isEmpty(redisUtils.get(request.getMobile())) ||
-                !redisUtils.get(request.getMobile()).equals(request.getVerifyCode()))
+        String redisVerifyCode = redisUtils.get(RedisUtils.redisGetKey(request.getMobile(), AppCode.REDIS_VERIFY_CODE));
+        //校验验证码是否失效
+        if (StringUtils.isEmpty(redisVerifyCode) ||
+                !redisVerifyCode.equals(request.getVerifyCode()))
         {
-            throw new RRException(AppCode.CODE_TOKEN_FAIL, Message.MSG_EN_ERROR_TOKEN);
+            throw new RRException(AppCode.CODE_ERROR_VERIFY_CODE, Message.MSG_EN_ERROR_VERIFY_CODE);
         }
 
         //校验用户是否存在
@@ -89,14 +92,18 @@ public class RegisterServiceImpl implements RegisterService {
         }
         //设置加盐
         request.setSalt(RandomStringUtils.randomAlphanumeric(Constants.COUNT_SALT));
-        request.setPassword("12345678");
-        //密码hash
+        //设置随机密码
+        String pwd = String.valueOf(Tools.getRandomNum());
         request.setPassword(
-                new Sha256Hash(request.getPassword(), request.getSalt()).toHex()
+                new Sha256Hash(pwd, request.getSalt()).toHex()
         );
         request.setStatus(Constants.STATUS_NORMAL);
         //注册新用户
-        UserRegisterRep response = mcUserDao.registerMcUser(request);
+        if(Constants.ZERO==mcUserDao.registerMcUser(request)){
+            throw new RRException(AppCode.EXCETPTION_DATABASE_FAIL, Message.MSG_EN_DATABASE);
+        }
+        UserRegisterRep response = mcUserDao.getUserByMobile(request.getMobile());
+        response.setPassword(pwd);
         return response;
     }
 

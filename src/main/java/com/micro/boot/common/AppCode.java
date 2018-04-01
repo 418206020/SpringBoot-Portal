@@ -27,6 +27,11 @@ public class AppCode {
      */
     public final static int EXCETPTION_FAIL = 500;
 
+    /**
+     * 系统错误 服务器不能完成请求
+     */
+    public final static int EXCETPTION_DATABASE_FAIL = 501;
+
 
 
 // ---------------- Error 错误级-----------------------
@@ -37,23 +42,34 @@ public class AppCode {
     public final static int ERROR_CODE_404 = 404;
 
 
-
-
 // ---------------- BUSINESS 业务层-----------------------
 
     /**
      * token 失效
      */
-    public final static int CODE_TOKEN_FAIL = 401;
+    public final static int CODE_TOKEN_FAIL = 604;
+
+    /**
+     * 验证码 过期或失败
+     */
+    public final static int CODE_ERROR_VERIFY_CODE = 603;
 
     /**
      * 密码 错误
      */
-    public final static int CODE_ERROR_PASSWORD = 502;
+    public final static int CODE_ERROR_PASSWORD = 602;
 
     /**
      * 非法手机号
      */
     public final static int CODE_MOBILE_ERROR = 601;
+
+
+
+// ---------------- REDIS KEY TYPE-----------------------
+    /**
+     * 验证码
+     */
+    public final static String REDIS_VERIFY_CODE = "REDIS_VERIFY_CODE";
 
 }

@@ -31,7 +31,14 @@ public interface McUserDao extends BaseDao<UserLoginReq> {
      * @param request
      * @return
      */
-    UserRegisterRep registerMcUser(UserRegisterReq request);
+    long registerMcUser(UserRegisterReq request);
+
+    /**
+     * 查询
+     * @param mobile
+     * @return
+     */
+    UserRegisterRep getUserByMobile(String mobile);
 
 
 }

@@ -14,7 +14,7 @@ public class UserLoginReq implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //用户id
-    private Long userId;
+    private Long id;
     //用户名
     private String userName;
     //手机号
@@ -48,12 +48,12 @@ public class UserLoginReq implements Serializable {
         this.expire = expire;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getId() {
+        return id;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getUserName() {
