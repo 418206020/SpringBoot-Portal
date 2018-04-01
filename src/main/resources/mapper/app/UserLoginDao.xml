@@ -4,7 +4,7 @@
 <mapper namespace="com.micro.boot.app.dao.UserLoginDao">
 
 	<!-- 可根据自己的需求，是否要使用，数据库字段映射 -->
-	<resultMap type="com.micro.boot.app.object.request.UserLoginBean" id="userLoginMap">
+	<resultMap type="com.micro.boot.app.object.request.UserLoginReq" id="userLoginMap">
 		<result property="userId" column="user_id"/>
 		<result property="username" column="username"/>
 		<result property="mobile" column="mobile"/>
@@ -15,7 +15,7 @@
 	</resultMap>
 
 
-	<select id="queryByMobile2" resultType="com.micro.boot.app.object.request.UserLoginBean">
+	<select id="queryByMobile2" resultType="com.micro.boot.app.object.request.UserLoginReq">
 		select * from tb_user where mobile = #{value}
 	</select>
 

@@ -36,7 +36,7 @@ public class RegisterServiceImpl implements RegisterService {
         verifyCode = "111222";// todo 测试
 
         //存储到redis，时常60秒
-        redisUtils.set(mobile,verifyCode,RedisUtils.EXPIRE_TEST);//
+        redisUtils.set(mobile, verifyCode, RedisUtils.EXPIRE_TEST);//
 
         return verifyCode;
     }
