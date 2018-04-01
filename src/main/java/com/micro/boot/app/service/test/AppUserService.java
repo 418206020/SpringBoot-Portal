@@ -1,7 +1,7 @@
 package com.micro.boot.app.service.test;
 
 import com.micro.boot.app.dao.UserLoginDao;
-import com.micro.boot.app.object.request.UserLoginBean;
+import com.micro.boot.app.object.request.UserLoginReq;
 import com.micro.boot.common.exception.RRException;
 import com.micro.boot.common.validator.Assert;
 import com.micro.boot.app.service.ServiceSupport;
@@ -33,7 +33,7 @@ public class AppUserService extends ServiceSupport {
         String mobile = param.get("mobile").toString();
         String password = param.get("password").toString();
         HashMap<String, Object> user = findForObject("api.AppUserDao.queryByMobile", mobile);
-        UserLoginBean userLoginBean = userLoginDao.queryByMobile2(mobile);
+        UserLoginReq userLoginReq = userLoginDao.queryByMobile2(mobile);
         Assert.isNull(user, "用户不存在");
 
         //密码错误
@@ -51,18 +51,18 @@ public class AppUserService extends ServiceSupport {
      *
      * @throws Exception
      */
-    public UserLoginBean queryByMobileBean(UserLoginBean param) throws Exception {
+    public UserLoginReq queryByMobileBean(UserLoginReq param) throws Exception {
         String mobile = param.getMobile();
         String password = param.getPassword();
-        UserLoginBean userLoginBean = userLoginDao.queryByMobile2(mobile);
-        Assert.isNull(userLoginBean, "用户不存在");
+        UserLoginReq userLoginReq = userLoginDao.queryByMobile2(mobile);
+        Assert.isNull(userLoginReq, "用户不存在");
 
         //密码错误
         String userpassword = DigestUtils.sha256Hex(password);
-        if (!userLoginBean.getPassword().equals(userpassword)) {
+        if (!userLoginReq.getPassword().equals(userpassword)) {
             throw new RRException("密码错误");
         }
-        return userLoginBean;
+        return userLoginReq;
     }
 
     /**

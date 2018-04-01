@@ -28,26 +28,49 @@ public class RedisUtils {
     private SetOperations<String, Object> setOperations;
     @Autowired
     private ZSetOperations<String, Object> zSetOperations;
-    /**  默认过期时长，单位：秒 */
+    /**
+     * 默认过期时长1天，单位：秒
+     */
     public final static long DEFAULT_EXPIRE = 60 * 60 * 24;
-    /**  不设置过期时长 */
+    /**
+     * 不设置过期时长
+     */
     public final static long NOT_EXPIRE = -1;
+
+    /**
+     * TODO TEST
+     */
+    public final static long EXPIRE_TEST = -1;
+    /**
+
+    /**
+     * 60秒
+     */
+    public final static long EXPIRE_60S = 60;
+    /**
+     * 7天
+     */
+    public final static long EXPIRE_7DAYS = 60 * 60 * 24 * 7;
+
+
+
+
     private final static Gson gson = new Gson();
 
-    public void set(String key, Object value, long expire){
+    public void set(String key, Object value, long expire) {
         valueOperations.set(key, toJson(value));
-        if(expire != NOT_EXPIRE){
+        if (expire != NOT_EXPIRE) {
             redisTemplate.expire(key, expire, TimeUnit.SECONDS);
         }
     }
 
-    public void set(String key, Object value){
+    public void set(String key, Object value) {
         set(key, value, DEFAULT_EXPIRE);
     }
 
     public <T> T get(String key, Class<T> clazz, long expire) {
         String value = valueOperations.get(key);
-        if(expire != NOT_EXPIRE){
+        if (expire != NOT_EXPIRE) {
             redisTemplate.expire(key, expire, TimeUnit.SECONDS);
         }
         return value == null ? null : fromJson(value, clazz);
@@ -59,7 +82,7 @@ public class RedisUtils {
 
     public String get(String key, long expire) {
         String value = valueOperations.get(key);
-        if(expire != NOT_EXPIRE){
+        if (expire != NOT_EXPIRE) {
             redisTemplate.expire(key, expire, TimeUnit.SECONDS);
         }
         return value;
@@ -76,9 +99,10 @@ public class RedisUtils {
     /**
      * Object转成JSON数据
      */
-    private String toJson(Object object){
-        if(object instanceof Integer || object instanceof Long || object instanceof Float ||
-                object instanceof Double || object instanceof Boolean || object instanceof String){
+    private String toJson(Object object) {
+        if (object instanceof Integer || object instanceof Long || object instanceof Float ||
+                object instanceof Double || object instanceof Boolean || object instanceof String)
+        {
             return String.valueOf(object);
         }
         return gson.toJson(object);
@@ -87,7 +111,7 @@ public class RedisUtils {
     /**
      * JSON数据，转成Object
      */
-    private <T> T fromJson(String json, Class<T> clazz){
+    private <T> T fromJson(String json, Class<T> clazz) {
         return gson.fromJson(json, clazz);
     }
 }

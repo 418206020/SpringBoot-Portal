@@ -1,6 +1,6 @@
 package com.micro.boot.app.dao;
 
-import com.micro.boot.app.object.request.UserLoginBean;
+import com.micro.boot.app.object.request.UserLoginReq;
 import com.micro.boot.modules.sys.dao.BaseDao;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2017-10-23 21:23:54
  */
 @Mapper
-public interface UserLoginDao extends BaseDao<UserLoginBean> {
+public interface UserLoginDao extends BaseDao<UserLoginReq> {
 
-    UserLoginBean queryByMobile2(String mobile);
+    UserLoginReq queryByMobile2(String mobile);
 }

@@ -14,6 +14,7 @@ public class ModuleConstant {
      * 模块
      */
     public static final String MODULE_LOGIN = "login";//登录
+    public static final String MODULE_REGISTER = "register";//注册
     public static final String MODULE_DEVICE = "device";//设备
     public static final String MODULE_QUEUE = "queue";//队列
     public static final String MODULE_MSG = "msg";//消息

@@ -50,14 +50,18 @@ public class PostApp {
 
     /**
      * 使用系统配置模板发送6位验证码
+     * 默认模板共两个参数
      *
      * @param userName
      * @param verifyCode
      * @param mobile
      */
     public static void sendSms(String userName, String verifyCode, String mobile) {
+        if(StringUtils.isEmpty(userName)){
+            userName = "贵宾";//设置模板中默认的姓名
+        }
         String param = userName + "," + verifyCode;
-        testSendSms(null, param, mobile, null);
+        SendSms(null, param, mobile, null);
     }
 
     /**
@@ -66,7 +70,7 @@ public class PostApp {
      * @param mobile
      * @param uid
      */
-    private static void testSendSms(String templateid, String param, String mobile, String uid) {
+    public static void SendSms(String templateid, String param, String mobile, String uid) {
         try {
             ucpaasSms = InitUcpaasSms();
             if (!StringUtils.isEmpty(templateid)) {

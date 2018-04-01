@@ -10,7 +10,7 @@ import java.util.Date;
  * @create 2018/3/25
  * @since 1.0.0
  */
-public class UserLogoutBean implements Serializable {
+public class UserLogoutReq implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //用户id

@@ -1,8 +1,8 @@
 package com.micro.boot.app.controller.test;
 
 import com.google.gson.Gson;
-import com.micro.boot.app.object.request.UserLoginBean;
-import com.micro.boot.app.object.response.UserLoginOut;
+import com.micro.boot.app.object.request.UserLoginReq;
+import com.micro.boot.app.object.response.UserLoginRep;
 import com.micro.boot.common.Constants;
 import com.micro.boot.common.request.BodyInfo;
 import com.micro.boot.common.response.ReturnAppInfo;
@@ -10,10 +10,7 @@ import com.micro.boot.common.response.ReturnMapInfo;
 import com.micro.boot.common.utils.PropertiesConfig;
 import com.micro.boot.common.utils.RedisUtils;
 import com.micro.boot.app.annotation.AuthIgnore;
-import com.micro.boot.app.annotation.Login;
-import com.micro.boot.app.annotation.LoginUser;
 import com.micro.boot.common.utils.Tools;
-import com.micro.boot.modules.user.entity.UserEntity;
 import com.micro.boot.thirdparty.ucpaas.send.PostApp;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -65,14 +62,22 @@ public class ApiTestController {
         return ReturnAppInfo.successEncrypt(data);
     }
 
-
-
-    private static UserLoginBean getLoginData(){
-        UserLoginBean userLoginBean = new UserLoginBean();
-        userLoginBean.setMobile("15094011640");
-        userLoginBean.setPassword(DigestUtils.sha256Hex("568653"));//加密密码传输
-        return userLoginBean;
+    private static UserLoginReq getLoginData(){
+        UserLoginReq userLoginReq = new UserLoginReq();
+        userLoginReq.setMobile("15094011640");
+        userLoginReq.setPassword(DigestUtils.sha256Hex("568653"));//加密密码传输
+        return userLoginReq;
     }
+
+
+
+
+
+
+
+
+
+
 
     /**
      * 忽略Token验证测试
@@ -113,13 +118,13 @@ public class ApiTestController {
             @ApiResponse(code = 500, message = "服务器不能完成请求")}
     )
     @PostMapping("user")
-    public ReturnAppInfo<UserLoginOut> loginMap(@RequestBody BodyInfo bodyInfo) throws Exception {
+    public ReturnAppInfo<UserLoginRep> loginMap(@RequestBody BodyInfo bodyInfo) throws Exception {
         //解密
-        UserLoginBean userLoginBean = new Gson().fromJson(bodyInfo.decryptData(), UserLoginBean.class);
+        UserLoginReq userLoginReq = new Gson().fromJson(bodyInfo.decryptData(), UserLoginReq.class);
 
-        UserLoginOut userLoginOut = new UserLoginOut();
-        userLoginOut.setMobile("153355");
-        return ReturnAppInfo.success().setEncryptData(userLoginOut);//输出不加密
+        UserLoginRep userLoginRep = new UserLoginRep();
+        userLoginRep.setMobile("153355");
+        return ReturnAppInfo.success().setEncryptData(userLoginRep);//输出不加密
     }
 
 }

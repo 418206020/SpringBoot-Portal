@@ -3,6 +3,7 @@ package com.micro.boot.common.response;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.micro.boot.common.AppCode;
 import com.micro.boot.common.Constants;
 import com.micro.boot.common.utils.CDESCrypt;
 import com.micro.boot.common.utils.Tools;
@@ -11,6 +12,8 @@ import org.apache.http.HttpStatus;
 import java.io.Serializable;
 import java.util.HashMap;
 
+import static jdk.nashorn.tools.Shell.SUCCESS;
+
 /**
  * @author huliang
  * 2017-04-25
@@ -18,17 +21,10 @@ import java.util.HashMap;
  */
 public class ReturnAppInfo<T> implements Serializable {
 
-    private int code = 500;
+    private int code = AppCode.EXCETPTION_FAIL;//默认500
     private String message = "";
     private String data = "";
     private String version = Constants.VERSION_APP;
-//    private String mobile = "";
-
-    public final static int ERROR = 401;
-    public final static int APP = 0;
-    public final static int SUCCESS = 200;
-    public final static int FAIL = 500;
-    public final static int TOKENFAIL = 1000;
 
     private final static String KEY = Constants.CDES_KEY_8BIT;
 
@@ -66,7 +62,7 @@ public class ReturnAppInfo<T> implements Serializable {
     }
     public static ReturnAppInfo error(String msg) {
         ReturnAppInfo returnAppInfo = new ReturnAppInfo();
-        returnAppInfo.setCode(FAIL);
+        returnAppInfo.setCode(AppCode.EXCETPTION_FAIL);
         returnAppInfo.setMessage(msg);
         return returnAppInfo;
     }

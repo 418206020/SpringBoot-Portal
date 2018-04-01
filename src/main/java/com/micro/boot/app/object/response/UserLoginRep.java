@@ -10,7 +10,7 @@ import java.util.Date;
  * @create 2018/3/25
  * @since 1.0.0
  */
-public class UserLoginOut implements Serializable {
+public class UserLoginRep implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //用户id

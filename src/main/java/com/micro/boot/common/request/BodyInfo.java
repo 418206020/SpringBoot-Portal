@@ -3,6 +3,7 @@ package com.micro.boot.common.request;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.micro.boot.common.AppCode;
 import com.micro.boot.common.Constants;
 import com.micro.boot.common.utils.CDESCrypt;
 import com.micro.boot.common.utils.Tools;
@@ -18,12 +19,9 @@ import java.util.HashMap;
  */
 public class BodyInfo<T> implements Serializable {
 
-	private int code = 0;
+	private int code = AppCode.NORMAL;
 	private String data = "";
 	private String version = Constants.VERSION_APP;
-
-	public final static int APP = 0;
-
 	private final static String KEY = Constants.CDES_KEY_8BIT;
 
 	/**
@@ -36,7 +34,7 @@ public class BodyInfo<T> implements Serializable {
 		BodyInfo returnAppInfo = new BodyInfo();
 		returnAppInfo.setEncryptData(object);
 		returnAppInfo.setVersion(version);
-		returnAppInfo.setCode(APP);
+		returnAppInfo.setCode(AppCode.NORMAL);
 		return returnAppInfo;
 	}
 
