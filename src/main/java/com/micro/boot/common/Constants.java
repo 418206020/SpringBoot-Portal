@@ -14,6 +14,20 @@ package com.micro.boot.common;
 public class Constants {
 
     /**
+     * 0
+     */
+    public final static int ZERO = 0;
+
+    /**
+     * 正常状态
+     */
+    public final static Integer STATUS_NORMAL = 1;
+    /**
+     * 禁用状态
+     */
+    public final static Integer STATUS_FORBIDDEN = 0;
+
+    /**
      * 系统错误 服务器不能完成请求
      */
     public final static int EXCETPTION_SYSTEM = 500;

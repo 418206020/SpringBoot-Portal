@@ -4,7 +4,6 @@ package com.micro.boot.app.controller.user;
 import com.google.gson.Gson;
 import com.micro.boot.app.object.request.UserLoginReq;
 import com.micro.boot.app.object.response.UserLoginRep;
-import com.micro.boot.app.service.test.AppUserService;
 import com.micro.boot.app.utils.JwtUtils;
 import com.micro.boot.common.Constants;
 import com.micro.boot.common.ModuleConstant;
@@ -34,8 +33,6 @@ public class LoginController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Resource(name = "appUserService")
-    private AppUserService appUserService;
     @Autowired
     private JwtUtils jwtUtils;
 

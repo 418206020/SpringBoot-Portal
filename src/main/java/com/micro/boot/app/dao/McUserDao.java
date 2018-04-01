@@ -23,7 +23,7 @@ public interface McUserDao extends BaseDao<UserLoginReq> {
      *
      * @return
      */
-    boolean existUserByMobile(String mobile);
+    int existUserCount(String mobile);
 
 
     /**

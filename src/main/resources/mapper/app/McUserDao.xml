@@ -3,20 +3,75 @@
 
 <mapper namespace="com.micro.boot.app.dao.McUserDao">
 
-	<!-- 可根据自己的需求，是否要使用，数据库字段映射 -->
-	<resultMap type="com.micro.boot.app.object.request.UserLoginReq" id="userLoginMap">
-		<result property="userId" column="user_id"/>
-		<result property="username" column="username"/>
-		<result property="mobile" column="mobile"/>
-		<result property="password" column="password"/>
-		<result property="createTime" column="create_time"/>
-		<result property="token" column="token"/>
-		<result property="expire" column="expire"/>
-	</resultMap>
+    <!-- 可根据自己的需求，是否要使用，数据库字段映射 -->
+    <resultMap type="com.micro.boot.app.object.response.UserRegisterRep" id="userRegisterRep">
+        <result property="userId" column="user_id"/>
+        <result property="username" column="username"/>
+        <result property="mobile" column="mobile"/>
+        <result property="password" column="password"/>
+        <result property="createTime" column="create_time"/>
+        <result property="token" column="token"/>
+        <result property="expire" column="expire"/>
+    </resultMap>
 
 
-	<select id="queryByMobile2" resultType="com.micro.boot.app.object.request.UserLoginReq">
-		select * from tb_user where mobile = #{value}
-	</select>
+    <insert id="registerMcUser" useGeneratedKeys="true" keyProperty="user_id"
+            parameterType="com.micro.boot.app.object.request.UserRegisterReq">
+        insert into mc_user
+        (
+        `mobile`,
+        `username`,
+        `nickname`,
+        `wechat_id`,
+        `qq_id`,
+        `alipay_id`,
+        `password`,
+        `salt`,
+        `id_card`,
+        `email`,
+        `sex`,
+        `birthday`,
+        `head_url`,
+        `head_url_thumb`,
+        `status`,
+        `create_user_id`,
+        `create_time`
+        )
+        values
+        (
+        #{mobile},
+        #{username},
+        #{nickname},
+        #{wechatId},
+        #{qqId},
+        #{alipayId},
+        #{password},
+        #{salt},
+        #{idCard},
+        #{email},
+        #{sex},
+        #{birthday},
+        #{headUrl},
+        #{headUrlThumb},
+        #{status},
+        #{createUserId},
+        #{createTime}
+        )
+    </insert>
+
+    <select id="existUserCount" resultType="int">
+        select count(1) from mc_user
+    </select>
+
+    <update id="update" parameterType="com.micro.boot.modules.user.entity.UserEntity">
+        update tb_user
+        <set>
+            <if test="username != null">`username` = #{username},</if>
+            <if test="mobile != null">`mobile` = #{mobile},</if>
+            <if test="password != null">`password` = #{password},</if>
+            <if test="createTime != null">`create_time` = #{createTime}</if>
+        </set>
+        where user_id = #{userId}
+    </update>
 
 </mapper>

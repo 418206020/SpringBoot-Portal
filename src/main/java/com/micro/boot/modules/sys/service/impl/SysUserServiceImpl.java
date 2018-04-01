@@ -1,5 +1,6 @@
 package com.micro.boot.modules.sys.service.impl;
 
+import com.micro.boot.common.Constants;
 import com.micro.boot.common.exception.RRException;
 import com.micro.boot.common.utils.Constant;
 import com.micro.boot.modules.sys.dao.SysUserDao;
@@ -71,7 +72,7 @@ public class SysUserServiceImpl implements SysUserService {
 	public void save(SysUserEntity user) {
 		user.setCreateTime(new Date());
 		//sha256加密
-		String salt = RandomStringUtils.randomAlphanumeric(20);
+		String salt = RandomStringUtils.randomAlphanumeric(Constants.COUNT_SALT);
 		user.setPassword(new Sha256Hash(user.getPassword(), salt).toHex());
 		user.setSalt(salt);
 		sysUserDao.save(user);

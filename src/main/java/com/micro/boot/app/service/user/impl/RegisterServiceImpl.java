@@ -5,13 +5,17 @@ import com.micro.boot.app.object.request.UserRegisterReq;
 import com.micro.boot.app.object.response.UserRegisterRep;
 import com.micro.boot.app.service.user.RegisterService;
 import com.micro.boot.common.AppCode;
+import com.micro.boot.common.Constants;
 import com.micro.boot.common.Message;
 import com.micro.boot.common.exception.RRException;
 import com.micro.boot.common.response.ReturnAppInfo;
 import com.micro.boot.common.utils.RedisUtils;
 import com.micro.boot.common.utils.Tools;
 import com.micro.boot.thirdparty.ucpaas.send.PostApp;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -80,12 +84,19 @@ public class RegisterServiceImpl implements RegisterService {
         }
 
         //校验用户是否存在
-        if(mcUserDao.existUserByMobile(request.getMobile()))
-        {
+        if (Constants.ZERO != mcUserDao.existUserCount(request.getMobile())) {
             throw new RRException(AppCode.EXCETPTION_FAIL, Message.MSG_EN_EXIST_USER);
         }
+        //设置加盐
+        request.setSalt(RandomStringUtils.randomAlphanumeric(Constants.COUNT_SALT));
+        request.setPassword("12345678");
+        //密码hash
+        request.setPassword(
+                new Sha256Hash(request.getPassword(), request.getSalt()).toHex()
+        );
+        request.setStatus(Constants.STATUS_NORMAL);
         //注册新用户
-        UserRegisterRep response = mcUserDao.registerMcUser(request);;
+        UserRegisterRep response = mcUserDao.registerMcUser(request);
         return response;
     }
 

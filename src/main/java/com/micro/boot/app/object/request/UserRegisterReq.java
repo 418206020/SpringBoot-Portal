@@ -13,6 +13,8 @@ import java.util.Date;
 public class UserRegisterReq implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    //用户id
+    private Long userId;
 
     //手机号
     private String mobile;
@@ -38,11 +40,18 @@ public class UserRegisterReq implements Serializable {
     private String birthday;
     private String headUrl;
     private String headUrlThumb;
-    private String status;
-    private String createUserId;
+    private Integer status;
+    private Long createUserId;
     private Date createTime;
 
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
     public String getMobile() {
         return mobile;
@@ -164,19 +173,19 @@ public class UserRegisterReq implements Serializable {
         this.headUrlThumb = headUrlThumb;
     }
 
-    public String getStatus() {
-        return status;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public String getCreateUserId() {
+    public Long getCreateUserId() {
         return createUserId;
     }
 
-    public void setCreateUserId(String createUserId) {
+    public void setCreateUserId(Long createUserId) {
         this.createUserId = createUserId;
     }
 

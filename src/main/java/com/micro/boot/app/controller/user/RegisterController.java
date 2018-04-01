@@ -6,7 +6,6 @@ import com.micro.boot.app.object.request.UserLoginReq;
 import com.micro.boot.app.object.request.UserRegisterReq;
 import com.micro.boot.app.object.response.UserLoginRep;
 import com.micro.boot.app.object.response.UserRegisterRep;
-import com.micro.boot.app.service.test.AppUserService;
 import com.micro.boot.app.service.user.RegisterService;
 import com.micro.boot.app.utils.JwtUtils;
 import com.micro.boot.common.AppCode;
