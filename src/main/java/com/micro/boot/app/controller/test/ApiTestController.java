@@ -2,8 +2,10 @@ package com.micro.boot.app.controller.test;
 
 import com.google.gson.Gson;
 import com.micro.boot.app.object.request.UserLoginReq;
+import com.micro.boot.app.object.request.UserRegisterReq;
 import com.micro.boot.app.object.response.UserLoginRep;
 import com.micro.boot.common.Constants;
+import com.micro.boot.common.exception.RRException;
 import com.micro.boot.common.request.BodyInfo;
 import com.micro.boot.common.response.ReturnAppInfo;
 import com.micro.boot.common.response.ReturnMapInfo;
@@ -16,9 +18,11 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * APP测试接口
@@ -35,6 +39,18 @@ public class ApiTestController {
     private RedisUtils redisUtils;
 
 
+    private Object generator(){
+        Object data = null;
+
+//        //密码错误
+//        String userpassword = DigestUtils.sha256Hex(password);
+//        if (!user.get("password").equals(userpassword)) {
+//            throw new RRException("密码错误");
+//        }
+        data=getRegisterReq();//注册信息
+//        data=getLoginReq();//登录信息
+        return data;
+    }
 
     /**
      * 生成加密请求数据
@@ -42,11 +58,7 @@ public class ApiTestController {
     @AuthIgnore
     @GetMapping("data/bodyinfo")
     public BodyInfo bodyinfo() {
-
-        Object data = null;
-
-        data=getLoginData();//登录信息
-        return BodyInfo.build(Constants.VERSION_APP,data);
+        return BodyInfo.build(Constants.VERSION_APP,generator());
     }
 
     /**
@@ -55,76 +67,45 @@ public class ApiTestController {
     @AuthIgnore
     @GetMapping("data/returninfo")
     public ReturnAppInfo returninfo() {
-
-        Object data = null;
-
-        data=getLoginData();//登录信息
-        return ReturnAppInfo.successEncrypt(data);
-    }
-
-    private static UserLoginReq getLoginData(){
-        UserLoginReq userLoginReq = new UserLoginReq();
-        userLoginReq.setMobile("15094011640");
-        userLoginReq.setPassword(DigestUtils.sha256Hex("568653"));//加密密码传输
-        return userLoginReq;
-    }
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * 忽略Token验证测试
-     */
-    @AuthIgnore
-    @GetMapping("notToken")
-    public ReturnMapInfo notToken() {
-        redisUtils.set("key_test",
-                PropertiesConfig.getInstance().getProperty(Constants.UCPAAS_CONFIG + Constants.SEPPARATOR_DOT + "sid"));
-        return ReturnMapInfo.ok().put("msg", "无需token也能访问。。。");
+        return ReturnAppInfo.successEncrypt(generator());
     }
 
     /**
-     * 发送短信验证码
-     */
-    @AuthIgnore
-    @GetMapping("sendSms")
-    public ReturnMapInfo sendSms() {
-        String userName = "huliang";
-        String mobile = "15094011640";
-        String verifyCode = String.valueOf(Tools.getRandomNum());
-        PostApp.sendSms(userName, verifyCode, mobile);
-        return ReturnMapInfo.ok().put("msg", "验证码=" + verifyCode);
-    }
-
-
-    /**
-     * 示例
-     * @param bodyInfo
+     * 注册信息
      * @return
-     * @throws Exception
      */
-    @ApiOperation(value = "用户登录", notes = "用户登录后返回token和用户信息", response = String.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful — 请求已完成"),
-            @ApiResponse(code = 401, message = "token失效"),
-            @ApiResponse(code = 404, message = "服务器找不到给定的资源；文档不存在"),
-            @ApiResponse(code = 500, message = "服务器不能完成请求")}
-    )
-    @PostMapping("user")
-    public ReturnAppInfo<UserLoginRep> loginMap(@RequestBody BodyInfo bodyInfo) throws Exception {
-        //解密
-        UserLoginReq userLoginReq = new Gson().fromJson(bodyInfo.decryptData(), UserLoginReq.class);
-
-        UserLoginRep userLoginRep = new UserLoginRep();
-        userLoginRep.setMobile("153355");
-        return ReturnAppInfo.success().setEncryptData(userLoginRep);//输出不加密
+    private static UserRegisterReq getRegisterReq(){
+        UserRegisterReq req = new UserRegisterReq();
+        req.setMobile("15094011640");
+        req.setVerifyCode("111222");
+        req.setCreateTime(new Date());
+        //密码加盐参数
+        req.setSalt(RandomStringUtils.randomAlphanumeric(Constants.COUNT_SALT));
+        req.setNickname("加菲猫");
+        req.setUsername("sdjlfd_230_dsdd");
+        if(!Tools.isStringFormatCorrect(req.getUsername())){
+            req.setUsername(req.getUsername().replaceAll("-","_"));
+        }
+        return req;
     }
+
+    /**
+     * 登录信息
+     * @return
+     */
+    private static UserLoginReq getLoginReq(){
+        UserLoginReq req = new UserLoginReq();
+        req.setMobile("15094011640");
+        req.setPassword(DigestUtils.sha256Hex("568653"));//加密密码传输
+        return req;
+    }
+
+
+
+
+
+
+
+
 
 }

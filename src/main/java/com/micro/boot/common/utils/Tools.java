@@ -282,14 +282,51 @@ public class Tools {
 	        return String.format("%1$032x", new Object[]{var5});
 	    }
 
-	public static void main(String[] args) {
-		//;
-		//System.out.println("---------------"+DigestUtils.sha256Hex("123456"));
-		try {
-			System.out.println("---------------"+CDESCrypt.encryptString("123456", "hu-liang"));
-		} catch (Exception e) {
-			e.printStackTrace();
+	/**
+	 * 判断字符串中是否包含中文
+	 * @param str
+	 * 待校验字符串
+	 * @return 是否为中文
+	 * @warn 不能校验是否为中文标点符号
+	 */
+	public static boolean isContainChinese(String str) {
+		Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
+		Matcher m = p.matcher(str);
+		if (m.find()) {
+			return true;
 		}
+		return false;
 	}
+
+	/**
+	 * 校验英文字符命名
+	 *
+	 * @param str
+	 * @param minChar
+	 * @param maxChar
+	 *
+	 * @return
+	 */
+	public static boolean isStringFormatCorrect(String str, int minChar, int maxChar) {
+		String strPattern = "[a-zA-Z_0-9]{" + String.valueOf(minChar) + "," + String.valueOf(maxChar) + "}";
+		Pattern p = Pattern.compile(strPattern);
+		Matcher m = p.matcher(str);
+		return m.matches();
+	}
+
+	/**
+	 * 校验英文字符命名{6-32}位
+	 *
+	 * @param str
+	 *
+	 * @return
+	 */
+	public static boolean isStringFormatCorrect(String str) {
+		String strPattern = "[a-zA-Z_0-9]{6,32}";
+		Pattern p = Pattern.compile(strPattern);
+		Matcher m = p.matcher(str);
+		return m.matches();
+	}
+
 
 }

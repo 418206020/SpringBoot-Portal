@@ -32,15 +32,13 @@ public class RedisUtils {
      * 默认过期时长1天，单位：秒
      */
     public final static long DEFAULT_EXPIRE = 60 * 60 * 24;
-    /**
-     * 不设置过期时长
-     */
+
     public final static long NOT_EXPIRE = -1;
 
     /**
      * TODO TEST
      */
-    public final static long EXPIRE_TEST = -1;
+    public final static long EXPIRE_TEST = 60 * 60 * 24 * 365;
     /**
      * /**
      * 60秒
@@ -67,7 +65,9 @@ public class RedisUtils {
 
     /**
      * 查询md5Key
+     *
      * @param key
+     *
      * @return
      */
     public static String md5ByKey(String key) {
@@ -75,43 +75,47 @@ public class RedisUtils {
     }
 
 
+    /* set
+     */
     public void set(String key, Object value, long expire) {
-        valueOperations.set( md5Key(key), toJson(value));
+        valueOperations.set(md5Key(key), toJson(value));
         if (expire != NOT_EXPIRE) {
-            redisTemplate.expire( md5Key(key), expire, TimeUnit.SECONDS);
+            redisTemplate.expire(md5Key(key), expire, TimeUnit.SECONDS);
         }
     }
-
     public void set(String key, Object value) {
-        set( md5Key(key), value, DEFAULT_EXPIRE);
+        set(key, value, DEFAULT_EXPIRE);
     }
 
+    /* get clazz
+     */
     public <T> T get(String key, Class<T> clazz, long expire) {
-        String value = valueOperations.get( md5Key(key));
+        String value = valueOperations.get(md5Key(key));
         if (expire != NOT_EXPIRE) {
-            redisTemplate.expire( md5Key(key), expire, TimeUnit.SECONDS);
+            redisTemplate.expire(md5Key(key), expire, TimeUnit.SECONDS);
         }
         return value == null ? null : fromJson(value, clazz);
     }
-
     public <T> T get(String key, Class<T> clazz) {
-        return get( md5Key(key), clazz, NOT_EXPIRE);
+        return get(key, clazz, NOT_EXPIRE);
     }
-
+    /* get
+     */
     public String get(String key, long expire) {
-        String value = valueOperations.get( md5Key(key));
+        String value = valueOperations.get(md5Key(key));
         if (expire != NOT_EXPIRE) {
-            redisTemplate.expire( md5Key(key), expire, TimeUnit.SECONDS);
+            redisTemplate.expire(md5Key(key), expire, TimeUnit.SECONDS);
         }
         return value;
     }
-
     public String get(String key) {
-        return get( md5Key(key), NOT_EXPIRE);
+        return get(key, NOT_EXPIRE);
     }
 
+    /* delete
+     */
     public void delete(String key) {
-        redisTemplate.delete( md5Key(key));
+        redisTemplate.delete(md5Key(key));
     }
 
     /**

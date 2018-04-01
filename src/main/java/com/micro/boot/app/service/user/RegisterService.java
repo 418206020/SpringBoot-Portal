@@ -14,6 +14,9 @@ package com.micro.boot.app.service.user;
  */
 
 
+import com.micro.boot.app.object.request.UserRegisterReq;
+import com.micro.boot.app.object.response.UserRegisterRep;
+
 /**
  * 〈注册〉
  *
@@ -23,6 +26,18 @@ package com.micro.boot.app.service.user;
  */
 public interface RegisterService {
 
+    /**
+     * 发送短信验证码
+     * @param mobile
+     * @return
+     */
     public String sendSmsVerifyCode(String mobile);
+
+    /**
+     * 注册用户
+     * @param request
+     * @return
+     */
+    public UserRegisterRep registerUser(UserRegisterReq request);
 
 }
