@@ -5,6 +5,7 @@ import com.micro.boot.app.object.request.UserRegisterReq;
 import com.micro.boot.app.object.response.UserRegisterRep;
 import com.micro.boot.modules.sys.dao.BaseDao;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * Mc用户
@@ -39,6 +40,12 @@ public interface McUserDao extends BaseDao<UserLoginReq> {
      * @return
      */
     UserRegisterRep getUserByMobile(String mobile);
+
+    /**
+     * 设置或修改密码
+     * 根据mobile，更新password
+     */
+    int updatePasswordByMobile(@Param("mobile") String mobile, @Param("password") String password);
 
 
 }

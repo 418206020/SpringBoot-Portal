@@ -61,7 +61,6 @@ public class RegisterController {
     @ApiOperation(value = "获取短信验证码", notes = "使用手机号获取短信验证码", response = ReturnAppInfo.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful — 请求已完成"),
-            @ApiResponse(code = 401, message = "token失效"),
             @ApiResponse(code = 404, message = "服务器找不到给定的资源；文档不存在"),
             @ApiResponse(code = 500, message = "服务器不能完成请求")}
     )
@@ -88,7 +87,7 @@ public class RegisterController {
     @ApiOperation(value = "使用短信验证码注册", notes = "使用短信验证码注册", response = ReturnAppInfo.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful — 请求已完成"),
-            @ApiResponse(code = 401, message = "token失效"),
+            @ApiResponse(code = 603, message = "验证码错误或失效"),
             @ApiResponse(code = 404, message = "服务器找不到给定的资源；文档不存在"),
             @ApiResponse(code = 500, message = "服务器不能完成请求")}
     )

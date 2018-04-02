@@ -19,5 +19,16 @@ public class AppRestUrl {
      */
     public static final String REGISTER_MOBILE = "register" + Constants.SEPPARATOR_SLASH + "mobile";
 
+    /**
+     * 修改密码
+     */
+    public static final String PASSWORD_RESET = "password" + Constants.SEPPARATOR_SLASH + "reset";
+
+
+    /**
+     * 重置密码
+     */
+    public static final String PASSWORD_RESET_DEFAULT = PASSWORD_RESET + Constants.SEPPARATOR_SLASH + "default";
+
 
 }

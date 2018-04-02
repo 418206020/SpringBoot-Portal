@@ -61,5 +61,10 @@
         select count(1) from mc_user where mobile = #{mobile}
     </select>
 
+    <!-- 修改密码 -->
+    <update id="updatePasswordByMobile" parameterType="map">
+        update mc_user set `password` = #{password} where `mobile` = #{mobile}
+    </update>
+
 
 </mapper>

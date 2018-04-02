@@ -92,7 +92,7 @@ public class RegisterServiceImpl implements RegisterService {
         }
         //设置加盐
         request.setSalt(RandomStringUtils.randomAlphanumeric(Constants.COUNT_SALT));
-        //设置随机密码
+        //设置随机密码-首次设置请用户记住
         String pwd = String.valueOf(Tools.getRandomNum());
         request.setPassword(
                 new Sha256Hash(pwd, request.getSalt()).toHex()
