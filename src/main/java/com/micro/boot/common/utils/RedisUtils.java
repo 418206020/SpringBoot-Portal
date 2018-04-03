@@ -40,14 +40,12 @@ public class RedisUtils {
     public final static long NOT_EXPIRE = -1;
 
     /**
-     * TODO TEST
-     */
-    public final static long EXPIRE_TEST = 60 * 60 * 24 * 365;
-    /**
      * /**
      * 60秒
      */
-    public final static long EXPIRE_60S = 60;
+    public final static long EXPIRE_SECONDS_60 = 60;
+
+    public final static long EXPIRE_MINITUS_5 = 5 * 60;
 
     public final static String verify = "!@#$%%$#@!";
     /**

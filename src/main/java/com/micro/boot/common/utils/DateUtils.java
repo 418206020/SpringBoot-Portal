@@ -57,6 +57,13 @@ public class DateUtils {
         return 0;
     }
 
+    public static Date getNextWeek(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_MONTH, +7);
+        date = calendar.getTime();
+        return date;
+    }
     public static Date getNextDay(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);

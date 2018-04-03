@@ -1,6 +1,6 @@
 /**
  * Copyright (C), 2018
- * FileName: RegisterService
+ * FileName: McRegisterService
  * Author:   Administrator
  * Date:     2018/4/1 16:03
  * Description: 注册
@@ -24,7 +24,7 @@ import com.micro.boot.app.object.response.UserRegisterRep;
  * @create 2018/4/1
  * @since 1.0.0
  */
-public interface RegisterService {
+public interface McRegisterService {
 
     /**
      * 发送短信验证码

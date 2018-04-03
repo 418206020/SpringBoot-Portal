@@ -1,6 +1,7 @@
 -- MC用户Token
 CREATE TABLE `mc_user_login` (
 	`user_id` BIGINT(20) NOT NULL,
+	`mobile` VARCHAR(50) NULL DEFAULT NULL,
 	`token` VARCHAR(100) NOT NULL COMMENT 'token',
 	`expire_time` DATETIME NULL DEFAULT NULL COMMENT '过期时间',
 	`update_time` DATETIME NULL DEFAULT NULL COMMENT '更新时间',

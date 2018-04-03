@@ -2,27 +2,21 @@ package com.micro.boot.app.controller.user;
 
 
 import com.google.gson.Gson;
-import com.micro.boot.app.object.request.UserLoginReq;
 import com.micro.boot.app.object.request.UserRegisterReq;
 import com.micro.boot.app.object.response.UserLoginRep;
 import com.micro.boot.app.object.response.UserRegisterRep;
-import com.micro.boot.app.service.user.RegisterService;
-import com.micro.boot.app.utils.JwtUtils;
-import com.micro.boot.common.AppCode;
+import com.micro.boot.app.service.user.McRegisterService;
 import com.micro.boot.common.AppRestUrl;
 import com.micro.boot.common.Constants;
 import com.micro.boot.common.ModuleConstant;
 import com.micro.boot.common.request.BodyInfo;
 import com.micro.boot.common.response.ReturnAppInfo;
 import com.micro.boot.common.utils.RedisUtils;
-import com.micro.boot.common.utils.Tools;
-import com.micro.boot.modules.sys.service.ShiroService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,12 +31,12 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping(Constants.APP + Constants.SEPPARATOR_SLASH + ModuleConstant.MODULE_REGISTER)
-public class RegisterController {
+public class McRegisterController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Resource
-    private RegisterService registerService;
+    private McRegisterService mcRegisterService;
 
     @Resource
     private RedisUtils redisUtils;
@@ -70,7 +64,7 @@ public class RegisterController {
     {
         logger.info(AppRestUrl.SMS_VERRIFY_CODE+",Param:", mobile);
         //发送短信并返回验证码
-        String verifyCode =registerService.sendSmsVerifyCode(mobile);
+        String verifyCode = mcRegisterService.sendSmsVerifyCode(mobile);
         return ReturnAppInfo.successEncrypt(verifyCode);
     }
 
@@ -99,7 +93,7 @@ public class RegisterController {
 
         UserRegisterReq request = new Gson().fromJson(bodyInfo.decryptData(), UserRegisterReq.class);
 
-        UserRegisterRep response = registerService.registerUser(request);
+        UserRegisterRep response = mcRegisterService.registerUser(request);
         return ReturnAppInfo.successEncrypt(response);
     }
 

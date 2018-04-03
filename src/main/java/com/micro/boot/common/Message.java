@@ -21,6 +21,11 @@ public class Message {
     public final static String MSG_EN_ERROR_TOKEN = "the token is fail";
 
     /**
+     * MSG_EN_ERROR_TOKEN
+     */
+    public final static String MSG_EN_ERROR_PASSWORD = "the password is error";
+
+    /**
      * MSG_EN_ERROR_VERIFY_CODE
      */
     public final static String MSG_EN_ERROR_VERIFY_CODE = "the verify code is fail";

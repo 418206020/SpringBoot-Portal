@@ -30,5 +30,10 @@ public class AppRestUrl {
      */
     public static final String PASSWORD_RESET_DEFAULT = PASSWORD_RESET + Constants.SEPPARATOR_SLASH + "default";
 
+    /**
+     * 登录
+     */
+    public static final String LOGIN_PWD_VERIFYCODE = "login";
+
 
 }

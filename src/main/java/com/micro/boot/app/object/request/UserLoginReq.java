@@ -13,13 +13,13 @@ import java.util.Date;
 public class UserLoginReq implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    //用户id
-    private Long id;
-    //用户名
-    private String userName;
     //手机号
     private String mobile;
 
+    //密码
+    private String password;
+    //验证码
+    private String verifyCode;
 
     //其他几种方式接入登录
     //wechat
@@ -29,40 +29,6 @@ public class UserLoginReq implements Serializable {
     //alipay
     private String alipayId;
 
-    //密码
-    private String password;
-    //创建时间
-    private Date createTime;
-    //过期时间
-    private Date expireTime;
-    //过期时常
-    private String expire;
-//    //token
-//    private String token;
-
-    public String getExpire() {
-        return expire;
-    }
-
-    public void setExpire(String expire) {
-        this.expire = expire;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
 
     public String getMobile() {
         return mobile;
@@ -80,20 +46,12 @@ public class UserLoginReq implements Serializable {
         this.password = password;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public String getVerifyCode() {
+        return verifyCode;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getExpireTime() {
-        return expireTime;
-    }
-
-    public void setExpireTime(Date expireTime) {
-        this.expireTime = expireTime;
+    public void setVerifyCode(String verifyCode) {
+        this.verifyCode = verifyCode;
     }
 
     public String getWechatId() {

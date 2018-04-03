@@ -3,20 +3,16 @@ package com.micro.boot.app.service.user.impl;
 import com.micro.boot.app.dao.McUserDao;
 import com.micro.boot.app.object.request.UserRegisterReq;
 import com.micro.boot.app.object.response.UserRegisterRep;
-import com.micro.boot.app.service.user.RegisterService;
+import com.micro.boot.app.service.user.McRegisterService;
 import com.micro.boot.common.AppCode;
 import com.micro.boot.common.Constants;
 import com.micro.boot.common.Message;
 import com.micro.boot.common.exception.RRException;
-import com.micro.boot.common.response.ReturnAppInfo;
 import com.micro.boot.common.utils.RedisUtils;
 import com.micro.boot.common.utils.Tools;
-import com.micro.boot.thirdparty.ucpaas.send.PostApp;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.crypto.hash.Sha256Hash;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +27,7 @@ import javax.annotation.Resource;
  */
 @Service
 @Transactional
-public class RegisterServiceImpl implements RegisterService {
+public class McRegisterServiceImpl implements McRegisterService {
 
     @Resource
     private RedisUtils redisUtils;
@@ -58,7 +54,7 @@ public class RegisterServiceImpl implements RegisterService {
         verifyCode = "111222";// todo 测试
 
         //存储到redis，时常60秒
-        redisUtils.set(RedisUtils.redisSetKey(mobile, AppCode.REDIS_VERIFY_CODE), verifyCode, RedisUtils.EXPIRE_TEST);
+        redisUtils.set(RedisUtils.redisSetKey(mobile, AppCode.REDIS_VERIFY_CODE), verifyCode, RedisUtils.DEFAULT_EXPIRE);
 
         return verifyCode;
     }
