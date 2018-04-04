@@ -77,6 +77,11 @@ public class AppCode {
      */
     public final static int CODE_ERROR_USER = 604;
 
+    /**
+     * 非法输入
+     */
+    public final static int CODE_ERROR_INPUT = 606;
+
 
 
 // ---------------- REDIS KEY TYPE-----------------------

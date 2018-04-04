@@ -8,6 +8,7 @@ import com.micro.boot.app.object.request.McUserRegisterReq;
 import com.micro.boot.common.Constants;
 import com.micro.boot.common.request.BodyInfo;
 import com.micro.boot.common.response.ReturnAppInfo;
+import com.micro.boot.common.utils.PwdTools;
 import com.micro.boot.common.utils.Tools;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.RandomStringUtils;
@@ -47,16 +48,28 @@ public class Test {
     private static Object generator() {
 //        data = getRegisterReq();//注册信息 aa471672b7503a6d99d3d1b1342d7aabb9bd28faf3738de4f44d8e48c9c99c3f
 //        data = getPasswordRest();//忘记密码重置请求
-        data=getLoginReq();//登录信息
+//        data=getLoginReq();//登录信息
+        data = getUpdatePwd();//修改密码
 
         return data;
+    }
+
+    private static Object getUpdatePwd() {
+        //其余在header
+        McPasswordRestReq req = new McPasswordRestReq();
+        String pwd = "Tui_0ke_s";
+        if(PwdTools.isCorrect_1_8(pwd)){
+            req.setPassword(pwd);
+        }
+
+        return req;
     }
 
     private static McPasswordRestReq getPasswordRest() {
         McPasswordRestReq req = new McPasswordRestReq();
         req.setMobile("15094011640");
         req.setVerifyCode("111222");
-        req.setPassword("abc123");
+        req.setPassword("abc123");//这个写不写无所谓，重置给默认6个1
         return req;
     }
 
@@ -114,7 +127,7 @@ public class Test {
         req.setNickname("夜火阑珊");
         req.setUsername("DK_OWK39DK");
         //用户名只允许英文数字和下划线
-        if (!Tools.isStringFormatCorrect(req.getUsername())) {
+        if (!PwdTools.isCorrect_1_8(req.getUsername())) {
             req.setUsername(req.getUsername().replaceAll("-", "_"));
         }
         req.setEmail("418206020@11.com");

@@ -45,7 +45,7 @@ public class McUserController {
 
 
     /**
-     * 修改密码
+     * 修改密码:登陆后可以修改，通过MobileToken拦截校验
      *
      * @param bodyInfo
      * @param headers
@@ -57,18 +57,20 @@ public class McUserController {
     @ApiOperation(value = "修改密码", notes = "修改密码", response = ReturnAppInfo.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = Message.MSG_OK_200),
-            @ApiResponse(code = 603, message = Message.MSG_EN_ERROR_VERIFY_CODE),
+            @ApiResponse(code = 606, message = Message.MSG_EN_INPUT_ERROR),
             @ApiResponse(code = 404, message = Message.MSG_EN_ERROR_404),
             @ApiResponse(code = 500, message = Message.MSG_EN_ERROR_500)}
     )
     @PutMapping(AppRestUrl.PASSWORD_RESET)
+    @MobileToken
     public ReturnAppInfo<McUserLoginRep> passwordReset(@RequestBody BodyInfo bodyInfo,
                                                        @RequestHeader HttpHeaders headers) throws Exception
     {
         logger.info(AppRestUrl.PASSWORD_RESET + ",Param:", bodyInfo.toString());
 
         McPasswordRestReq request = new Gson().fromJson(bodyInfo.decryptData(), McPasswordRestReq.class);
-
+        //将head中传参到request
+        request.setMobile(headers.get("mobile").get(0));
         mcUserService.passwordReset(request);
         //修改密码成功根据code
         return ReturnAppInfo.successEncrypt(null);

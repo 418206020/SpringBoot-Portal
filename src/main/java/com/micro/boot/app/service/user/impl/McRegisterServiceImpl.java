@@ -54,7 +54,7 @@ public class McRegisterServiceImpl implements McRegisterService {
         verifyCode = "111222";// todo 测试
 
         //存储到redis，时常60秒
-        redisUtils.set(RedisUtils.redisSetKey(mobile, AppCode.REDIS_VERIFY_CODE), verifyCode, RedisUtils.DEFAULT_EXPIRE);
+        redisUtils.set(RedisUtils.redisGetKey(mobile, AppCode.REDIS_VERIFY_CODE), verifyCode, RedisUtils.DEFAULT_EXPIRE);
 
         return verifyCode;
     }

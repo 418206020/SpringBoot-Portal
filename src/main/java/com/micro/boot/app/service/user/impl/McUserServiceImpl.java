@@ -11,6 +11,7 @@ import com.micro.boot.common.AppCode;
 import com.micro.boot.common.Message;
 import com.micro.boot.common.exception.RRException;
 import com.micro.boot.common.utils.DateUtils;
+import com.micro.boot.common.utils.PwdTools;
 import com.micro.boot.common.utils.RedisUtils;
 import com.micro.boot.common.utils.Tools;
 import org.apache.commons.lang.StringUtils;
@@ -63,24 +64,16 @@ public class McUserServiceImpl implements McUserService {
      */
     @Override public void passwordReset(McPasswordRestReq request) {
         //校验参数 密码至少6位且由英文字符数字下划线组成
-        if (StringUtils.isEmpty(request.getMobile()) ||
-                StringUtils.isEmpty(request.getVerifyCode()) ||
-                StringUtils.isEmpty(request.getPassword()) ||
-                Tools.isStringFormatCorrect(request.getPassword()))
+        if (StringUtils.isEmpty(request.getPassword()) ||
+                !PwdTools.isCorrect_1_8(request.getPassword()))
         {
-            throw new RRException(AppCode.EXCETPTION_FAIL, Message.MSG_EN_PARAMETERS_ERROR);
+            throw new RRException(AppCode.CODE_ERROR_INPUT, Message.MSG_EN_INPUT_ERROR
+                    + " 必须包含数字、字母、特殊字符三种:支持特殊字符范围：^$./,;:'!@#%&*|?-_+(){}[]");
         }
-        String redisVerifyCode = redisUtils.get(RedisUtils.redisGetKey(request.getMobile(), AppCode.REDIS_VERIFY_CODE));
-        //校验验证码是否失效
-        if (StringUtils.isEmpty(redisVerifyCode) ||
-                !redisVerifyCode.equals(request.getVerifyCode()))
-        {
-            throw new RRException(AppCode.CODE_ERROR_VERIFY_CODE, Message.MSG_EN_ERROR_VERIFY_CODE);
-        }
+        //获取加盐
         McUserRegisterRep userRegister = mcUserDao.getUserByMobile(request.getMobile());
-
         mcUserDao.updatePasswordByMobile(request.getMobile(),
-                new Sha256Hash(request.getPassword(), userRegister.getSalt()).toHex());
+                new Sha256Hash(DigestUtils.sha256Hex(request.getPassword()), userRegister.getSalt()).toHex());
 
     }
 
@@ -120,7 +113,7 @@ public class McUserServiceImpl implements McUserService {
         McUserLoginRep response = mcUserDao.getUserByLogin(request.getMobile());
         //生成token
         response.setToken(JwtUtils.getToken());
-        redisUtils.set(RedisUtils.redisSetKey(request.getMobile(), AppCode.REDIS_MOBILE_TOKEN), response.getToken(),
+        redisUtils.set(RedisUtils.redisGetKey(request.getMobile(), AppCode.REDIS_MOBILE_TOKEN), response.getToken(),
                 RedisUtils.DEFAULT_EXPIRE);
         //更新登录token
         // 考虑redis存一天，数据库存7天.

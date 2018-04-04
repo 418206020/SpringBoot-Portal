@@ -69,7 +69,7 @@ public class MobileTokenInterceptor extends HandlerInterceptorAdapter {
             throw new RRException(AppCode.CODE_MOBILE_ERROR, Message.MSG_EN_ERROR_MOBILE);
         }
 
-        if (!token.equals(redisUtils.get(RedisUtils.redisSetKey(mobile, AppCode.REDIS_MOBILE_TOKEN)))) {
+        if (!token.equals(redisUtils.get(RedisUtils.redisGetKey(mobile, AppCode.REDIS_MOBILE_TOKEN)))) {
             logger.error("MobileTokenInterceptor::Mobile=" + mobile + "Token=" + token);
             throw new RRException(AppCode.ERROR_CODE_402, Message.MSG_EN_HEAD_TOKEN_INVALID);
         }

@@ -65,6 +65,11 @@ public class Message {
     public final static String MSG_EN_PARAMETERS_ERROR = "invalid or bad parameters";
 
     /**
+     * MSG_EN_PARAMETERS_ERROR
+     */
+    public final static String MSG_EN_INPUT_ERROR = "please input correct info of request";
+
+    /**
      * MSG_EN_ERROR_TOKEN
      */
     public final static String MSG_EN_EXIST_USER = "user has been register";

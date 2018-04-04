@@ -73,21 +73,9 @@ public class RedisUtils {
      * @return
      */
     public static String redisGetKey(String key, String type) {
+        System.out.println(key+type);
         if (!StringUtils.isEmpty(key) && !StringUtils.isEmpty(type)) {
             return MD5.md5(type.concat(verify).concat(key));
-        } else {
-            throw new RRException(AppCode.EXCETPTION_FAIL, Message.MSG_EN_ERROR_SYSTEM);
-        }
-    }
-
-    /**
-     * redisSetKey
-     *
-     * @return
-     */
-    public static String redisSetKey(String key, String type) {
-        if (!StringUtils.isEmpty(key) && !StringUtils.isEmpty(type)) {
-            return type.concat(verify).concat(key);
         } else {
             throw new RRException(AppCode.EXCETPTION_FAIL, Message.MSG_EN_ERROR_SYSTEM);
         }
@@ -96,9 +84,9 @@ public class RedisUtils {
     /* set key after redisSetKey
      */
     public void set(String key, Object value, long expire) {
-        valueOperations.set(md5Key(key), toJson(value));
+        valueOperations.set(key, toJson(value));
         if (expire != NOT_EXPIRE) {
-            redisTemplate.expire(md5Key(key), expire, TimeUnit.SECONDS);
+            redisTemplate.expire(key, expire, TimeUnit.SECONDS);
         }
     }
 
