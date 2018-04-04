@@ -6,6 +6,8 @@
     <artifactId>X_Portal</artifactId>
     <version>1.0.0</version>
     <packaging>war</packaging>
+    <!--window 数据库乱码，在tomcat安装路径/bin/catalina.bat
+        加上 set JAVA_OPTS=-Dfile.encoding=UTF-8-->
     <description>war包对应的pom，打war包，执行【mvn clean package -f pom-war.xml】</description>
 
     <parent>
