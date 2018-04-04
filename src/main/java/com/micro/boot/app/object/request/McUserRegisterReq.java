@@ -1,24 +1,20 @@
-package com.micro.boot.app.object.response;
+package com.micro.boot.app.object.request;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 〈登录返回〉
+ * 〈用户注册对象实体〉
  *
  * @author Administrator
  * @create 2018/3/25
  * @since 1.0.0
  */
-public class UserLoginRep implements Serializable {
-
+public class McUserRegisterReq implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //用户id
     private Long id;
-
-    //token
-    private String token;
 
     //手机号
     private String mobile;
@@ -48,24 +44,13 @@ public class UserLoginRep implements Serializable {
     private Long createUserId;
     private Date createTime;
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
+
+    public Integer getStatus() {
+        return status;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public String getMobile() {
@@ -188,12 +173,12 @@ public class UserLoginRep implements Serializable {
         this.headUrlThumb = headUrlThumb;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Long getId() {
+        return id;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getCreateUserId() {

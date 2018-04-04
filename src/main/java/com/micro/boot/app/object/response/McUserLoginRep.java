@@ -4,18 +4,21 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 〈用户注册对象实体〉
- * 注册后可直接使用返回token登录
+ * 〈登录返回〉
  *
  * @author Administrator
  * @create 2018/3/25
  * @since 1.0.0
  */
-public class UserRegisterRep implements Serializable {
+public class McUserLoginRep implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     //用户id
     private Long id;
+
+    //token
+    private String token;
 
     //手机号
     private String mobile;
@@ -45,12 +48,24 @@ public class UserRegisterRep implements Serializable {
     private Long createUserId;
     private Date createTime;
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getMobile() {

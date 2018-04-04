@@ -1,10 +1,10 @@
 package com.micro.boot.app.service.user.impl;
 
 import com.micro.boot.app.dao.McUserDao;
-import com.micro.boot.app.object.request.PasswordRestReq;
-import com.micro.boot.app.object.request.UserLoginReq;
-import com.micro.boot.app.object.response.UserLoginRep;
-import com.micro.boot.app.object.response.UserRegisterRep;
+import com.micro.boot.app.object.request.McPasswordRestReq;
+import com.micro.boot.app.object.request.McUserLoginReq;
+import com.micro.boot.app.object.response.McUserLoginRep;
+import com.micro.boot.app.object.response.McUserRegisterRep;
 import com.micro.boot.app.service.user.McUserService;
 import com.micro.boot.app.utils.JwtUtils;
 import com.micro.boot.common.AppCode;
@@ -49,7 +49,7 @@ public class McUserServiceImpl implements McUserService {
      * @param mobile
      */
     @Override public void passwordReset(String mobile) {
-        UserRegisterRep userRegister = mcUserDao.getUserByMobile(mobile);
+        McUserRegisterRep userRegister = mcUserDao.getUserByMobile(mobile);
         mcUserDao.updatePasswordByMobile(mobile,
                 new Sha256Hash(DEFAULT_PWD, userRegister.getSalt()).toHex());
     }
@@ -59,7 +59,7 @@ public class McUserServiceImpl implements McUserService {
      *
      * @param request
      */
-    @Override public void passwordReset(PasswordRestReq request) {
+    @Override public void passwordReset(McPasswordRestReq request) {
         //校验参数 密码至少6位且由英文字符数字下划线组成
         if (StringUtils.isEmpty(request.getMobile()) ||
                 StringUtils.isEmpty(request.getVerifyCode()) ||
@@ -75,7 +75,7 @@ public class McUserServiceImpl implements McUserService {
         {
             throw new RRException(AppCode.CODE_ERROR_VERIFY_CODE, Message.MSG_EN_ERROR_VERIFY_CODE);
         }
-        UserRegisterRep userRegister = mcUserDao.getUserByMobile(request.getMobile());
+        McUserRegisterRep userRegister = mcUserDao.getUserByMobile(request.getMobile());
 
         mcUserDao.updatePasswordByMobile(request.getMobile(),
                 new Sha256Hash(request.getPassword(), userRegister.getSalt()).toHex());
@@ -89,7 +89,7 @@ public class McUserServiceImpl implements McUserService {
      *
      * @return
      */
-    @Override public UserLoginRep loginByPasswordOrVerifyCode(UserLoginReq request) {
+    @Override public McUserLoginRep loginByPasswordOrVerifyCode(McUserLoginReq request) {
         //校验参数 密码至少6位且由英文字符数字下划线组成
         if ((StringUtils.isEmpty(request.getVerifyCode()) && StringUtils.isEmpty(request.getPassword())) ||
                 Tools.isStringFormatCorrect(request.getMobile()))
@@ -107,16 +107,17 @@ public class McUserServiceImpl implements McUserService {
             }
         } else if (!StringUtils.isEmpty(request.getPassword())) {
             //校验密码是否正确
-            UserRegisterRep userRegister = mcUserDao.getUserByMobile(request.getMobile());
+            McUserRegisterRep userRegister = mcUserDao.getUserByMobile(request.getMobile());
             if (!userRegister.getPassword().equals(
                     new Sha256Hash(request.getPassword(), userRegister.getSalt()).toHex()))
             {
                 throw new RRException(AppCode.CODE_ERROR_PASSWORD, Message.MSG_EN_ERROR_PASSWORD);
             }
         }
-        UserLoginRep response = mcUserDao.getUserByLogin(request.getMobile());
+        McUserLoginRep response = mcUserDao.getUserByLogin(request.getMobile());
+        //生成token
         response.setToken(jwtUtils.generateToken(response.getMobile()));
-        redisUtils.set(RedisUtils.redisSetKey(request.getMobile(), AppCode.REDIS_VERIFY_CODE), response.getToken(),
+        redisUtils.set(RedisUtils.redisSetKey(request.getMobile(), AppCode.REDIS_MOBILE_TOKEN), response.getToken(),
                 RedisUtils.DEFAULT_EXPIRE);
         //更新登录token
         // 考虑redis存一天，数据库存7天.

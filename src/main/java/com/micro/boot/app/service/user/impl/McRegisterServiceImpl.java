@@ -1,8 +1,8 @@
 package com.micro.boot.app.service.user.impl;
 
 import com.micro.boot.app.dao.McUserDao;
-import com.micro.boot.app.object.request.UserRegisterReq;
-import com.micro.boot.app.object.response.UserRegisterRep;
+import com.micro.boot.app.object.request.McUserRegisterReq;
+import com.micro.boot.app.object.response.McUserRegisterRep;
 import com.micro.boot.app.service.user.McRegisterService;
 import com.micro.boot.common.AppCode;
 import com.micro.boot.common.Constants;
@@ -66,7 +66,7 @@ public class McRegisterServiceImpl implements McRegisterService {
      *
      * @return
      */
-    @Override public UserRegisterRep registerUser(UserRegisterReq request) {
+    @Override public McUserRegisterRep registerUser(McUserRegisterReq request) {
         //校验参数
         if (StringUtils.isEmpty(request.getMobile()) ||
                 StringUtils.isEmpty(request.getVerifyCode()) ||
@@ -98,7 +98,7 @@ public class McRegisterServiceImpl implements McRegisterService {
         if(Constants.ZERO==mcUserDao.registerMcUser(request)){
             throw new RRException(AppCode.EXCETPTION_DATABASE_FAIL, Message.MSG_EN_DATABASE);
         }
-        UserRegisterRep response = mcUserDao.getUserByMobile(request.getMobile());
+        McUserRegisterRep response = mcUserDao.getUserByMobile(request.getMobile());
         response.setPassword(pwd);
         return response;
     }

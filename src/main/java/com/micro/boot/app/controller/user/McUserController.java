@@ -2,13 +2,15 @@ package com.micro.boot.app.controller.user;
 
 
 import com.google.gson.Gson;
-import com.micro.boot.app.object.request.PasswordRestReq;
-import com.micro.boot.app.object.request.UserLoginReq;
-import com.micro.boot.app.object.response.UserLoginRep;
+import com.micro.boot.app.annotation.MobileToken;
+import com.micro.boot.app.object.request.McPasswordRestReq;
+import com.micro.boot.app.object.request.McUserLoginReq;
+import com.micro.boot.app.object.response.McUserLoginRep;
 import com.micro.boot.app.service.user.McUserService;
 import com.micro.boot.app.utils.JwtUtils;
 import com.micro.boot.common.AppRestUrl;
 import com.micro.boot.common.Constants;
+import com.micro.boot.common.Message;
 import com.micro.boot.common.ModuleConstant;
 import com.micro.boot.common.request.BodyInfo;
 import com.micro.boot.common.response.ReturnAppInfo;
@@ -54,18 +56,18 @@ public class McUserController {
      */
     @ApiOperation(value = "修改密码", notes = "修改密码", response = ReturnAppInfo.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful — 请求已完成"),
-            @ApiResponse(code = 603, message = "验证码错误或失效"),
-            @ApiResponse(code = 404, message = "服务器找不到给定的资源；文档不存在"),
-            @ApiResponse(code = 500, message = "服务器不能完成请求")}
+            @ApiResponse(code = 200, message = Message.MSG_OK_200),
+            @ApiResponse(code = 603, message = Message.MSG_EN_ERROR_VERIFY_CODE),
+            @ApiResponse(code = 404, message = Message.MSG_EN_ERROR_404),
+            @ApiResponse(code = 500, message = Message.MSG_EN_ERROR_500)}
     )
     @PutMapping(AppRestUrl.PASSWORD_RESET)
-    public ReturnAppInfo<UserLoginRep> passwordReset(@RequestBody BodyInfo bodyInfo,
-                                                     @RequestHeader HttpHeaders headers) throws Exception
+    public ReturnAppInfo<McUserLoginRep> passwordReset(@RequestBody BodyInfo bodyInfo,
+                                                       @RequestHeader HttpHeaders headers) throws Exception
     {
         logger.info(AppRestUrl.PASSWORD_RESET + ",Param:", bodyInfo.toString());
 
-        PasswordRestReq request = new Gson().fromJson(bodyInfo.decryptData(), PasswordRestReq.class);
+        McPasswordRestReq request = new Gson().fromJson(bodyInfo.decryptData(), McPasswordRestReq.class);
 
         mcUserService.passwordReset(request);
         //修改密码成功根据code
@@ -84,17 +86,17 @@ public class McUserController {
      */
     @ApiOperation(value = "重置密码", notes = "重置密码", response = ReturnAppInfo.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful — 请求已完成"),
-            @ApiResponse(code = 404, message = "服务器找不到给定的资源；文档不存在"),
-            @ApiResponse(code = 500, message = "服务器不能完成请求")}
+            @ApiResponse(code = 200, message = Message.MSG_OK_200),
+            @ApiResponse(code = 404, message = Message.MSG_EN_ERROR_404),
+            @ApiResponse(code = 500, message = Message.MSG_EN_ERROR_500)}
     )
     @PutMapping(AppRestUrl.PASSWORD_RESET_DEFAULT)
-    public ReturnAppInfo<UserLoginRep> passwordResetDefault(@RequestBody BodyInfo bodyInfo,
-                                                            @RequestHeader HttpHeaders headers) throws Exception
+    public ReturnAppInfo<McUserLoginRep> passwordResetDefault(@RequestBody BodyInfo bodyInfo,
+                                                              @RequestHeader HttpHeaders headers) throws Exception
     {
         logger.info(AppRestUrl.PASSWORD_RESET_DEFAULT + ",Param:", bodyInfo.toString());
 
-        PasswordRestReq request = new Gson().fromJson(bodyInfo.decryptData(), PasswordRestReq.class);
+        McPasswordRestReq request = new Gson().fromJson(bodyInfo.decryptData(), McPasswordRestReq.class);
 
         mcUserService.passwordReset(request.getMobile());
         //修改密码成功
@@ -102,32 +104,59 @@ public class McUserController {
     }
 
     /**
-     * 用户登录
+     * 用户登录 通过短信验证码或者密码均可
      *
      * @param bodyInfo
      *
-     * @return
+     * @return 返回带token的用户基本信息 McUserLoginRep
      *
      * @throws Exception
      */
     @ApiOperation(value = "用户登录", notes = "用户登录后返回token和用户信息", response = String.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful — 请求已完成"),
-            @ApiResponse(code = 603, message = "验证码错误或失效"),
-            @ApiResponse(code = 602, message = "密码错误或失效"),
-            @ApiResponse(code = 404, message = "服务器找不到给定的资源；文档不存在"),
-            @ApiResponse(code = 500, message = "服务器不能完成请求")}
+            @ApiResponse(code = 200, message = Message.MSG_OK_200),
+            @ApiResponse(code = 603, message = Message.MSG_EN_ERROR_VERIFY_CODE),
+            @ApiResponse(code = 602, message = Message.MSG_EN_ERROR_VERIFY_CODE),
+            @ApiResponse(code = 404, message = Message.MSG_EN_ERROR_404),
+            @ApiResponse(code = 500, message = Message.MSG_EN_ERROR_500)}
     )
     @PostMapping(AppRestUrl.LOGIN_PWD_VERIFYCODE)
-    public ReturnAppInfo<UserLoginRep> userLogin(@RequestBody BodyInfo bodyInfo,
-                                                 @RequestHeader HttpHeaders headers) throws Exception
+    public ReturnAppInfo<McUserLoginRep> userLogin(@RequestBody BodyInfo bodyInfo,
+                                                   @RequestHeader HttpHeaders headers) throws Exception
     {
         logger.info(AppRestUrl.LOGIN_PWD_VERIFYCODE + ",Param:", bodyInfo.toString());
         //解析登录请求数据
-        UserLoginReq userLoginReq = new Gson().fromJson(bodyInfo.decryptData(), UserLoginReq.class);
+        McUserLoginReq mcUserLoginReq = new Gson().fromJson(bodyInfo.decryptData(), McUserLoginReq.class);
 
-        UserLoginRep userLoginRep = mcUserService.loginByPasswordOrVerifyCode(userLoginReq);
-        return ReturnAppInfo.successEncrypt(userLoginRep);
+        McUserLoginRep mcUserLoginRep = mcUserService.loginByPasswordOrVerifyCode(mcUserLoginReq);
+        return ReturnAppInfo.successEncrypt(mcUserLoginRep);
+    }
+
+    /**
+     * 退出登录 通过短信验证码或者密码均可
+     *
+     * @param headers
+     *
+     * @return 返回带token的用户基本信息 McUserLoginRep
+     *
+     * @throws Exception
+     */
+    @ApiOperation(value = "退出登录", notes = "退出登录", response = String.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = Message.MSG_OK_200),
+            @ApiResponse(code = 401, message = Message.MSG_EN_ERROR_VERIFY_CODE),
+            @ApiResponse(code = 602, message = "密码错误或失效"),
+            @ApiResponse(code = 404, message = Message.MSG_EN_ERROR_404),
+            @ApiResponse(code = 500, message = Message.MSG_EN_ERROR_500)}
+    )
+    @MobileToken
+    @PutMapping(AppRestUrl.LOGOUT)
+    public ReturnAppInfo<McUserLoginRep> userLogin(@RequestHeader HttpHeaders headers) throws Exception
+    {
+        logger.info(AppRestUrl.LOGOUT + ",Param:");
+
+//        mcUserService.loginByPasswordOrVerifyCode(mcUserLoginReq);
+        return ReturnAppInfo.successEncrypt("ok");
     }
 
 }

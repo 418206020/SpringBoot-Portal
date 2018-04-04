@@ -1,9 +1,9 @@
 package com.micro.boot.app.dao;
 
-import com.micro.boot.app.object.request.UserLoginReq;
-import com.micro.boot.app.object.request.UserRegisterReq;
-import com.micro.boot.app.object.response.UserLoginRep;
-import com.micro.boot.app.object.response.UserRegisterRep;
+import com.micro.boot.app.object.request.McUserLoginReq;
+import com.micro.boot.app.object.request.McUserRegisterReq;
+import com.micro.boot.app.object.response.McUserLoginRep;
+import com.micro.boot.app.object.response.McUserRegisterRep;
 import com.micro.boot.modules.sys.dao.BaseDao;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -18,7 +18,7 @@ import java.util.Date;
  * @date 2017-10-23 21:23:54
  */
 @Mapper
-public interface McUserDao extends BaseDao<UserLoginReq> {
+public interface McUserDao extends BaseDao<McUserLoginReq> {
 
     /**
      * 该手机是否已注册
@@ -37,7 +37,7 @@ public interface McUserDao extends BaseDao<UserLoginReq> {
      *
      * @return
      */
-    long registerMcUser(UserRegisterReq request);
+    long registerMcUser(McUserRegisterReq request);
 
     /**
      * 查询
@@ -46,7 +46,7 @@ public interface McUserDao extends BaseDao<UserLoginReq> {
      *
      * @return
      */
-    UserRegisterRep getUserByMobile(String mobile);
+    McUserRegisterRep getUserByMobile(String mobile);
 
     /**
      * 设置或修改密码
@@ -61,7 +61,7 @@ public interface McUserDao extends BaseDao<UserLoginReq> {
      *
      * @return
      */
-    UserLoginRep getUserByLogin(String mobile);
+    McUserLoginRep getUserByLogin(String mobile);
 
 
     /**

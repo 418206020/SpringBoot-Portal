@@ -14,8 +14,8 @@ package com.micro.boot.app.service.user;
  */
 
 
-import com.micro.boot.app.object.request.UserRegisterReq;
-import com.micro.boot.app.object.response.UserRegisterRep;
+import com.micro.boot.app.object.request.McUserRegisterReq;
+import com.micro.boot.app.object.response.McUserRegisterRep;
 
 /**
  * 〈注册〉
@@ -38,6 +38,6 @@ public interface McRegisterService {
      * @param request
      * @return
      */
-    public UserRegisterRep registerUser(UserRegisterReq request);
+    public McUserRegisterRep registerUser(McUserRegisterReq request);
 
 }

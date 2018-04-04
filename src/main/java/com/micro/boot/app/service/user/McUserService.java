@@ -14,11 +14,9 @@ package com.micro.boot.app.service.user;
  */
 
 
-import com.micro.boot.app.object.request.PasswordRestReq;
-import com.micro.boot.app.object.request.UserLoginReq;
-import com.micro.boot.app.object.request.UserRegisterReq;
-import com.micro.boot.app.object.response.UserLoginRep;
-import com.micro.boot.app.object.response.UserRegisterRep;
+import com.micro.boot.app.object.request.McPasswordRestReq;
+import com.micro.boot.app.object.request.McUserLoginReq;
+import com.micro.boot.app.object.response.McUserLoginRep;
 
 import java.util.Date;
 
@@ -42,7 +40,7 @@ public interface McUserService {
      * 修改新密码
      * @param request
      */
-    void passwordReset(PasswordRestReq request);
+    void passwordReset(McPasswordRestReq request);
 
 
     /**
@@ -50,8 +48,16 @@ public interface McUserService {
      * @param request
      * @return
      */
-    UserLoginRep loginByPasswordOrVerifyCode(UserLoginReq request);
+    McUserLoginRep loginByPasswordOrVerifyCode(McUserLoginReq request);
 
+
+    /**
+     * 记录用户最新token 暂时不用
+     * @param userId
+     * @param mobile
+     * @param token
+     * @param expireTime
+     */
     void tokenRecord(long userId, String mobile, String token, Date expireTime);
 
 }

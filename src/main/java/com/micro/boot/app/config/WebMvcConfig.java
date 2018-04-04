@@ -2,6 +2,7 @@ package com.micro.boot.app.config;
 
 import com.micro.boot.app.resolver.LoginUserHandlerMethodArgumentResolver;
 import com.micro.boot.interceptor.AuthorizationInterceptor;
+import com.micro.boot.interceptor.MobileTokenInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -20,13 +21,17 @@ import java.util.List;
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
     @Autowired
+    private MobileTokenInterceptor mobileTokenInterceptor;
+    @Autowired
     private AuthorizationInterceptor authorizationInterceptor;
     @Autowired
     private LoginUserHandlerMethodArgumentResolver loginUserHandlerMethodArgumentResolver;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        //mvc注入拦截器
         registry.addInterceptor(authorizationInterceptor).addPathPatterns("/app/**");
+        registry.addInterceptor(mobileTokenInterceptor).addPathPatterns("/app/**");
     }
 
     @Override

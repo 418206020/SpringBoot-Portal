@@ -13,6 +13,20 @@ public class Message {
     /**
      * MSG_EN_ERROR_MOBILE
      */
+    public final static String MSG_OK_200 = "Successful";
+
+    /**
+     * MSG_EN_ERROR_MOBILE
+     */
+    public final static String MSG_EN_ERROR_404 = "cannot found resource or get request ";
+    /**
+     * MSG_EN_ERROR_MOBILE
+     */
+    public final static String MSG_EN_ERROR_500 = "Internal Server Error";
+
+    /**
+     * MSG_EN_ERROR_MOBILE
+     */
     public final static String MSG_EN_ERROR_MOBILE = "the mobile is wrong";
 
     /**

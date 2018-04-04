@@ -1,16 +1,17 @@
-package com.micro.boot.app.object.request;
+package com.micro.boot.app.object.response;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * 〈用户注册对象实体〉
+ * 注册后可直接使用返回token登录
  *
  * @author Administrator
  * @create 2018/3/25
  * @since 1.0.0
  */
-public class UserRegisterReq implements Serializable {
+public class McUserRegisterRep implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //用户id
@@ -44,13 +45,12 @@ public class UserRegisterReq implements Serializable {
     private Long createUserId;
     private Date createTime;
 
-
-    public Integer getStatus() {
-        return status;
+    public Long getId() {
+        return id;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getMobile() {
@@ -173,12 +173,12 @@ public class UserRegisterReq implements Serializable {
         this.headUrlThumb = headUrlThumb;
     }
 
-    public Long getId() {
-        return id;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public Long getCreateUserId() {

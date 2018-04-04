@@ -5,7 +5,7 @@
 <mapper namespace="com.micro.boot.app.dao.McUserDao">
 
     <!-- 数据库字段映射 -->
-    <resultMap type="com.micro.boot.app.object.response.UserRegisterRep" id="userRegisterRep">
+    <resultMap type="com.micro.boot.app.object.response.McUserRegisterRep" id="userRegisterRep">
         <result property="id" column="id"/>
         <result property="username" column="username"/>
         <result property="mobile" column="mobile"/>
@@ -26,7 +26,7 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <resultMap type="com.micro.boot.app.object.response.UserRegisterRep" id="userLoginRep">
+    <resultMap type="com.micro.boot.app.object.response.McUserRegisterRep" id="mcUserLoginRep">
         <result property="id" column="id"/>
         <!--<result property="token" column="token"/>-->
         <result property="username" column="username"/>
@@ -56,7 +56,7 @@
 
     <!--注册用户-->
     <insert id="registerMcUser" useGeneratedKeys="true" keyProperty="id"
-            parameterType="com.micro.boot.app.object.request.UserRegisterReq">
+            parameterType="com.micro.boot.app.object.request.McUserRegisterReq">
         insert into mc_user
         (
         `mobile`, `username`, `nickname`, `wechat_id`, `qq_id`, `alipay_id`, `password`, `salt`, `id_card`,
@@ -81,7 +81,7 @@
     <!--通过手机号查询用户信息-->
     <select id="getUserByLogin"
             parameterType="java.lang.String"
-            resultMap="userLoginRep">
+            resultMap="mcUserLoginRep">
         select
         <include refid="commonColumns"/>
         from mc_user where mobile = #{0}

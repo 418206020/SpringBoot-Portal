@@ -35,5 +35,10 @@ public class AppRestUrl {
      */
     public static final String LOGIN_PWD_VERIFYCODE = "login";
 
+    /**
+     * 退出登录
+     */
+    public static final String LOGOUT = "logout";
+
 
 }

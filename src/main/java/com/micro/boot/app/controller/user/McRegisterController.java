@@ -2,12 +2,13 @@ package com.micro.boot.app.controller.user;
 
 
 import com.google.gson.Gson;
-import com.micro.boot.app.object.request.UserRegisterReq;
-import com.micro.boot.app.object.response.UserLoginRep;
-import com.micro.boot.app.object.response.UserRegisterRep;
+import com.micro.boot.app.object.request.McUserRegisterReq;
+import com.micro.boot.app.object.response.McUserLoginRep;
+import com.micro.boot.app.object.response.McUserRegisterRep;
 import com.micro.boot.app.service.user.McRegisterService;
 import com.micro.boot.common.AppRestUrl;
 import com.micro.boot.common.Constants;
+import com.micro.boot.common.Message;
 import com.micro.boot.common.ModuleConstant;
 import com.micro.boot.common.request.BodyInfo;
 import com.micro.boot.common.response.ReturnAppInfo;
@@ -54,13 +55,13 @@ public class McRegisterController {
      */
     @ApiOperation(value = "获取短信验证码", notes = "使用手机号获取短信验证码", response = ReturnAppInfo.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful — 请求已完成"),
-            @ApiResponse(code = 404, message = "服务器找不到给定的资源；文档不存在"),
-            @ApiResponse(code = 500, message = "服务器不能完成请求")}
+            @ApiResponse(code = 200, message = Message.MSG_OK_200),
+            @ApiResponse(code = 404, message = Message.MSG_EN_ERROR_404),
+            @ApiResponse(code = 500, message = Message.MSG_EN_ERROR_500)}
     )
     @GetMapping(AppRestUrl.SMS_VERRIFY_CODE)
-    public ReturnAppInfo<UserLoginRep> loginMap(@PathVariable String mobile,
-                                                @RequestHeader HttpHeaders headers) throws Exception
+    public ReturnAppInfo<McUserLoginRep> loginMap(@PathVariable String mobile,
+                                                  @RequestHeader HttpHeaders headers) throws Exception
     {
         logger.info(AppRestUrl.SMS_VERRIFY_CODE+",Param:", mobile);
         //发送短信并返回验证码
@@ -80,20 +81,20 @@ public class McRegisterController {
      */
     @ApiOperation(value = "使用短信验证码注册", notes = "使用短信验证码注册", response = ReturnAppInfo.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful — 请求已完成"),
-            @ApiResponse(code = 603, message = "验证码错误或失效"),
-            @ApiResponse(code = 404, message = "服务器找不到给定的资源；文档不存在"),
-            @ApiResponse(code = 500, message = "服务器不能完成请求")}
+            @ApiResponse(code = 200, message = Message.MSG_OK_200),
+            @ApiResponse(code = 603, message = Message.MSG_EN_ERROR_VERIFY_CODE + " or " + Message.MSG_EN_ERROR_PASSWORD),
+            @ApiResponse(code = 404, message = Message.MSG_EN_ERROR_404),
+            @ApiResponse(code = 500, message = Message.MSG_EN_ERROR_500)}
     )
     @PutMapping(AppRestUrl.REGISTER_MOBILE)
-    public ReturnAppInfo<UserLoginRep> loginMap(@RequestBody BodyInfo bodyInfo,
-                                                @RequestHeader HttpHeaders headers) throws Exception
+    public ReturnAppInfo<McUserLoginRep> loginMap(@RequestBody BodyInfo bodyInfo,
+                                                  @RequestHeader HttpHeaders headers) throws Exception
     {
         logger.info(AppRestUrl.REGISTER_MOBILE+",Param:", bodyInfo.toString());
 
-        UserRegisterReq request = new Gson().fromJson(bodyInfo.decryptData(), UserRegisterReq.class);
+        McUserRegisterReq request = new Gson().fromJson(bodyInfo.decryptData(), McUserRegisterReq.class);
 
-        UserRegisterRep response = mcRegisterService.registerUser(request);
+        McUserRegisterRep response = mcRegisterService.registerUser(request);
         return ReturnAppInfo.successEncrypt(response);
     }
 
