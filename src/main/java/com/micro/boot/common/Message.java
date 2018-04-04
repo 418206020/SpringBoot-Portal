@@ -18,7 +18,17 @@ public class Message {
     /**
      * MSG_EN_ERROR_TOKEN
      */
-    public final static String MSG_EN_ERROR_TOKEN = "the token is fail";
+    public final static String MSG_EN_HEAD_TOKEN_NULL = "the token of header is null";
+
+    /**
+     * MSG_EN_ERROR_TOKEN
+     */
+    public final static String MSG_EN_HEAD_TOKEN_INVALID = "the token of header is invalid";
+
+    /**
+     * MSG_EN_ERROR_TOKEN
+     */
+    public final static String MSG_EN_HEAD_MOBILE = "the mobile of header is null";
 
     /**
      * MSG_EN_ERROR_TOKEN
@@ -49,7 +59,6 @@ public class Message {
      * MSG_EN_DATABASE
      */
     public final static String MSG_EN_DATABASE = "database operator fail";
-
 
 
 }

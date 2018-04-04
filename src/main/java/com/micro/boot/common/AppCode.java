@@ -41,13 +41,21 @@ public class AppCode {
      */
     public final static int ERROR_CODE_404 = 404;
 
-
-// ---------------- BUSINESS 业务层-----------------------
-
+    /**
+     * token 为空
+     */
+    public final static int ERROR_CODE_401 = 401;
     /**
      * token 失效
      */
-    public final static int CODE_TOKEN_FAIL = 604;
+    public final static int ERROR_CODE_402 = 402;
+    /**
+     * mobile 空
+     */
+    public final static int ERROR_CODE_403 = 403;
+
+
+// ---------------- BUSINESS 业务层-----------------------
 
     /**
      * 验证码 过期或失败
@@ -71,5 +79,10 @@ public class AppCode {
      * 验证码
      */
     public final static String REDIS_VERIFY_CODE = "REDIS_VERIFY_CODE";
+
+    /**
+     * 验证码
+     */
+    public final static String REDIS_MOBILE_TOKEN = "REDIS_MOBILE_TOKEN";
 
 }
