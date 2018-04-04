@@ -2,13 +2,14 @@ package com.micro.boot;
 
 import com.google.gson.Gson;
 import com.micro.boot.app.annotation.AuthIgnore;
+import com.micro.boot.app.object.request.McPasswordRestReq;
 import com.micro.boot.app.object.request.McUserLoginReq;
 import com.micro.boot.app.object.request.McUserRegisterReq;
 import com.micro.boot.common.Constants;
 import com.micro.boot.common.request.BodyInfo;
 import com.micro.boot.common.response.ReturnAppInfo;
 import com.micro.boot.common.utils.Tools;
-import org.apache.commons.codec.digest.DigestUtils;
+import net.sf.json.JSONObject;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -26,13 +27,13 @@ public class Test {
     private static Object data;
 
     public static void main(String[] args) {
-        boolean isDecrpt = true;//解密；false加密
+//        boolean isDecrpt = true;//解密
+        boolean isDecrpt = false;//加密
         if (isDecrpt) {
             decrypData();
         } else {
-            String encryptData = String.valueOf(new Test().bodyinfo());//生成加密后的“请求数据”；快速构造测试数据
-//          String encryptData = String.valueOf(new Test().returninfo());//生成加密后的“返回数据”
-            System.out.println("data:" + encryptData);
+            BodyInfo bodyInfo = bodyinfo();//生成加密后的“请求数据”；快速构造测试数据
+            System.out.println("JsonData:" + "\n" + JSONObject.fromObject(bodyInfo.toString()) + "\n");
         }
         return;
     }
@@ -44,9 +45,19 @@ public class Test {
      * @return
      */
     private static Object generator() {
-//        data = getRegisterReq();//注册信息
-//        data=getLoginReq();//登录信息
+//        data = getRegisterReq();//注册信息 aa471672b7503a6d99d3d1b1342d7aabb9bd28faf3738de4f44d8e48c9c99c3f
+//        data = getPasswordRest();//忘记密码重置请求
+        data=getLoginReq();//登录信息
+
         return data;
+    }
+
+    private static McPasswordRestReq getPasswordRest() {
+        McPasswordRestReq req = new McPasswordRestReq();
+        req.setMobile("15094011640");
+        req.setVerifyCode("111222");
+        req.setPassword("abc123");
+        return req;
     }
 
 
@@ -60,29 +71,31 @@ public class Test {
     private static void decrypData() {
         //测试返回的结果
         ReturnAppInfo returnAppInfo = new ReturnAppInfo();
-        data = "ef9rwbm3niTg1T1M8gUubb5mirIk0BXkvkSAt7t1zc6rJo6il92IljsnmyQhmVVe/ZbCe3go+1MxEJjRWmLnC3KG7Kwv7QXLE1ZhYxZyD9FA5UpqOMI0q99Mbj1rVEh28Hb4jFYEXgV770K4rVvPW13GLny9QpIAW3PajD9IuTo90UDie2+NDS4LXtunjmmv414X6utLiSobKDW9W2YTBroU2NOw6qW/QReIsPQS4DCzVhn+0Ga/hA==";
-
+//-------------------------------------------------------------------------------------/
+//        //解密短信验证码
+//        data = "9JsHADF68OHNveYqwQF2yg==";//copy of postman
+//        returnAppInfo.setData((String) data);
+//        String response = new Gson().fromJson(returnAppInfo.decryptData(), String.class);
+//        System.out.print("response=" + response.toString());
+        //注册用户返回结果-包含密码
+        data = "l+t81Q6se6jCEoXGZbO+yxSUfE6Do2g9DoAvvNoQhYiLnWlMQCCbFP+Hfv/vDLCGOhxs6y3vCqaHHogKgjnRODlN8r0DEZpU9VZmX+E0DnE5TMwqZUln2iPjU2CZIOWP6WTt6uSJxY7gKBGGKqGjoyKjrK/ZeeGaVxI5g5tMDvqcrrOSrDe+AMo3pEklip6kwDD+mF/b8U+8KACqhmNhp3c6W952C41LHeT4b5/QqTnKQZcWx2+mlu/bnpkq5bIhAA00GFra+1Of834+hSSBB4ffsUvxz/UK11cSHJ/bzc8=";
         returnAppInfo.setData((String) data);
-        McUserRegisterReq request = new Gson().fromJson(returnAppInfo.decryptData(), McUserRegisterReq.class);
-        System.out.print("ok");
+        McUserRegisterReq response = new Gson().fromJson(returnAppInfo.decryptData(), McUserRegisterReq.class);
+        System.out.println("userId:" +response.getId()+ "\npassword:" + response.getPassword() + "\n");//输出重要参数
     }
 
 
     /**
      * 生成加密请求数据
      */
-    @AuthIgnore
-    @GetMapping("data/bodyinfo")
-    public BodyInfo bodyinfo() {
+    public static BodyInfo bodyinfo() {
         return BodyInfo.build(Constants.VERSION_APP, generator());
     }
 
     /**
      * 生成加密返回数据
      */
-    @AuthIgnore
-    @GetMapping("data/returninfo")
-    public ReturnAppInfo returninfo() {
+    public static ReturnAppInfo returninfo() {
         return ReturnAppInfo.successEncrypt(generator());
     }
 
@@ -98,11 +111,14 @@ public class Test {
         req.setCreateTime(new Date());
         //密码加盐参数
         req.setSalt(RandomStringUtils.randomAlphanumeric(Constants.COUNT_SALT));
-        req.setNickname("加菲猫");
-        req.setUsername("sdjlfd_230_dsdd");
+        req.setNickname("夜火阑珊");
+        req.setUsername("DK_OWK39DK");
+        //用户名只允许英文数字和下划线
         if (!Tools.isStringFormatCorrect(req.getUsername())) {
             req.setUsername(req.getUsername().replaceAll("-", "_"));
         }
+        req.setEmail("418206020@11.com");
+        req.setSex("1");//1：男；2：女
         return req;
     }
 
@@ -114,7 +130,9 @@ public class Test {
     private static McUserLoginReq getLoginReq() {
         McUserLoginReq req = new McUserLoginReq();
         req.setMobile("15094011640");
-        req.setPassword(DigestUtils.sha256Hex("568653"));//加密密码传输
+//        两种方式最少选一种
+        req.setPassword("111111");//密码传输
+//        req.setVerifyCode("111222");
         return req;
     }
 

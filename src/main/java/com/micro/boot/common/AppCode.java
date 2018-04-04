@@ -72,6 +72,11 @@ public class AppCode {
      */
     public final static int CODE_MOBILE_ERROR = 601;
 
+    /**
+     * 查无此人
+     */
+    public final static int CODE_ERROR_USER = 604;
+
 
 
 // ---------------- REDIS KEY TYPE-----------------------

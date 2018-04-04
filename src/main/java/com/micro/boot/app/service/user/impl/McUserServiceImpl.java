@@ -17,6 +17,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -40,7 +41,7 @@ public class McUserServiceImpl implements McUserService {
 
     @Resource McUserDao mcUserDao;
 
-    private static final String DEFAULT_PWD = "11111111";
+    private static final String DEFAULT_PWD = "111111";
 
 
     /**
@@ -50,8 +51,9 @@ public class McUserServiceImpl implements McUserService {
      */
     @Override public void passwordReset(String mobile) {
         McUserRegisterRep userRegister = mcUserDao.getUserByMobile(mobile);
+        //sha256，加盐，shiro加密
         mcUserDao.updatePasswordByMobile(mobile,
-                new Sha256Hash(DEFAULT_PWD, userRegister.getSalt()).toHex());
+                new Sha256Hash(DigestUtils.sha256Hex(DEFAULT_PWD), userRegister.getSalt()).toHex());
     }
 
     /**
@@ -90,10 +92,8 @@ public class McUserServiceImpl implements McUserService {
      * @return
      */
     @Override public McUserLoginRep loginByPasswordOrVerifyCode(McUserLoginReq request) {
-        //校验参数 密码至少6位且由英文字符数字下划线组成
-        if ((StringUtils.isEmpty(request.getVerifyCode()) && StringUtils.isEmpty(request.getPassword())) ||
-                Tools.isStringFormatCorrect(request.getMobile()))
-        {
+        //校验参数
+        if (StringUtils.isEmpty(request.getVerifyCode()) && StringUtils.isEmpty(request.getPassword())) {
             throw new RRException(AppCode.EXCETPTION_FAIL, Message.MSG_EN_PARAMETERS_ERROR);
         }
         //两种登录方式
@@ -108,15 +108,18 @@ public class McUserServiceImpl implements McUserService {
         } else if (!StringUtils.isEmpty(request.getPassword())) {
             //校验密码是否正确
             McUserRegisterRep userRegister = mcUserDao.getUserByMobile(request.getMobile());
+            if (null == userRegister) {
+                throw new RRException(AppCode.CODE_ERROR_USER, Message.MSG_EN_EXIST_USER);
+            }
             if (!userRegister.getPassword().equals(
-                    new Sha256Hash(request.getPassword(), userRegister.getSalt()).toHex()))
+                    new Sha256Hash(DigestUtils.sha256Hex(request.getPassword()), userRegister.getSalt()).toHex()))
             {
                 throw new RRException(AppCode.CODE_ERROR_PASSWORD, Message.MSG_EN_ERROR_PASSWORD);
             }
         }
         McUserLoginRep response = mcUserDao.getUserByLogin(request.getMobile());
         //生成token
-        response.setToken(jwtUtils.generateToken(response.getMobile()));
+        response.setToken(JwtUtils.getToken());
         redisUtils.set(RedisUtils.redisSetKey(request.getMobile(), AppCode.REDIS_MOBILE_TOKEN), response.getToken(),
                 RedisUtils.DEFAULT_EXPIRE);
         //更新登录token
@@ -129,6 +132,7 @@ public class McUserServiceImpl implements McUserService {
 
     /**
      * 更新登录token
+     *
      * @param userId
      * @param mobile
      * @param token
@@ -137,10 +141,10 @@ public class McUserServiceImpl implements McUserService {
     @Override
     public void tokenRecord(long userId, String mobile, String token, Date expireTime) {
         Date updateTime = new Date();
-        if(null == expireTime) {
+        if (null == expireTime) {
             expireTime = DateUtils.getNextWeek(updateTime);
         }
-        mcUserDao.saveLoginToken(userId, mobile, token, expireTime,updateTime);
+        mcUserDao.saveLoginToken(userId, mobile, token, expireTime, updateTime);
     }
 
 

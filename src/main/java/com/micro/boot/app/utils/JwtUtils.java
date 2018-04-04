@@ -3,12 +3,14 @@ package com.micro.boot.app.utils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import com.micro.boot.common.utils.MD5;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * jwt工具类
@@ -25,6 +27,13 @@ public class JwtUtils {
     private long expire;
     private String header;
 
+    /**
+     * 生成不含信息的token
+     * @return
+     */
+    public static String getToken(){
+        return MD5.md5(UUID.randomUUID().toString());
+    }
     /**
      * 生成jwt token
      */

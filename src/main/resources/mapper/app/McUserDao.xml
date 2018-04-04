@@ -26,7 +26,7 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <resultMap type="com.micro.boot.app.object.response.McUserRegisterRep" id="mcUserLoginRep">
+    <resultMap type="com.micro.boot.app.object.response.McUserLoginRep" id="mcUserLoginRep">
         <result property="id" column="id"/>
         <!--<result property="token" column="token"/>-->
         <result property="username" column="username"/>

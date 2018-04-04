@@ -31,11 +31,11 @@ public class BodyInfo<T> implements Serializable {
 	 * @return
 	 */
 	public static BodyInfo build(String version, Object object) {
-		BodyInfo returnAppInfo = new BodyInfo();
-		returnAppInfo.setEncryptData(object);
-		returnAppInfo.setVersion(version);
-		returnAppInfo.setCode(AppCode.NORMAL);
-		return returnAppInfo;
+		BodyInfo bodyInfo = new BodyInfo();
+		bodyInfo.setEncryptData(object);
+		bodyInfo.setVersion(version);
+		bodyInfo.setCode(AppCode.NORMAL);
+		return bodyInfo;
 	}
 
 	/**
