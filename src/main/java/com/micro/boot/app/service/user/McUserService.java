@@ -14,7 +14,7 @@ package com.micro.boot.app.service.user;
  */
 
 
-import com.micro.boot.app.object.request.McPasswordRestReq;
+import com.micro.boot.app.object.request.McPasswordResetReq;
 import com.micro.boot.app.object.request.McUserLoginReq;
 import com.micro.boot.app.object.response.McUserInfoRep;
 import com.micro.boot.app.object.response.McUserLoginRep;
@@ -41,7 +41,7 @@ public interface McUserService {
      * 修改新密码
      * @param request
      */
-    void passwordReset(McPasswordRestReq request);
+    void passwordReset(McPasswordResetReq request);
 
 
     /**

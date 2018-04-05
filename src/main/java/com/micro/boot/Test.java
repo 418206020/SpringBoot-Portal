@@ -1,8 +1,7 @@
 package com.micro.boot;
 
 import com.google.gson.Gson;
-import com.micro.boot.app.annotation.AuthIgnore;
-import com.micro.boot.app.object.request.McPasswordRestReq;
+import com.micro.boot.app.object.request.McPasswordResetReq;
 import com.micro.boot.app.object.request.McUserLoginReq;
 import com.micro.boot.app.object.request.McUserRegisterReq;
 import com.micro.boot.app.object.response.McUserInfoRep;
@@ -10,10 +9,8 @@ import com.micro.boot.common.Constants;
 import com.micro.boot.common.request.BodyInfo;
 import com.micro.boot.common.response.ReturnAppInfo;
 import com.micro.boot.common.utils.PwdTools;
-import com.micro.boot.common.utils.Tools;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.RandomStringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Date;
 
@@ -57,7 +54,7 @@ public class Test {
 
     private static Object getUpdatePwd() {
         //其余在header
-        McPasswordRestReq req = new McPasswordRestReq();
+        McPasswordResetReq req = new McPasswordResetReq();
 //        String pwd = "Tui_0ke_s";
         String pwd = "11111111";
 //        if(PwdTools.isCorrect_1_8(pwd)){
@@ -67,8 +64,8 @@ public class Test {
         return req;
     }
 
-    private static McPasswordRestReq getPasswordRest() {
-        McPasswordRestReq req = new McPasswordRestReq();
+    private static McPasswordResetReq getPasswordRest() {
+        McPasswordResetReq req = new McPasswordResetReq();
         req.setMobile("15094011640");
         req.setVerifyCode("111222");
         req.setPassword("abc123");//这个写不写无所谓，重置给默认6个1

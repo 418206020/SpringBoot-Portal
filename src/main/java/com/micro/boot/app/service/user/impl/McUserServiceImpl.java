@@ -1,7 +1,7 @@
 package com.micro.boot.app.service.user.impl;
 
 import com.micro.boot.app.dao.McUserDao;
-import com.micro.boot.app.object.request.McPasswordRestReq;
+import com.micro.boot.app.object.request.McPasswordResetReq;
 import com.micro.boot.app.object.request.McUserLoginReq;
 import com.micro.boot.app.object.response.McUserInfoRep;
 import com.micro.boot.app.object.response.McUserLoginRep;
@@ -12,9 +12,7 @@ import com.micro.boot.common.AppCode;
 import com.micro.boot.common.Message;
 import com.micro.boot.common.exception.RRException;
 import com.micro.boot.common.utils.DateUtils;
-import com.micro.boot.common.utils.PwdTools;
 import com.micro.boot.common.utils.RedisUtils;
-import com.micro.boot.common.utils.Tools;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.springframework.stereotype.Service;
@@ -63,7 +61,7 @@ public class McUserServiceImpl implements McUserService {
      *
      * @param request
      */
-    @Override public void passwordReset(McPasswordRestReq request) {
+    @Override public void passwordReset(McPasswordResetReq request) {
         //校验参数 密码至少8位且由英文字符数字下划线组成
 //        if (StringUtils.isEmpty(request.getPassword()) ||
 //                !PwdTools.isCorrect_1_8(request.getPassword()))

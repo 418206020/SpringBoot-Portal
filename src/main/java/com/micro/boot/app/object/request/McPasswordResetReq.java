@@ -10,7 +10,7 @@ import java.util.Date;
  * @create 2018/3/25
  * @since 1.0.0
  */
-public class McPasswordRestReq implements Serializable {
+public class McPasswordResetReq implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //手机号

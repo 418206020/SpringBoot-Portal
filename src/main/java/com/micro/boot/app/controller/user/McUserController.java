@@ -3,7 +3,7 @@ package com.micro.boot.app.controller.user;
 
 import com.google.gson.Gson;
 import com.micro.boot.app.annotation.MobileToken;
-import com.micro.boot.app.object.request.McPasswordRestReq;
+import com.micro.boot.app.object.request.McPasswordResetReq;
 import com.micro.boot.app.object.request.McUserLoginReq;
 import com.micro.boot.app.object.response.McUserInfoRep;
 import com.micro.boot.app.object.response.McUserLoginRep;
@@ -69,7 +69,7 @@ public class McUserController {
     {
         logger.info(AppRestUrl.PASSWORD_RESET + ",Param:", bodyInfo.toString());
 
-        McPasswordRestReq request = new Gson().fromJson(bodyInfo.decryptData(), McPasswordRestReq.class);
+        McPasswordResetReq request = new Gson().fromJson(bodyInfo.decryptData(), McPasswordResetReq.class);
         //将head中传参到request
         request.setMobile(headers.get("mobile").get(0));
         mcUserService.passwordReset(request);
@@ -99,7 +99,7 @@ public class McUserController {
     {
         logger.info(AppRestUrl.PASSWORD_RESET_DEFAULT + ",Param:", bodyInfo.toString());
 
-        McPasswordRestReq request = new Gson().fromJson(bodyInfo.decryptData(), McPasswordRestReq.class);
+        McPasswordResetReq request = new Gson().fromJson(bodyInfo.decryptData(), McPasswordResetReq.class);
 
         mcUserService.passwordReset(request.getMobile());
         //修改密码成功
