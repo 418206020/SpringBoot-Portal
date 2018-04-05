@@ -147,7 +147,6 @@ public class McUserController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = Message.MSG_OK_200),
             @ApiResponse(code = 401, message = Message.MSG_EN_ERROR_VERIFY_CODE),
-            @ApiResponse(code = 602, message = "密码错误或失效"),
             @ApiResponse(code = 404, message = Message.MSG_EN_ERROR_404),
             @ApiResponse(code = 500, message = Message.MSG_EN_ERROR_500)}
     )
@@ -157,7 +156,8 @@ public class McUserController {
     {
         logger.info(AppRestUrl.LOGOUT + ",Param:");
 
-//        mcUserService.loginByPasswordOrVerifyCode(mcUserLoginReq);
+        String mobile = headers.get("mobile").get(0);
+        mcUserService.logout(mobile);
         return ReturnAppInfo.successEncrypt("ok");
     }
 

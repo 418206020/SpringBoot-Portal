@@ -60,4 +60,9 @@ public interface McUserService {
      */
     void tokenRecord(long userId, String mobile, String token, Date expireTime);
 
+    /**
+     * 退出登录
+     * @param mobile
+     */
+    void logout(String mobile);
 }

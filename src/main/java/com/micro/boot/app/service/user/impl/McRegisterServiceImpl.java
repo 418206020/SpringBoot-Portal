@@ -88,8 +88,8 @@ public class McRegisterServiceImpl implements McRegisterService {
         }
         //设置加盐
         request.setSalt(RandomStringUtils.randomAlphanumeric(Constants.COUNT_SALT));
-        //设置随机密码-首次设置请用户记住
-        String pwd = String.valueOf(Tools.getRandomNum());
+        //设置随机密码-首次密码复杂度不做要求
+        String pwd = String.valueOf(Tools.getRandomBit8());
         request.setPassword(
                 new Sha256Hash(pwd, request.getSalt()).toHex()
         );

@@ -25,6 +25,16 @@ public class Tools {
     }
 
     /**
+     * 随机生成六位数验证码
+     *
+     * @return
+     */
+    public static int getRandomBit8() {
+        Random r = new Random();
+        return r.nextInt(90000000) + 10000000;
+    }
+
+    /**
      * 检测字符串是否不为空(null,"","null")
      *
      * @param s

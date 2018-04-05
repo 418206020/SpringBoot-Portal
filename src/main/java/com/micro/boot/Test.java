@@ -48,8 +48,8 @@ public class Test {
     private static Object generator() {
 //        data = getRegisterReq();//注册信息 aa471672b7503a6d99d3d1b1342d7aabb9bd28faf3738de4f44d8e48c9c99c3f
 //        data = getPasswordRest();//忘记密码重置请求
-//        data=getLoginReq();//登录信息
-        data = getUpdatePwd();//修改密码
+        data=getLoginReq();//登录信息
+//        data = getUpdatePwd();//修改密码
 
         return data;
     }
@@ -57,10 +57,11 @@ public class Test {
     private static Object getUpdatePwd() {
         //其余在header
         McPasswordRestReq req = new McPasswordRestReq();
-        String pwd = "Tui_0ke_s";
-        if(PwdTools.isCorrect_1_8(pwd)){
+//        String pwd = "Tui_0ke_s";
+        String pwd = "11111111";
+//        if(PwdTools.isCorrect_1_8(pwd)){
             req.setPassword(pwd);
-        }
+//        }
 
         return req;
     }
@@ -144,7 +145,7 @@ public class Test {
         McUserLoginReq req = new McUserLoginReq();
         req.setMobile("15094011640");
 //        两种方式最少选一种
-        req.setPassword("111111");//密码传输
+        req.setPassword("11111111");//密码传输
 //        req.setVerifyCode("111222");
         return req;
     }
