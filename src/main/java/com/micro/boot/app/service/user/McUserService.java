@@ -16,6 +16,7 @@ package com.micro.boot.app.service.user;
 
 import com.micro.boot.app.object.request.McPasswordRestReq;
 import com.micro.boot.app.object.request.McUserLoginReq;
+import com.micro.boot.app.object.response.McUserInfoRep;
 import com.micro.boot.app.object.response.McUserLoginRep;
 
 import java.util.Date;
@@ -65,4 +66,11 @@ public interface McUserService {
      * @param mobile
      */
     void logout(String mobile);
+
+    /**
+     *
+     * @param mobile
+     * @return
+     */
+    McUserInfoRep getUserInfo(String mobile);
 }

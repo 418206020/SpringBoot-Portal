@@ -5,7 +5,28 @@
 <mapper namespace="com.micro.boot.app.dao.McUserDao">
 
     <!-- 数据库字段映射 -->
-    <resultMap type="com.micro.boot.app.object.response.McUserRegisterRep" id="userRegisterRep">
+    <resultMap type="com.micro.boot.app.object.response.McUserRegisterRep" id="mcUserRegisterRep">
+        <result property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="mobile" column="mobile"/>
+        <result property="nickname" column="nickname"/>
+        <result property="wechatId" column="wechat_id"/>
+        <result property="qqId" column="qq_id"/>
+        <result property="alipayId" column="alipay_id"/>
+        <result property="password" column="password"/>
+        <result property="salt" column="salt"/>
+        <result property="idCard" column="id_card"/>
+        <result property="email" column="email"/>
+        <result property="sex" column="sex"/>
+        <result property="birthday" column="birthday"/>
+        <result property="headUrl" column="head_url"/>
+        <result property="headUrlThumb" column="head_url_thumb"/>
+        <result property="status" column="status"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <resultMap type="com.micro.boot.app.object.response.McUserInfoRep" id="mcUserInfoRep">
         <result property="id" column="id"/>
         <result property="username" column="username"/>
         <result property="mobile" column="mobile"/>
@@ -72,13 +93,22 @@
     <!--通过手机号查询用户信息-->
     <select id="getUserByMobile"
             parameterType="java.lang.String"
-            resultMap="userRegisterRep">
+            resultMap="mcUserRegisterRep">
         select
         <include refid="commonColumns"/>
         from mc_user where mobile = #{0}
     </select>
 
-    <!--通过手机号查询用户信息-->
+    <!--查询用户信息-->
+    <select id="getUserInfo"
+            parameterType="java.lang.String"
+            resultMap="mcUserInfoRep">
+        select
+        <include refid="commonColumns"/>
+        from mc_user where mobile = #{0}
+    </select>
+
+    <!--通过手机号查询用户登录后返回信息-->
     <select id="getUserByLogin"
             parameterType="java.lang.String"
             resultMap="mcUserLoginRep">

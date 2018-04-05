@@ -3,6 +3,7 @@ package com.micro.boot.app.service.user.impl;
 import com.micro.boot.app.dao.McUserDao;
 import com.micro.boot.app.object.request.McPasswordRestReq;
 import com.micro.boot.app.object.request.McUserLoginReq;
+import com.micro.boot.app.object.response.McUserInfoRep;
 import com.micro.boot.app.object.response.McUserLoginRep;
 import com.micro.boot.app.object.response.McUserRegisterRep;
 import com.micro.boot.app.service.user.McUserService;
@@ -146,6 +147,16 @@ public class McUserServiceImpl implements McUserService {
     @Override public void logout(String mobile) {
         //注销token
         redisUtils.delete(RedisUtils.redisGetKey(mobile, AppCode.REDIS_MOBILE_TOKEN));
+    }
+
+    /**
+     * 查询
+     * @param mobile
+     * @return
+     */
+    @Override public McUserInfoRep getUserInfo(String mobile) {
+        McUserInfoRep response = mcUserDao.getUserInfo(mobile);
+        return response;
     }
 
 

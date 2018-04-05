@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.micro.boot.app.annotation.MobileToken;
 import com.micro.boot.app.object.request.McPasswordRestReq;
 import com.micro.boot.app.object.request.McUserLoginReq;
+import com.micro.boot.app.object.response.McUserInfoRep;
 import com.micro.boot.app.object.response.McUserLoginRep;
 import com.micro.boot.app.service.user.McUserService;
 import com.micro.boot.app.utils.JwtUtils;
@@ -135,7 +136,34 @@ public class McUserController {
     }
 
     /**
-     * 退出登录 通过短信验证码或者密码均可
+     * 退出登录 通过token
+     *
+     * @param headers
+     *
+     * @return 返回
+     *
+     * @throws Exception
+     */
+    @ApiOperation(value = "退出登录", notes = "退出登录", response = String.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = Message.MSG_OK_200),
+            @ApiResponse(code = 401, message = Message.MSG_EN_ERROR_VERIFY_CODE),
+            @ApiResponse(code = 404, message = Message.MSG_EN_ERROR_404),
+            @ApiResponse(code = 500, message = Message.MSG_EN_ERROR_500)}
+    )
+    @MobileToken
+    @PutMapping(AppRestUrl.LOGOUT)
+    public ReturnAppInfo<McUserLoginRep> userLogout(@RequestHeader HttpHeaders headers) throws Exception
+    {
+        logger.info(AppRestUrl.LOGOUT + ",Param:");
+
+        String mobile = headers.get("mobile").get(0);
+        mcUserService.logout(mobile);
+        return ReturnAppInfo.successEncrypt("ok");
+    }
+
+    /**
+     * 查询个人基本信息
      *
      * @param headers
      *
@@ -151,14 +179,13 @@ public class McUserController {
             @ApiResponse(code = 500, message = Message.MSG_EN_ERROR_500)}
     )
     @MobileToken
-    @PutMapping(AppRestUrl.LOGOUT)
+    @GetMapping(AppRestUrl.MC_INFO)
     public ReturnAppInfo<McUserLoginRep> userLogin(@RequestHeader HttpHeaders headers) throws Exception
     {
-        logger.info(AppRestUrl.LOGOUT + ",Param:");
+        logger.info(AppRestUrl.MC_INFO + ",Param:");
 
         String mobile = headers.get("mobile").get(0);
-        mcUserService.logout(mobile);
-        return ReturnAppInfo.successEncrypt("ok");
+        McUserInfoRep mcUserInfoRep = mcUserService.getUserInfo(mobile);
+        return ReturnAppInfo.successEncrypt(mcUserInfoRep);
     }
-
 }

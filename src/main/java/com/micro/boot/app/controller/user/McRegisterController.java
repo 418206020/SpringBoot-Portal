@@ -86,7 +86,7 @@ public class McRegisterController {
             @ApiResponse(code = 404, message = Message.MSG_EN_ERROR_404),
             @ApiResponse(code = 500, message = Message.MSG_EN_ERROR_500)}
     )
-    @PutMapping(AppRestUrl.REGISTER_MOBILE)
+    @PostMapping(AppRestUrl.REGISTER_MOBILE)
     public ReturnAppInfo<McUserLoginRep> loginMap(@RequestBody BodyInfo bodyInfo,
                                                   @RequestHeader HttpHeaders headers) throws Exception
     {

@@ -40,5 +40,10 @@ public class AppRestUrl {
      */
     public static final String LOGOUT = "logout";
 
+    /**
+     * 查询个人基本信息
+     */
+    public static final String MC_INFO = "info";
+
 
 }
