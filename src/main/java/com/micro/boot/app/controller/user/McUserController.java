@@ -4,6 +4,7 @@ package com.micro.boot.app.controller.user;
 import com.google.gson.Gson;
 import com.micro.boot.app.annotation.MobileToken;
 import com.micro.boot.app.object.request.McPasswordResetReq;
+import com.micro.boot.app.object.request.McUserInfoReq;
 import com.micro.boot.app.object.request.McUserLoginReq;
 import com.micro.boot.app.object.response.McUserInfoRep;
 import com.micro.boot.app.object.response.McUserLoginRep;
@@ -54,8 +55,8 @@ public class McUserController {
      */
     @ApiOperation(value = "修改密码", notes = "修改密码", response = ReturnAppInfo.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = Message.MSG_OK_200),
-            @ApiResponse(code = 606, message = Message.MSG_EN_INPUT_ERROR),
+            @ApiResponse(code = AppCode.SUCCESS_RESPONSE, message = Message.MSG_OK_200),
+            @ApiResponse(code = AppCode.CODE_ERROR_INPUT, message = Message.MSG_EN_INPUT_ERROR),
             @ApiResponse(code = AppCode.ERROR_CODE_404, message = Message.MSG_EN_ERROR_404),
             @ApiResponse(code = AppCode.EXCETPTION_FAIL, message = Message.MSG_EN_ERROR_500)}
     )
@@ -84,7 +85,7 @@ public class McUserController {
      */
     @ApiOperation(value = "重置密码", notes = "重置密码", response = ReturnAppInfo.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = Message.MSG_OK_200),
+            @ApiResponse(code = AppCode.SUCCESS_RESPONSE, message = Message.MSG_OK_200),
             @ApiResponse(code = AppCode.ERROR_CODE_404, message = Message.MSG_EN_ERROR_404),
             @ApiResponse(code = AppCode.EXCETPTION_FAIL, message = Message.MSG_EN_ERROR_500)}
     )
@@ -112,7 +113,7 @@ public class McUserController {
      */
     @ApiOperation(value = "用户登录", notes = "用户登录后返回token和用户信息", response = String.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = Message.MSG_OK_200),
+            @ApiResponse(code = AppCode.SUCCESS_RESPONSE, message = Message.MSG_OK_200),
             @ApiResponse(code = AppCode.CODE_ERROR_VERIFY_CODE, message = Message.MSG_EN_ERROR_VERIFY_CODE),
             @ApiResponse(code = AppCode.CODE_ERROR_PASSWORD, message = Message.MSG_EN_ERROR_PASSWORD),
             @ApiResponse(code = AppCode.ERROR_CODE_404, message = Message.MSG_EN_ERROR_404),
@@ -141,8 +142,8 @@ public class McUserController {
      */
     @ApiOperation(value = "退出登录", notes = "退出登录", response = String.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = Message.MSG_OK_200),
-            @ApiResponse(code = 401, message = Message.MSG_EN_ERROR_VERIFY_CODE),
+            @ApiResponse(code = AppCode.SUCCESS_RESPONSE, message = Message.MSG_OK_200),
+            @ApiResponse(code = AppCode.ERROR_CODE_401, message = Message.MSG_EN_HEAD_TOKEN_INVALID),
             @ApiResponse(code = AppCode.ERROR_CODE_404, message = Message.MSG_EN_ERROR_404),
             @ApiResponse(code = AppCode.EXCETPTION_FAIL, message = Message.MSG_EN_ERROR_500)}
     )
@@ -162,20 +163,20 @@ public class McUserController {
      *
      * @param headers
      *
-     * @return 返回带token的用户基本信息 McUserLoginRep
+     * @return
      *
      * @throws Exception
      */
-    @ApiOperation(value = "退出登录", notes = "退出登录", response = String.class)
+    @ApiOperation(value = "查询个人基本信息", notes = "查询个人基本信息", response = McUserInfoRep.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = Message.MSG_OK_200),
-            @ApiResponse(code = 401, message = Message.MSG_EN_ERROR_VERIFY_CODE),
+            @ApiResponse(code = AppCode.SUCCESS_RESPONSE, message = Message.MSG_OK_200),
+            @ApiResponse(code = AppCode.ERROR_CODE_401, message = Message.MSG_EN_HEAD_TOKEN_INVALID),
             @ApiResponse(code = AppCode.ERROR_CODE_404, message = Message.MSG_EN_ERROR_404),
             @ApiResponse(code = AppCode.EXCETPTION_FAIL, message = Message.MSG_EN_ERROR_500)}
     )
     @MobileToken
     @GetMapping(AppRestUrl.MC_INFO)
-    public ReturnAppInfo<McUserLoginRep> userLogin(@RequestHeader HttpHeaders headers) throws Exception
+    public ReturnAppInfo<McUserLoginRep> userInfo(@RequestHeader HttpHeaders headers) throws Exception
     {
         logger.info(AppRestUrl.MC_INFO + ",Param:");
 
@@ -183,4 +184,35 @@ public class McUserController {
         McUserInfoRep mcUserInfoRep = mcUserService.getUserInfo(mobile);
         return ReturnAppInfo.successEncrypt(mcUserInfoRep);
     }
+
+    /**
+     * 修改个人基本信息
+     *
+     * @param headers
+     *
+     * @return
+     *
+     * @throws Exception
+     */
+    @ApiOperation(value = "修改个人基本信息", notes = "修改个人基本信息", response = McUserInfoRep.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = AppCode.SUCCESS_RESPONSE, message = Message.MSG_OK_200),
+            @ApiResponse(code = AppCode.ERROR_CODE_401, message = Message.MSG_EN_HEAD_TOKEN_INVALID),
+            @ApiResponse(code = AppCode.ERROR_CODE_404, message = Message.MSG_EN_ERROR_404),
+            @ApiResponse(code = AppCode.EXCETPTION_FAIL, message = Message.MSG_EN_ERROR_500)}
+    )
+    @MobileToken
+    @GetMapping(AppRestUrl.MC_INFO)
+    public ReturnAppInfo<McUserLoginRep> userUpdate(@RequestBody BodyInfo bodyInfo,
+                                                   @RequestHeader HttpHeaders headers) throws Exception
+    {
+        logger.info(AppRestUrl.MC_INFO + ",Param:");
+        McUserInfoReq request = new Gson().fromJson(bodyInfo.decryptData(), McUserInfoReq.class);
+
+        request.setMobile(headers.get("mobile").get(0));
+        McUserInfoRep mcUserInfoRep = mcUserService.updateUserInfo(request);
+        return ReturnAppInfo.successEncrypt(mcUserInfoRep);
+    }
+
+
 }

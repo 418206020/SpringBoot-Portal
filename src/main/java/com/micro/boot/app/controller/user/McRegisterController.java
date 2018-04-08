@@ -52,7 +52,7 @@ public class McRegisterController {
      */
     @ApiOperation(value = "获取短信验证码", notes = "使用手机号获取短信验证码", response = ReturnAppInfo.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = Message.MSG_OK_200),
+            @ApiResponse(code = AppCode.SUCCESS_RESPONSE, message = Message.MSG_OK_200),
             @ApiResponse(code = AppCode.ERROR_CODE_404, message = Message.MSG_EN_ERROR_404),
             @ApiResponse(code = AppCode.EXCETPTION_FAIL, message = Message.MSG_EN_ERROR_500)}
     )
@@ -78,7 +78,7 @@ public class McRegisterController {
      */
     @ApiOperation(value = "使用短信验证码注册", notes = "使用短信验证码注册", response = ReturnAppInfo.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = Message.MSG_OK_200),
+            @ApiResponse(code = AppCode.SUCCESS_RESPONSE, message = Message.MSG_OK_200),
             @ApiResponse(code = AppCode.CODE_ERROR_VERIFY_CODE, message = Message.MSG_EN_ERROR_VERIFY_CODE + " or " + Message.MSG_EN_ERROR_PASSWORD),
             @ApiResponse(code = AppCode.ERROR_CODE_404, message = Message.MSG_EN_ERROR_404),
             @ApiResponse(code = AppCode.EXCETPTION_FAIL, message = Message.MSG_EN_ERROR_500)}

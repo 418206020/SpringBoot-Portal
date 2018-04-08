@@ -15,6 +15,7 @@ package com.micro.boot.app.service.user;
 
 
 import com.micro.boot.app.object.request.McPasswordResetReq;
+import com.micro.boot.app.object.request.McUserInfoReq;
 import com.micro.boot.app.object.request.McUserLoginReq;
 import com.micro.boot.app.object.response.McUserInfoRep;
 import com.micro.boot.app.object.response.McUserLoginRep;
@@ -73,4 +74,11 @@ public interface McUserService {
      * @return
      */
     McUserInfoRep getUserInfo(String mobile);
+
+    /**
+     *
+     * @param request
+     * @return
+     */
+    McUserInfoRep updateUserInfo(McUserInfoReq request);
 }

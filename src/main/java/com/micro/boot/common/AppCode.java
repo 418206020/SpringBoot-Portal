@@ -17,7 +17,7 @@ public class AppCode {
     /**
      * 成功返回
      */
-    public final static int SUCCESS_RESPONSE = 200;
+    public final static int SUCCESS_RESPONSE = 0;
 
 
 // ---------------- Exception 异常级-----------------------

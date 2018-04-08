@@ -1,5 +1,6 @@
 package com.micro.boot.app.dao;
 
+import com.micro.boot.app.object.request.McUserInfoReq;
 import com.micro.boot.app.object.request.McUserLoginReq;
 import com.micro.boot.app.object.request.McUserRegisterReq;
 import com.micro.boot.app.object.response.McUserInfoRep;
@@ -89,5 +90,13 @@ public interface McUserDao extends BaseDao<McUserLoginReq> {
      * @return
      */
     McUserInfoRep getUserInfo(String mobile);
+
+
+    /**
+     * 修改
+     * @param request
+     * @return
+     */
+    int updateUserInfo(McUserInfoReq request);
 
 }

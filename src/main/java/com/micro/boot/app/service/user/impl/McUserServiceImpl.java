@@ -2,6 +2,7 @@ package com.micro.boot.app.service.user.impl;
 
 import com.micro.boot.app.dao.McUserDao;
 import com.micro.boot.app.object.request.McPasswordResetReq;
+import com.micro.boot.app.object.request.McUserInfoReq;
 import com.micro.boot.app.object.request.McUserLoginReq;
 import com.micro.boot.app.object.response.McUserInfoRep;
 import com.micro.boot.app.object.response.McUserLoginRep;
@@ -9,6 +10,7 @@ import com.micro.boot.app.object.response.McUserRegisterRep;
 import com.micro.boot.app.service.user.McUserService;
 import com.micro.boot.app.utils.JwtUtils;
 import com.micro.boot.common.AppCode;
+import com.micro.boot.common.Constants;
 import com.micro.boot.common.Message;
 import com.micro.boot.common.exception.RRException;
 import com.micro.boot.common.utils.DateUtils;
@@ -65,7 +67,7 @@ public class McUserServiceImpl implements McUserService {
         //校验权限
         if (StringUtils.isEmpty(request.getVerifyCode()) && StringUtils.isEmpty(token)) {
             throw new RRException(AppCode.EXCETPTION_FAIL, Message.MSG_EN_PARAMETERS_ERROR);
-        }else if(!StringUtils.isEmpty(request.getVerifyCode()) && StringUtils.isEmpty(token)){
+        } else if (!StringUtils.isEmpty(request.getVerifyCode()) && StringUtils.isEmpty(token)) {
             //手机号对应验证码是否失效
             String redisVerifyCode = redisUtils
                     .get(RedisUtils.redisGetKey(request.getMobile(), AppCode.REDIS_VERIFY_CODE));
@@ -161,13 +163,28 @@ public class McUserServiceImpl implements McUserService {
 
     /**
      * 查询
+     *
      * @param mobile
+     *
      * @return
      */
     @Override public McUserInfoRep getUserInfo(String mobile) {
-        McUserInfoRep response = mcUserDao.getUserInfo(mobile);
-        return response;
+        return mcUserDao.getUserInfo(mobile);
     }
 
+    /**
+     * 修改
+     *
+     * @param request
+     *
+     * @return
+     */
+    @Override public McUserInfoRep updateUserInfo(McUserInfoReq request) {
+        if (mcUserDao.updateUserInfo(request) >= Constants.ZERO) {
+            return mcUserDao.getUserInfo(request.getMobile());//更新之后查询最新
+        } else {
+            throw new RRException(AppCode.EXCETPTION_DATABASE_FAIL, Message.MSG_EN_DATABASE);
+        }
+    }
 
 }
