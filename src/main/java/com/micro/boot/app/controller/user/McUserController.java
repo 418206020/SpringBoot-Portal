@@ -9,10 +9,7 @@ import com.micro.boot.app.object.response.McUserInfoRep;
 import com.micro.boot.app.object.response.McUserLoginRep;
 import com.micro.boot.app.service.user.McUserService;
 import com.micro.boot.app.utils.JwtUtils;
-import com.micro.boot.common.AppRestUrl;
-import com.micro.boot.common.Constants;
-import com.micro.boot.common.Message;
-import com.micro.boot.common.ModuleConstant;
+import com.micro.boot.common.*;
 import com.micro.boot.common.request.BodyInfo;
 import com.micro.boot.common.response.ReturnAppInfo;
 import io.swagger.annotations.ApiOperation;
@@ -59,11 +56,10 @@ public class McUserController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = Message.MSG_OK_200),
             @ApiResponse(code = 606, message = Message.MSG_EN_INPUT_ERROR),
-            @ApiResponse(code = 404, message = Message.MSG_EN_ERROR_404),
-            @ApiResponse(code = 500, message = Message.MSG_EN_ERROR_500)}
+            @ApiResponse(code = AppCode.ERROR_CODE_404, message = Message.MSG_EN_ERROR_404),
+            @ApiResponse(code = AppCode.EXCETPTION_FAIL, message = Message.MSG_EN_ERROR_500)}
     )
     @PutMapping(AppRestUrl.PASSWORD_RESET)
-    @MobileToken
     public ReturnAppInfo<McUserLoginRep> passwordReset(@RequestBody BodyInfo bodyInfo,
                                                        @RequestHeader HttpHeaders headers) throws Exception
     {
@@ -71,8 +67,7 @@ public class McUserController {
 
         McPasswordResetReq request = new Gson().fromJson(bodyInfo.decryptData(), McPasswordResetReq.class);
         //将head中传参到request
-        request.setMobile(headers.get("mobile").get(0));
-        mcUserService.passwordReset(request);
+        mcUserService.passwordReset(request, headers.get("token").get(0));
         //修改密码成功根据code
         return ReturnAppInfo.successEncrypt(null);
     }
@@ -90,8 +85,8 @@ public class McUserController {
     @ApiOperation(value = "重置密码", notes = "重置密码", response = ReturnAppInfo.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = Message.MSG_OK_200),
-            @ApiResponse(code = 404, message = Message.MSG_EN_ERROR_404),
-            @ApiResponse(code = 500, message = Message.MSG_EN_ERROR_500)}
+            @ApiResponse(code = AppCode.ERROR_CODE_404, message = Message.MSG_EN_ERROR_404),
+            @ApiResponse(code = AppCode.EXCETPTION_FAIL, message = Message.MSG_EN_ERROR_500)}
     )
     @PutMapping(AppRestUrl.PASSWORD_RESET_DEFAULT)
     public ReturnAppInfo<McUserLoginRep> passwordResetDefault(@RequestBody BodyInfo bodyInfo,
@@ -118,10 +113,10 @@ public class McUserController {
     @ApiOperation(value = "用户登录", notes = "用户登录后返回token和用户信息", response = String.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = Message.MSG_OK_200),
-            @ApiResponse(code = 603, message = Message.MSG_EN_ERROR_VERIFY_CODE),
-            @ApiResponse(code = 602, message = Message.MSG_EN_ERROR_VERIFY_CODE),
-            @ApiResponse(code = 404, message = Message.MSG_EN_ERROR_404),
-            @ApiResponse(code = 500, message = Message.MSG_EN_ERROR_500)}
+            @ApiResponse(code = AppCode.CODE_ERROR_VERIFY_CODE, message = Message.MSG_EN_ERROR_VERIFY_CODE),
+            @ApiResponse(code = AppCode.CODE_ERROR_PASSWORD, message = Message.MSG_EN_ERROR_PASSWORD),
+            @ApiResponse(code = AppCode.ERROR_CODE_404, message = Message.MSG_EN_ERROR_404),
+            @ApiResponse(code = AppCode.EXCETPTION_FAIL, message = Message.MSG_EN_ERROR_500)}
     )
     @PostMapping(AppRestUrl.LOGIN_PWD_VERIFYCODE)
     public ReturnAppInfo<McUserLoginRep> userLogin(@RequestBody BodyInfo bodyInfo,
@@ -148,8 +143,8 @@ public class McUserController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = Message.MSG_OK_200),
             @ApiResponse(code = 401, message = Message.MSG_EN_ERROR_VERIFY_CODE),
-            @ApiResponse(code = 404, message = Message.MSG_EN_ERROR_404),
-            @ApiResponse(code = 500, message = Message.MSG_EN_ERROR_500)}
+            @ApiResponse(code = AppCode.ERROR_CODE_404, message = Message.MSG_EN_ERROR_404),
+            @ApiResponse(code = AppCode.EXCETPTION_FAIL, message = Message.MSG_EN_ERROR_500)}
     )
     @MobileToken
     @PutMapping(AppRestUrl.LOGOUT)
@@ -175,8 +170,8 @@ public class McUserController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = Message.MSG_OK_200),
             @ApiResponse(code = 401, message = Message.MSG_EN_ERROR_VERIFY_CODE),
-            @ApiResponse(code = 404, message = Message.MSG_EN_ERROR_404),
-            @ApiResponse(code = 500, message = Message.MSG_EN_ERROR_500)}
+            @ApiResponse(code = AppCode.ERROR_CODE_404, message = Message.MSG_EN_ERROR_404),
+            @ApiResponse(code = AppCode.EXCETPTION_FAIL, message = Message.MSG_EN_ERROR_500)}
     )
     @MobileToken
     @GetMapping(AppRestUrl.MC_INFO)

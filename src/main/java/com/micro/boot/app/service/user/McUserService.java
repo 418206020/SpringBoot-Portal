@@ -41,7 +41,7 @@ public interface McUserService {
      * 修改新密码
      * @param request
      */
-    void passwordReset(McPasswordResetReq request);
+    void passwordReset(McPasswordResetReq request, String token);
 
 
     /**

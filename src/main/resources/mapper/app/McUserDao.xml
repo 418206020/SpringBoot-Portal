@@ -122,6 +122,11 @@
         select count(1) from mc_user where mobile = #{mobile}
     </select>
 
+    <!--校验用户名重复数-->
+    <select id="isDupUsername" resultType="int">
+        select count(1) from mc_user where username = #{username}
+    </select>
+
     <!-- 修改密码 -->
     <update id="updatePasswordByMobile" parameterType="map">
         update mc_user set `password` = #{password} where `mobile` = #{mobile}

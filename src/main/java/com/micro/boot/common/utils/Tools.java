@@ -1,6 +1,7 @@
 package com.micro.boot.common.utils;
 
 import com.micro.boot.common.Constants;
+import org.apache.commons.lang.RandomStringUtils;
 
 import java.io.*;
 import java.math.BigInteger;
@@ -25,13 +26,12 @@ public class Tools {
     }
 
     /**
-     * 随机生成六位数验证码
+     * 随机生成8位密码
      *
      * @return
      */
-    public static int getRandomBit8() {
-        Random r = new Random();
-        return r.nextInt(90000000) + 10000000;
+    public static String getRandomBit8() {
+        return RandomStringUtils.random(8,true,true);
     }
 
     /**

@@ -30,6 +30,15 @@ public interface McUserDao extends BaseDao<McUserLoginReq> {
      */
     int existUserCount(String mobile);
 
+    /**
+     * 重复用户名数
+     *
+     * @param username
+     *
+     * @return
+     */
+    int isDupUsername(String username);
+
 
     /**
      * 注册用户

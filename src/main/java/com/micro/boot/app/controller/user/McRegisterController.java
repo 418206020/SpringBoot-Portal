@@ -6,10 +6,7 @@ import com.micro.boot.app.object.request.McUserRegisterReq;
 import com.micro.boot.app.object.response.McUserLoginRep;
 import com.micro.boot.app.object.response.McUserRegisterRep;
 import com.micro.boot.app.service.user.McRegisterService;
-import com.micro.boot.common.AppRestUrl;
-import com.micro.boot.common.Constants;
-import com.micro.boot.common.Message;
-import com.micro.boot.common.ModuleConstant;
+import com.micro.boot.common.*;
 import com.micro.boot.common.request.BodyInfo;
 import com.micro.boot.common.response.ReturnAppInfo;
 import com.micro.boot.common.utils.RedisUtils;
@@ -56,8 +53,8 @@ public class McRegisterController {
     @ApiOperation(value = "获取短信验证码", notes = "使用手机号获取短信验证码", response = ReturnAppInfo.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = Message.MSG_OK_200),
-            @ApiResponse(code = 404, message = Message.MSG_EN_ERROR_404),
-            @ApiResponse(code = 500, message = Message.MSG_EN_ERROR_500)}
+            @ApiResponse(code = AppCode.ERROR_CODE_404, message = Message.MSG_EN_ERROR_404),
+            @ApiResponse(code = AppCode.EXCETPTION_FAIL, message = Message.MSG_EN_ERROR_500)}
     )
     @GetMapping(AppRestUrl.SMS_VERRIFY_CODE)
     public ReturnAppInfo<McUserLoginRep> loginMap(@PathVariable String mobile,
@@ -82,9 +79,9 @@ public class McRegisterController {
     @ApiOperation(value = "使用短信验证码注册", notes = "使用短信验证码注册", response = ReturnAppInfo.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = Message.MSG_OK_200),
-            @ApiResponse(code = 603, message = Message.MSG_EN_ERROR_VERIFY_CODE + " or " + Message.MSG_EN_ERROR_PASSWORD),
-            @ApiResponse(code = 404, message = Message.MSG_EN_ERROR_404),
-            @ApiResponse(code = 500, message = Message.MSG_EN_ERROR_500)}
+            @ApiResponse(code = AppCode.CODE_ERROR_VERIFY_CODE, message = Message.MSG_EN_ERROR_VERIFY_CODE + " or " + Message.MSG_EN_ERROR_PASSWORD),
+            @ApiResponse(code = AppCode.ERROR_CODE_404, message = Message.MSG_EN_ERROR_404),
+            @ApiResponse(code = AppCode.EXCETPTION_FAIL, message = Message.MSG_EN_ERROR_500)}
     )
     @PostMapping(AppRestUrl.REGISTER_MOBILE)
     public ReturnAppInfo<McUserLoginRep> loginMap(@RequestBody BodyInfo bodyInfo,

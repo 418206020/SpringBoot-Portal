@@ -29,6 +29,7 @@ import javax.annotation.Resource;
 @Transactional
 public class McRegisterServiceImpl implements McRegisterService {
 
+    private static final String DEFALUT_CICKNAME = "用户";
     @Resource
     private RedisUtils redisUtils;
 
@@ -54,7 +55,8 @@ public class McRegisterServiceImpl implements McRegisterService {
         verifyCode = "111222";// todo 测试
 
         //存储到redis，时常60秒
-        redisUtils.set(RedisUtils.redisGetKey(mobile, AppCode.REDIS_VERIFY_CODE), verifyCode, RedisUtils.DEFAULT_EXPIRE);
+        redisUtils
+                .set(RedisUtils.redisGetKey(mobile, AppCode.REDIS_VERIFY_CODE), verifyCode, RedisUtils.DEFAULT_EXPIRE);
 
         return verifyCode;
     }
@@ -69,8 +71,7 @@ public class McRegisterServiceImpl implements McRegisterService {
     @Override public McUserRegisterRep registerUser(McUserRegisterReq request) {
         //校验参数
         if (StringUtils.isEmpty(request.getMobile()) ||
-                StringUtils.isEmpty(request.getVerifyCode()) ||
-                StringUtils.isEmpty(request.getUsername()))
+                StringUtils.isEmpty(request.getVerifyCode()))
         {
             throw new RRException(AppCode.EXCETPTION_FAIL, Message.MSG_EN_PARAMETERS_ERROR);
         }
@@ -81,26 +82,62 @@ public class McRegisterServiceImpl implements McRegisterService {
         {
             throw new RRException(AppCode.CODE_ERROR_VERIFY_CODE, Message.MSG_EN_ERROR_VERIFY_CODE);
         }
-
         //校验用户是否存在
         if (Constants.ZERO != mcUserDao.existUserCount(request.getMobile())) {
             throw new RRException(AppCode.EXCETPTION_FAIL, Message.MSG_EN_EXIST_USER);
         }
+        //设置用户名
+        if (StringUtils.isEmpty(request.getUsername())) {
+            String rUserName = null;
+            do {
+                //循环获取不重复用户名
+                rUserName = RandomStringUtils.random(Constants.BIT_RANDOM_STRING, true, true);
+            } while (isDupUsername(rUserName));
+            request.setUsername(rUserName);
+        } else {
+            //特殊字符
+            if (Tools.isSpecialChar(request.getUsername()) ||
+                    isDupUsername(request.getUsername()))
+            {
+                throw new RRException(AppCode.EXCETPTION_FAIL, Message.MSG_EN_EXIST_USER);
+            }
+        }
+        //设置默认昵称
+        if (StringUtils.isEmpty(request.getNickname())) {
+            request.setNickname(DEFALUT_CICKNAME);
+        }
         //设置加盐
         request.setSalt(RandomStringUtils.randomAlphanumeric(Constants.COUNT_SALT));
-        //设置随机密码-首次密码复杂度不做要求
-        String pwd = String.valueOf(Tools.getRandomBit8());
+        String pwd = request.getPassword();
+        if (StringUtils.isEmpty(request.getPassword())) {
+            //设置随机密码-首次密码复杂度不做要求
+            pwd = Tools.getRandomBit8();
+        }
         request.setPassword(
                 new Sha256Hash(pwd, request.getSalt()).toHex()
         );
         request.setStatus(Constants.STATUS_NORMAL);
         //注册新用户
-        if(Constants.ZERO==mcUserDao.registerMcUser(request)){
+        if (Constants.ZERO == mcUserDao.registerMcUser(request)) {
             throw new RRException(AppCode.EXCETPTION_DATABASE_FAIL, Message.MSG_EN_DATABASE);
         }
         McUserRegisterRep response = mcUserDao.getUserByMobile(request.getMobile());
         response.setPassword(pwd);
         return response;
+    }
+
+    /**
+     * 校验用户名重复
+     *
+     * @param username
+     *
+     * @return true 重复
+     */
+    @Override public Boolean isDupUsername(String username) {
+        if (mcUserDao.isDupUsername(username) > Constants.ZERO) {
+            return false;
+        }
+        return true;
     }
 
 

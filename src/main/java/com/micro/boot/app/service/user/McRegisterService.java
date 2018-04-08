@@ -40,4 +40,11 @@ public interface McRegisterService {
      */
     public McUserRegisterRep registerUser(McUserRegisterReq request);
 
+    /**
+     * 用户名是否存在
+     * @param username
+     * @return
+     */
+    public Boolean isDupUsername(String username);
+
 }

@@ -84,21 +84,21 @@ public class Test {
         //测试返回的结果
         ReturnAppInfo returnAppInfo = new ReturnAppInfo();
 //-------------------------------------------------------------------------------------/
-//        //解密短信验证码
-//        data = "9JsHADF68OHNveYqwQF2yg==";//copy of postman
-//        returnAppInfo.setData((String) data);
-//        String response = new Gson().fromJson(returnAppInfo.decryptData(), String.class);
-//        System.out.print("response=" + response.toString());
+        //解密短信验证码
+        data = "9JsHADF68OHNveYqwQF2yg==";//copy of postman
+        returnAppInfo.setData((String) data);
+        String response = new Gson().fromJson(returnAppInfo.decryptData(), String.class);
+        System.out.print("response=" + response.toString());
 //        //注册用户返回结果-包含密码
 //        data = "l+t81Q6se6jCEoXGZbO+yxSUfE6Do2g9DoAvvNoQhYiLnWlMQCCbFP+Hfv/vDLCGOhxs6y3vCqaHHogKgjnRODlN8r0DEZpU9VZmX+E0DnE5TMwqZUln2iPjU2CZIOWP6WTt6uSJxY7gKBGGKqGjoyKjrK/ZeeGaVxI5g5tMDvqcrrOSrDe+AMo3pEklip6kwDD+mF/b8U+8KACqhmNhp3c6W952C41LHeT4b5/QqTnKQZcWx2+mlu/bnpkq5bIhAA00GFra+1Of834+hSSBB4ffsUvxz/UK11cSHJ/bzc8=";
 //        returnAppInfo.setData((String) data);
 //        McUserRegisterReq response = new Gson().fromJson(returnAppInfo.decryptData(), McUserRegisterReq.class);
 //        System.out.println("userId:" +response.getId()+ "\npassword:" + response.getPassword() + "\n");//输出重要参数
-        // 注册用户返回结果-包含密码
-        data = "n1oC3TmPQ6u1yR0oc+MYDZ7NWRIJ2PnyxmuykZ0EmMWidpY7R8mf2/IFWIhqLZMGtJzPm5CgRnt+wZ9mSLEoL9oVemZqZkWVdZreW70E0Pyz8SMcUUQlc0wv2e74hoW+QlCo91JEMLkBI7G/wFMffvYHjKoU2yttRhkUui1veWG8AYI5MtswRzvCM6FJkiW/9PUvoxQW1b9jH3pkA0o0LQgqcgKKPsOO0/fxFhApuPUfMyhKX8uNJ6WYpRRI3I17GGYVrdGDuzBo+Dyi+mrh6A9klNdfpnhg8DB2oFQBYBggY/QDJThlYuMNGnpkrn1qLd865txpKlM=";
-        returnAppInfo.setData((String) data);
-        McUserInfoRep response = new Gson().fromJson(returnAppInfo.decryptData(), McUserInfoRep.class);
-        System.out.println("userId:" +response.getId()+ "\npassword:" + response.getPassword() + "\n");//输出重要参数
+//        // 注册用户返回结果-包含密码
+//        data = "n1oC3TmPQ6u1yR0oc+MYDZ7NWRIJ2PnyxmuykZ0EmMWidpY7R8mf2/IFWIhqLZMGtJzPm5CgRnt+wZ9mSLEoL9oVemZqZkWVdZreW70E0Pyz8SMcUUQlc0wv2e74hoW+QlCo91JEMLkBI7G/wFMffvYHjKoU2yttRhkUui1veWG8AYI5MtswRzvCM6FJkiW/9PUvoxQW1b9jH3pkA0o0LQgqcgKKPsOO0/fxFhApuPUfMyhKX8uNJ6WYpRRI3I17GGYVrdGDuzBo+Dyi+mrh6A9klNdfpnhg8DB2oFQBYBggY/QDJThlYuMNGnpkrn1qLd865txpKlM=";
+//        returnAppInfo.setData((String) data);
+//        McUserInfoRep response = new Gson().fromJson(returnAppInfo.decryptData(), McUserInfoRep.class);
+//        System.out.println("userId:" +response.getId()+ "\npassword:" + response.getPassword() + "\n");//输出重要参数
     }
 
 

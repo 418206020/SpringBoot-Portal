@@ -87,9 +87,15 @@ public class Constants {
     public static final String SEPPARATOR_BACKSLASH = "\\";
 
     /**
-     * 反斜杠，分隔符
+     * 加盐长度
      */
     public static final int COUNT_SALT = 20;
+
+
+    /**
+     * 随机字符
+     */
+    public static final int BIT_RANDOM_STRING = 20;
 
 
 

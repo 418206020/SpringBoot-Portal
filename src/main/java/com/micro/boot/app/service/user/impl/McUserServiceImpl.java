@@ -12,7 +12,9 @@ import com.micro.boot.common.AppCode;
 import com.micro.boot.common.Message;
 import com.micro.boot.common.exception.RRException;
 import com.micro.boot.common.utils.DateUtils;
+import com.micro.boot.common.utils.PwdTools;
 import com.micro.boot.common.utils.RedisUtils;
+import com.micro.boot.common.utils.Tools;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.springframework.stereotype.Service;
@@ -41,8 +43,6 @@ public class McUserServiceImpl implements McUserService {
 
     @Resource McUserDao mcUserDao;
 
-    private static final String DEFAULT_PWD = "11111111";
-
 
     /**
      * 通过手机 重置用户密码
@@ -53,7 +53,7 @@ public class McUserServiceImpl implements McUserService {
         McUserRegisterRep userRegister = mcUserDao.getUserByMobile(mobile);
         //sha256，加盐，shiro加密
         mcUserDao.updatePasswordByMobile(mobile,
-                new Sha256Hash(DigestUtils.sha256Hex(DEFAULT_PWD), userRegister.getSalt()).toHex());
+                new Sha256Hash(DigestUtils.sha256Hex(Tools.getRandomBit8()), userRegister.getSalt()).toHex());
     }
 
     /**
@@ -61,14 +61,26 @@ public class McUserServiceImpl implements McUserService {
      *
      * @param request
      */
-    @Override public void passwordReset(McPasswordResetReq request) {
+    @Override public void passwordReset(McPasswordResetReq request, String token) {
+        //校验权限
+        if (StringUtils.isEmpty(request.getVerifyCode()) && StringUtils.isEmpty(token)) {
+            throw new RRException(AppCode.EXCETPTION_FAIL, Message.MSG_EN_PARAMETERS_ERROR);
+        }else if(!StringUtils.isEmpty(request.getVerifyCode()) && StringUtils.isEmpty(token)){
+            //手机号对应验证码是否失效
+            String redisVerifyCode = redisUtils
+                    .get(RedisUtils.redisGetKey(request.getMobile(), AppCode.REDIS_VERIFY_CODE));
+            //校验验证码是否失效
+            if (!redisVerifyCode.equals(request.getVerifyCode())) {
+                throw new RRException(AppCode.CODE_ERROR_VERIFY_CODE, Message.MSG_EN_ERROR_VERIFY_CODE);
+            }
+        }
         //校验参数 密码至少8位且由英文字符数字下划线组成
-//        if (StringUtils.isEmpty(request.getPassword()) ||
-//                !PwdTools.isCorrect_1_8(request.getPassword()))
-//        {
-//            throw new RRException(AppCode.CODE_ERROR_INPUT, Message.MSG_EN_INPUT_ERROR
-//                    + " 必须包含数字、字母、特殊字符三种:支持特殊字符范围：^$./,;:'!@#%&*|?-_+(){}[]");
-//        }
+        if (StringUtils.isEmpty(request.getPassword()) ||
+                !PwdTools.isCorrect_1_8(request.getPassword()))
+        {
+            throw new RRException(AppCode.CODE_ERROR_INPUT, Message.MSG_EN_INPUT_ERROR
+                    + " 必须包含数字、字母、特殊字符三种:支持特殊字符范围：^$./,;:'!@#%&*|?-_+(){}[]");
+        }
         //获取加盐
         McUserRegisterRep userRegister = mcUserDao.getUserByMobile(request.getMobile());
         mcUserDao.updatePasswordByMobile(request.getMobile(),
