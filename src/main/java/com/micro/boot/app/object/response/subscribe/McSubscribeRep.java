@@ -17,15 +17,54 @@ public class McSubscribeRep implements Serializable {
     private Long id;
 
     //订阅用户
-    private Long sub_user_id;
+    private Long subUserId;
 
     //订阅主题
-    private Long sub_topic_id;
+    private Long subTopicId;
 
     //状态  0：禁用   1：正常
     private String status;
 
     //创建时间
-    private Date sub_time;
+    private Date subTime;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getSubUserId() {
+        return subUserId;
+    }
+
+    public void setSubUserId(Long subUserId) {
+        this.subUserId = subUserId;
+    }
+
+    public Long getSubTopicId() {
+        return subTopicId;
+    }
+
+    public void setSubTopicId(Long subTopicId) {
+        this.subTopicId = subTopicId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Date getSubTime() {
+        return subTime;
+    }
+
+    public void setSubTime(Date subTime) {
+        this.subTime = subTime;
+    }
 }
