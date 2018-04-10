@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--定义执行的接口-->
+<mapper namespace="com.micro.boot.app.dao.McSubscribeDao">
+
+    <!-- 数据库字段映射 -->
+    <resultMap type="com.micro.boot.app.object.response.subscribe.McSubscribeRep" id="rep">
+        <result property="id" column="id"/>
+        <result property="subUserId" column="sub_user_id"/>
+        <result property="subTopicId" column="sub_topic_id"/>
+        <result property="subTime" column="sub_time"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <!--common ALL columns-->
+    <sql id="commonColumns">
+        id, sub_user_id, sub_topic_id, sub_time, status
+    </sql>
+
+</mapper>
