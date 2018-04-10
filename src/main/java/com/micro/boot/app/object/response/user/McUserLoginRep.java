@@ -1,4 +1,4 @@
-package com.micro.boot.app.object.response;
+package com.micro.boot.app.object.response.user;
 
 import java.io.Serializable;
 import java.util.Date;

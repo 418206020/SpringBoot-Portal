@@ -2,9 +2,9 @@ package com.micro.boot.app.controller.user;
 
 
 import com.google.gson.Gson;
-import com.micro.boot.app.object.request.McUserRegisterReq;
-import com.micro.boot.app.object.response.McUserLoginRep;
-import com.micro.boot.app.object.response.McUserRegisterRep;
+import com.micro.boot.app.object.request.user.McUserRegisterReq;
+import com.micro.boot.app.object.response.user.McUserLoginRep;
+import com.micro.boot.app.object.response.user.McUserRegisterRep;
 import com.micro.boot.app.service.user.McRegisterService;
 import com.micro.boot.common.*;
 import com.micro.boot.common.request.BodyInfo;

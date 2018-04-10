@@ -1,8 +1,8 @@
 package com.micro.boot.app.service.user.impl;
 
 import com.micro.boot.app.dao.McUserDao;
-import com.micro.boot.app.object.request.McUserRegisterReq;
-import com.micro.boot.app.object.response.McUserRegisterRep;
+import com.micro.boot.app.object.request.user.McUserRegisterReq;
+import com.micro.boot.app.object.response.user.McUserRegisterRep;
 import com.micro.boot.app.service.user.McRegisterService;
 import com.micro.boot.common.AppCode;
 import com.micro.boot.common.Constants;

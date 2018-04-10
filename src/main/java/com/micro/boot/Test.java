@@ -1,10 +1,9 @@
 package com.micro.boot;
 
 import com.google.gson.Gson;
-import com.micro.boot.app.object.request.McPasswordResetReq;
-import com.micro.boot.app.object.request.McUserLoginReq;
-import com.micro.boot.app.object.request.McUserRegisterReq;
-import com.micro.boot.app.object.response.McUserInfoRep;
+import com.micro.boot.app.object.request.user.McPasswordResetReq;
+import com.micro.boot.app.object.request.user.McUserLoginReq;
+import com.micro.boot.app.object.request.user.McUserRegisterReq;
 import com.micro.boot.common.Constants;
 import com.micro.boot.common.request.BodyInfo;
 import com.micro.boot.common.response.ReturnAppInfo;

@@ -1,16 +1,17 @@
-package com.micro.boot.app.object.request;
+package com.micro.boot.app.object.response.user;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 〈用户对象实体〉
+ * 〈用户注册对象实体〉
+ * 注册后可直接使用返回token登录
  *
  * @author Administrator
  * @create 2018/3/25
  * @since 1.0.0
  */
-public class McUserInfoReq implements Serializable {
+public class McUserRegisterRep implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //用户id

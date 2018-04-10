@@ -1,11 +1,10 @@
 package com.micro.boot.app.dao;
 
-import com.micro.boot.app.object.request.McUserInfoReq;
-import com.micro.boot.app.object.request.McUserLoginReq;
-import com.micro.boot.app.object.request.McUserRegisterReq;
-import com.micro.boot.app.object.response.McUserInfoRep;
-import com.micro.boot.app.object.response.McUserLoginRep;
-import com.micro.boot.app.object.response.McUserRegisterRep;
+import com.micro.boot.app.object.request.user.McUserInfoReq;
+import com.micro.boot.app.object.request.user.McUserRegisterReq;
+import com.micro.boot.app.object.response.user.McUserInfoRep;
+import com.micro.boot.app.object.response.user.McUserLoginRep;
+import com.micro.boot.app.object.response.user.McUserRegisterRep;
 import com.micro.boot.modules.sys.dao.BaseDao;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -20,7 +19,7 @@ import java.util.Date;
  * @date 2017-10-23 21:23:54
  */
 @Mapper
-public interface McUserDao extends BaseDao<McUserLoginReq> {
+public interface McUserDao extends BaseDao<McUserInfoReq> {
 
     /**
      * 该手机是否已注册

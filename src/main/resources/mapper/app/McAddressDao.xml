@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--定义执行的接口-->
+<mapper namespace="com.micro.boot.app.dao.McAddressDao">
+
+    <!-- 数据库字段映射 -->
+    <resultMap type="com.micro.boot.app.object.McAddress" id="rep">
+        <result property="id" column="id"/>
+        <result property="beId" column="beId"/>
+        <result property="type" column="type"/>
+        <result property="coordinate" column="coordinate"/>
+        <result property="isDefined" column="is_defined"/>
+        <result property="defAddress" column="def_address"/>
+        <result property="undefNation" column="undef_nation"/>
+        <result property="undefProvince" column="undef_province"/>
+        <result property="undefCity" column="undef_city"/>
+        <result property="undefCounty" column="undef_county"/>
+        <result property="undefTown" column="undef_town"/>
+        <result property="undefVillage" column="undef_village"/>
+        <result property="undefHouse" column="undef_house"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <!--common ALL columns-->
+    <sql id="commonColumns">
+        id, beId, type, coordinate, is_defined, def_address,
+        undef_country, undef_province, undef_city, undef_county, undef_town, undef_village,undef_house,
+        create_time
+    </sql>
+
+</mapper>

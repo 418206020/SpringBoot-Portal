@@ -5,7 +5,7 @@
 <mapper namespace="com.micro.boot.app.dao.McUserDao">
 
     <!-- 数据库字段映射 -->
-    <resultMap type="com.micro.boot.app.object.response.McUserRegisterRep" id="mcUserRegisterRep">
+    <resultMap type="com.micro.boot.app.object.response.user.McUserRegisterRep" id="mcUserRegisterRep">
         <result property="id" column="id"/>
         <result property="username" column="username"/>
         <result property="mobile" column="mobile"/>
@@ -26,7 +26,7 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <resultMap type="com.micro.boot.app.object.response.McUserInfoRep" id="mcUserInfoRep">
+    <resultMap type="com.micro.boot.app.object.response.user.McUserInfoRep" id="mcUserInfoRep">
         <result property="id" column="id"/>
         <result property="username" column="username"/>
         <result property="mobile" column="mobile"/>
@@ -47,7 +47,7 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
-    <resultMap type="com.micro.boot.app.object.response.McUserLoginRep" id="mcUserLoginRep">
+    <resultMap type="com.micro.boot.app.object.response.user.McUserLoginRep" id="mcUserLoginRep">
         <result property="id" column="id"/>
         <!--<result property="token" column="token"/>-->
         <result property="username" column="username"/>
@@ -77,7 +77,7 @@
 
     <!--注册用户-->
     <insert id="registerMcUser" useGeneratedKeys="true" keyProperty="id"
-            parameterType="com.micro.boot.app.object.request.McUserRegisterReq">
+            parameterType="com.micro.boot.app.object.request.user.McUserRegisterReq">
         insert into mc_user
         (
         `mobile`, `username`, `nickname`, `wechat_id`, `qq_id`, `alipay_id`, `password`, `salt`, `id_card`,
@@ -144,9 +144,9 @@
         )
     </insert>
 
-    <!--注册用户-->
+    <!--修改用户-->
     <update id="updateUserInfo"
-            parameterType="com.micro.boot.app.object.request.McUserInfoReq">
+            parameterType="com.micro.boot.app.object.request.user.McUserInfoReq">
         update mc_user
         <set>
             <if test="username != null">`username` = #{username}, </if>

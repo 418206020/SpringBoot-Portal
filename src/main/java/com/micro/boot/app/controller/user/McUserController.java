@@ -3,11 +3,11 @@ package com.micro.boot.app.controller.user;
 
 import com.google.gson.Gson;
 import com.micro.boot.app.annotation.MobileToken;
-import com.micro.boot.app.object.request.McPasswordResetReq;
-import com.micro.boot.app.object.request.McUserInfoReq;
-import com.micro.boot.app.object.request.McUserLoginReq;
-import com.micro.boot.app.object.response.McUserInfoRep;
-import com.micro.boot.app.object.response.McUserLoginRep;
+import com.micro.boot.app.object.request.user.McPasswordResetReq;
+import com.micro.boot.app.object.request.user.McUserInfoReq;
+import com.micro.boot.app.object.request.user.McUserLoginReq;
+import com.micro.boot.app.object.response.user.McUserInfoRep;
+import com.micro.boot.app.object.response.user.McUserLoginRep;
 import com.micro.boot.app.service.user.McUserService;
 import com.micro.boot.app.utils.JwtUtils;
 import com.micro.boot.common.*;

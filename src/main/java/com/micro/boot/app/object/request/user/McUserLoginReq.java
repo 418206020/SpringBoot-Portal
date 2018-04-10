@@ -1,20 +1,25 @@
-package com.micro.boot.app.object.request;
+package com.micro.boot.app.object.request.user;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 〈密码修改重置〉
+ * 〈用户登录对象实体〉
  *
  * @author Administrator
  * @create 2018/3/25
  * @since 1.0.0
  */
-public class McPasswordResetReq implements Serializable {
+public class McUserLoginReq implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //手机号
     private String mobile;
+
+    //密码
+    private String password;
+    //验证码
+    private String verifyCode;
 
     //其他几种方式接入登录
     //wechat
@@ -24,10 +29,6 @@ public class McPasswordResetReq implements Serializable {
     //alipay
     private String alipayId;
 
-    //验证码
-    private String verifyCode;
-
-    private String password;
 
     public String getMobile() {
         return mobile;
@@ -35,6 +36,22 @@ public class McPasswordResetReq implements Serializable {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getVerifyCode() {
+        return verifyCode;
+    }
+
+    public void setVerifyCode(String verifyCode) {
+        this.verifyCode = verifyCode;
     }
 
     public String getWechatId() {
@@ -59,21 +76,5 @@ public class McPasswordResetReq implements Serializable {
 
     public void setAlipayId(String alipayId) {
         this.alipayId = alipayId;
-    }
-
-    public String getVerifyCode() {
-        return verifyCode;
-    }
-
-    public void setVerifyCode(String verifyCode) {
-        this.verifyCode = verifyCode;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }
