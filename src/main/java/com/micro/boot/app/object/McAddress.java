@@ -15,8 +15,7 @@ public class McAddress implements Serializable {
 
     //id
     private Long id;
-    //belong ID
-    private Long beId;
+
     //分类
     private String type;
     //卫星坐标
@@ -48,14 +47,6 @@ public class McAddress implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getBeId() {
-        return beId;
-    }
-
-    public void setBeId(Long beId) {
-        this.beId = beId;
     }
 
     public String getType() {

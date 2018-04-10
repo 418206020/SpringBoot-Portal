@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--定义执行的接口-->
+<mapper namespace="com.micro.boot.app.dao.McDeviceDao">
+
+    <!-- 数据库字段映射 -->
+    <resultMap type="com.micro.boot.app.object.response.device.McDeviceRep" id="rep">
+        <result property="id" column="id"/>
+        <result property="devType" column="dev_type"/>
+        <result property="devMacid" column="dev_macid"/>
+        <result property="devNameZh" column="dev_name_zh"/>
+        <result property="devNameEn" column="dev_name_en"/>
+        <result property="userId" column="user_id"/>
+        <result property="addressId" column="address_id"/>
+        <result property="devInfoId" column="dev_info_id"/>
+        <result property="devStatus" column="dev_status"/>
+        <result property="devMode" column="dev_mode"/>
+        <result property="electricity" column="electricity"/>
+        <result property="statusWifi" column="status_wifi"/>
+        <result property="statusBluetooth" column="status_bluetooth"/>
+        <result property="statusVoice" column="status_voice"/>
+        <result property="statusSwitch" column="status_switch"/>
+        <result property="publicExtendParam1" column="public_extend_param1"/>
+        <result property="publicExtendParam2" column="public_extend_param2"/>
+        <result property="publicExtendParam3" column="public_extend_param3"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <!--common ALL columns-->
+    <sql id="commonColumns">
+        id, dev_type, dev_macid, dev_name_zh, dev_name_en,
+        user_id, address_id, dev_info_id,
+        dev_status, dev_mode, electricity,
+        status_wifi, status_bluetooth, status_voice, status_switch,
+        public_extend_param1, public_extend_param2, public_extend_param3,
+        create_time
+    </sql>
+
+</mapper>

@@ -7,7 +7,6 @@
     <!-- 数据库字段映射 -->
     <resultMap type="com.micro.boot.app.object.McAddress" id="rep">
         <result property="id" column="id"/>
-        <result property="beId" column="beId"/>
         <result property="type" column="type"/>
         <result property="coordinate" column="coordinate"/>
         <result property="isDefined" column="is_defined"/>
@@ -24,8 +23,8 @@
 
     <!--common ALL columns-->
     <sql id="commonColumns">
-        id, beId, type, coordinate, is_defined, def_address,
-        undef_country, undef_province, undef_city, undef_county, undef_town, undef_village,undef_house,
+        id, type, coordinate, is_defined, def_address,
+        undef_nation, undef_province, undef_city, undef_county, undef_town, undef_village,undef_house,
         create_time
     </sql>
 

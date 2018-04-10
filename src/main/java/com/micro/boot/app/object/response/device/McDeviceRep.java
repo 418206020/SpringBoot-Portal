@@ -15,36 +15,40 @@ public class McDeviceRep implements Serializable {
 
     //id
     private Long id;
-    //设备英文名称
-    private String dev_name_en;
-    //设备中文名称
-    private String dev_name_zh;
-    //MC用户
-    private Long user_id;
     //设备类别
-    private String dev_type;
+    private String devType;
+    //devMacid
+    private String devMacid;
+    //设备英文名称
+    private String devNameEn;
+    //设备中文名称
+    private String devNameZh;
+    //MC用户
+    private Long userId;
+    //addressId
+    private Long addressId;
     //设备详细参数信息
-    private String dev_info_id;
+    private String devInfoId;
     //设备状态
-    private Integer dev_status;
+    private Integer devStatus;
     //设备模式
-    private Integer dev_mode;
+    private Integer devMode;
     //电量%
     private String electricity;
     //WIFI状态
-    private Integer status_wifi;
+    private Integer statusWifi;
     //蓝牙状态
-    private Integer status_bluetooth;
+    private Integer statusBluetooth;
     //声音状态
-    private Integer status_voice;
+    private Integer statusVoice;
     //开关状态
-    private Integer status_switch;
+    private Integer statusSwitch;
     //公共扩展参数1
-    private String public_extend_param1;
+    private String publicExtendParam1;
     //公共扩展参数2
-    private String public_extend_param2;
+    private String publicExtendParam2;
     //公共扩展参数3
-    private String public_extend_param3;
+    private String publicExtendParam3;
     //创建时间
     private Date createTime;
 
@@ -56,60 +60,76 @@ public class McDeviceRep implements Serializable {
         this.id = id;
     }
 
-    public String getDev_name_en() {
-        return dev_name_en;
+    public String getDevType() {
+        return devType;
     }
 
-    public void setDev_name_en(String dev_name_en) {
-        this.dev_name_en = dev_name_en;
+    public void setDevType(String devType) {
+        this.devType = devType;
     }
 
-    public String getDev_name_zh() {
-        return dev_name_zh;
+    public String getDevMacid() {
+        return devMacid;
     }
 
-    public void setDev_name_zh(String dev_name_zh) {
-        this.dev_name_zh = dev_name_zh;
+    public void setDevMacid(String devMacid) {
+        this.devMacid = devMacid;
     }
 
-    public Long getUser_id() {
-        return user_id;
+    public String getDevNameEn() {
+        return devNameEn;
     }
 
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
+    public void setDevNameEn(String devNameEn) {
+        this.devNameEn = devNameEn;
     }
 
-    public String getDev_type() {
-        return dev_type;
+    public String getDevNameZh() {
+        return devNameZh;
     }
 
-    public void setDev_type(String dev_type) {
-        this.dev_type = dev_type;
+    public void setDevNameZh(String devNameZh) {
+        this.devNameZh = devNameZh;
     }
 
-    public String getDev_info_id() {
-        return dev_info_id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setDev_info_id(String dev_info_id) {
-        this.dev_info_id = dev_info_id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public Integer getDev_status() {
-        return dev_status;
+    public Long getAddressId() {
+        return addressId;
     }
 
-    public void setDev_status(Integer dev_status) {
-        this.dev_status = dev_status;
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
     }
 
-    public Integer getDev_mode() {
-        return dev_mode;
+    public String getDevInfoId() {
+        return devInfoId;
     }
 
-    public void setDev_mode(Integer dev_mode) {
-        this.dev_mode = dev_mode;
+    public void setDevInfoId(String devInfoId) {
+        this.devInfoId = devInfoId;
+    }
+
+    public Integer getDevStatus() {
+        return devStatus;
+    }
+
+    public void setDevStatus(Integer devStatus) {
+        this.devStatus = devStatus;
+    }
+
+    public Integer getDevMode() {
+        return devMode;
+    }
+
+    public void setDevMode(Integer devMode) {
+        this.devMode = devMode;
     }
 
     public String getElectricity() {
@@ -120,60 +140,60 @@ public class McDeviceRep implements Serializable {
         this.electricity = electricity;
     }
 
-    public Integer getStatus_wifi() {
-        return status_wifi;
+    public Integer getStatusWifi() {
+        return statusWifi;
     }
 
-    public void setStatus_wifi(Integer status_wifi) {
-        this.status_wifi = status_wifi;
+    public void setStatusWifi(Integer statusWifi) {
+        this.statusWifi = statusWifi;
     }
 
-    public Integer getStatus_bluetooth() {
-        return status_bluetooth;
+    public Integer getStatusBluetooth() {
+        return statusBluetooth;
     }
 
-    public void setStatus_bluetooth(Integer status_bluetooth) {
-        this.status_bluetooth = status_bluetooth;
+    public void setStatusBluetooth(Integer statusBluetooth) {
+        this.statusBluetooth = statusBluetooth;
     }
 
-    public Integer getStatus_voice() {
-        return status_voice;
+    public Integer getStatusVoice() {
+        return statusVoice;
     }
 
-    public void setStatus_voice(Integer status_voice) {
-        this.status_voice = status_voice;
+    public void setStatusVoice(Integer statusVoice) {
+        this.statusVoice = statusVoice;
     }
 
-    public Integer getStatus_switch() {
-        return status_switch;
+    public Integer getStatusSwitch() {
+        return statusSwitch;
     }
 
-    public void setStatus_switch(Integer status_switch) {
-        this.status_switch = status_switch;
+    public void setStatusSwitch(Integer statusSwitch) {
+        this.statusSwitch = statusSwitch;
     }
 
-    public String getPublic_extend_param1() {
-        return public_extend_param1;
+    public String getPublicExtendParam1() {
+        return publicExtendParam1;
     }
 
-    public void setPublic_extend_param1(String public_extend_param1) {
-        this.public_extend_param1 = public_extend_param1;
+    public void setPublicExtendParam1(String publicExtendParam1) {
+        this.publicExtendParam1 = publicExtendParam1;
     }
 
-    public String getPublic_extend_param2() {
-        return public_extend_param2;
+    public String getPublicExtendParam2() {
+        return publicExtendParam2;
     }
 
-    public void setPublic_extend_param2(String public_extend_param2) {
-        this.public_extend_param2 = public_extend_param2;
+    public void setPublicExtendParam2(String publicExtendParam2) {
+        this.publicExtendParam2 = publicExtendParam2;
     }
 
-    public String getPublic_extend_param3() {
-        return public_extend_param3;
+    public String getPublicExtendParam3() {
+        return publicExtendParam3;
     }
 
-    public void setPublic_extend_param3(String public_extend_param3) {
-        this.public_extend_param3 = public_extend_param3;
+    public void setPublicExtendParam3(String publicExtendParam3) {
+        this.publicExtendParam3 = publicExtendParam3;
     }
 
     public Date getCreateTime() {
