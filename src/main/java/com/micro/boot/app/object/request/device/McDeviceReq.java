@@ -1,5 +1,7 @@
 package com.micro.boot.app.object.request.device;
 
+import com.micro.boot.app.object.McAddress;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -25,8 +27,9 @@ public class McDeviceReq implements Serializable {
     private String devNameZh;
     //MC用户
     private Long userId;
-    //addressId
-    private Long addressId;
+    //详细地址
+//    private Long addressId;
+    private McAddress mcAddress;
     //设备详细参数信息
     private String devInfoId;
     //设备状态
@@ -100,12 +103,12 @@ public class McDeviceReq implements Serializable {
         this.userId = userId;
     }
 
-    public Long getAddressId() {
-        return addressId;
+    public McAddress getMcAddress() {
+        return mcAddress;
     }
 
-    public void setAddressId(Long addressId) {
-        this.addressId = addressId;
+    public void setMcAddress(McAddress mcAddress) {
+        this.mcAddress = mcAddress;
     }
 
     public String getDevInfoId() {
