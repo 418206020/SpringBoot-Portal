@@ -16,19 +16,19 @@ public class McMsgReq implements Serializable {
     //id
     private Long id;
     //所属topic
-    private Long top_id;
+    private Long topId;
     //消息分类
-    private Long msg_type;
+    private Long msgType;
     //消息报文
-    private String request_qos;
+    private String requestQos;
     //返回报文
     private String suback;
     //单位：bytes
-    private String msg_size;
+    private String msgSize;
     //生成时间
-    private Date time_producer;
+    private Date timeProducer;
     //消费时间
-    private Date time_consumer;
+    private Date timeConsumer;
     //状态  0：消费   1：生产
     private Integer status;
 
@@ -40,28 +40,28 @@ public class McMsgReq implements Serializable {
         this.id = id;
     }
 
-    public Long getTop_id() {
-        return top_id;
+    public Long getTopId() {
+        return topId;
     }
 
-    public void setTop_id(Long top_id) {
-        this.top_id = top_id;
+    public void setTopId(Long topId) {
+        this.topId = topId;
     }
 
-    public Long getMsg_type() {
-        return msg_type;
+    public Long getMsgType() {
+        return msgType;
     }
 
-    public void setMsg_type(Long msg_type) {
-        this.msg_type = msg_type;
+    public void setMsgType(Long msgType) {
+        this.msgType = msgType;
     }
 
-    public String getRequest_qos() {
-        return request_qos;
+    public String getRequestQos() {
+        return requestQos;
     }
 
-    public void setRequest_qos(String request_qos) {
-        this.request_qos = request_qos;
+    public void setRequestQos(String requestQos) {
+        this.requestQos = requestQos;
     }
 
     public String getSuback() {
@@ -72,28 +72,28 @@ public class McMsgReq implements Serializable {
         this.suback = suback;
     }
 
-    public String getMsg_size() {
-        return msg_size;
+    public String getMsgSize() {
+        return msgSize;
     }
 
-    public void setMsg_size(String msg_size) {
-        this.msg_size = msg_size;
+    public void setMsgSize(String msgSize) {
+        this.msgSize = msgSize;
     }
 
-    public Date getTime_producer() {
-        return time_producer;
+    public Date getTimeProducer() {
+        return timeProducer;
     }
 
-    public void setTime_producer(Date time_producer) {
-        this.time_producer = time_producer;
+    public void setTimeProducer(Date timeProducer) {
+        this.timeProducer = timeProducer;
     }
 
-    public Date getTime_consumer() {
-        return time_consumer;
+    public Date getTimeConsumer() {
+        return timeConsumer;
     }
 
-    public void setTime_consumer(Date time_consumer) {
-        this.time_consumer = time_consumer;
+    public void setTimeConsumer(Date timeConsumer) {
+        this.timeConsumer = timeConsumer;
     }
 
     public Integer getStatus() {

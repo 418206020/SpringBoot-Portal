@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--定义执行的接口-->
+<mapper namespace="com.micro.boot.app.dao.McMsgDao">
+
+    <!-- 数据库字段映射 -->
+    <resultMap type="com.micro.boot.app.object.response.msg.McMsgRep" id="rep">
+        <result property="id" column="id"/>
+        <result property="topId" column="top_id"/>
+        <result property="msgType" column="msg_type"/>
+        <result property="requestQos" column="request_qos"/>
+        <result property="suback" column="suback"/>
+        <result property="msgSize" column="msg_size"/>
+        <result property="timeProducer" column="time_producer"/>
+        <result property="timeConsumer" column="time_consumer"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <!--common ALL columns-->
+    <sql id="commonColumns">
+        id, top_id, msg_type, request_qos, suback,
+        msg_size, time_producer, time_consumer, status
+    </sql>
+
+</mapper>
