@@ -43,7 +43,12 @@ public class AppRestUrl {
     /**
      * 查询个人基本信息
      */
-    public static final String MC_INFO = "info";
+    public static final String MC_USER_INFO = "info";
+
+    /**
+     * 修改个人基本信息
+     */
+    public static final String MC_USER_UPDATE = "info" + Constants.SEPPARATOR_SLASH + "update";
 
 
 }

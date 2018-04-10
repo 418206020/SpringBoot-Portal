@@ -175,10 +175,10 @@ public class McUserController {
             @ApiResponse(code = AppCode.EXCETPTION_FAIL, message = Message.MSG_EN_ERROR_500)}
     )
     @MobileToken
-    @GetMapping(AppRestUrl.MC_INFO)
+    @GetMapping(AppRestUrl.MC_USER_INFO)
     public ReturnAppInfo<McUserLoginRep> userInfo(@RequestHeader HttpHeaders headers) throws Exception
     {
-        logger.info(AppRestUrl.MC_INFO + ",Param:");
+        logger.info(AppRestUrl.MC_USER_INFO + ",Param:");
 
         String mobile = headers.get("mobile").get(0);
         McUserInfoRep mcUserInfoRep = mcUserService.getUserInfo(mobile);
@@ -202,11 +202,11 @@ public class McUserController {
             @ApiResponse(code = AppCode.EXCETPTION_FAIL, message = Message.MSG_EN_ERROR_500)}
     )
     @MobileToken
-    @GetMapping(AppRestUrl.MC_INFO)
+    @GetMapping(AppRestUrl.MC_USER_UPDATE)
     public ReturnAppInfo<McUserLoginRep> userUpdate(@RequestBody BodyInfo bodyInfo,
                                                    @RequestHeader HttpHeaders headers) throws Exception
     {
-        logger.info(AppRestUrl.MC_INFO + ",Param:");
+        logger.info(AppRestUrl.MC_USER_UPDATE + ",Param:");
         McUserInfoReq request = new Gson().fromJson(bodyInfo.decryptData(), McUserInfoReq.class);
 
         request.setMobile(headers.get("mobile").get(0));
