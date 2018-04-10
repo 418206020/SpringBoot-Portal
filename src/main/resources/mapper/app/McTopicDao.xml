@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--定义执行的接口-->
+<mapper namespace="com.micro.boot.app.dao.McTopicDao">
+
+    <!-- 数据库字段映射 -->
+    <resultMap type="com.micro.boot.app.object.response.topic.McTopicRep" id="rep">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="messages" column="messages"/>
+        <result property="numProducers" column="num_producers"/>
+        <result property="numConsumers" column="num_consumers"/>
+        <result property="sizeProducers" column="size_producers"/>
+        <result property="sizeConsumers" column="size_consumers"/>
+        <result property="userId" column="user_id"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <!--common ALL columns-->
+    <sql id="commonColumns">
+        id, name, messages,
+        num_producers, num_consumers,
+        size_producers, size_consumers,
+        user_id, status, create_time
+    </sql>
+
+</mapper>
