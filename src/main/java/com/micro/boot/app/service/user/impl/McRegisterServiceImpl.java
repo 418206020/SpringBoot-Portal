@@ -96,10 +96,10 @@ public class McRegisterServiceImpl implements McRegisterService {
             request.setUsername(rUserName);
         } else {
             //特殊字符
-            if (Tools.isSpecialChar(request.getUsername()) ||
+            if (!Tools.isSpecialChar(request.getUsername()) ||
                     isDupUsername(request.getUsername()))
             {
-                throw new RRException(AppCode.EXCETPTION_FAIL, Message.MSG_EN_EXIST_USER);
+                throw new RRException(AppCode.EXCETPTION_FAIL, Message.MSG_EN_PARAMETERS_ERROR);
             }
         }
         //设置默认昵称
@@ -134,7 +134,7 @@ public class McRegisterServiceImpl implements McRegisterService {
      * @return true 重复
      */
     @Override public Boolean isDupUsername(String username) {
-        if (mcUserDao.isDupUsername(username) > Constants.ZERO) {
+        if (mcUserDao.isDupUsername(username) == Constants.ZERO) {
             return false;
         }
         return true;

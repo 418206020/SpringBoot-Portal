@@ -123,7 +123,7 @@
     </select>
 
     <!--校验用户名重复数-->
-    <select id="isDupUsername" resultType="int">
+    <select id="isDupUsername" resultType="java.lang.Integer">
         select count(1) from mc_user where username = #{username}
     </select>
 

@@ -18,6 +18,9 @@ public class Constants {
      */
     public final static int ZERO = 0;
 
+
+    public final static String CONTENT_TYPE = "Content-Type";
+
     /**
      * 正常状态
      */
