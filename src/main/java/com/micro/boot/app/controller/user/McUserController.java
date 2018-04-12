@@ -68,7 +68,7 @@ public class McUserController {
 
         McPasswordResetReq request = new Gson().fromJson(bodyInfo.decryptData(), McPasswordResetReq.class);
         //将head中传参到request
-        mcUserService.passwordReset(request, headers.get("token").get(0));
+        mcUserService.passwordReset(request, headers.get("token"));
         //修改密码成功根据code
         return ReturnAppInfo.successEncrypt(null);
     }

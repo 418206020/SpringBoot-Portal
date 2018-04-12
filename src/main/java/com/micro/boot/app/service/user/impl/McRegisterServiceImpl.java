@@ -8,8 +8,10 @@ import com.micro.boot.common.AppCode;
 import com.micro.boot.common.Constants;
 import com.micro.boot.common.Message;
 import com.micro.boot.common.exception.RRException;
+import com.micro.boot.common.utils.PwdTools;
 import com.micro.boot.common.utils.RedisUtils;
 import com.micro.boot.common.utils.Tools;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.crypto.hash.Sha256Hash;
@@ -84,7 +86,7 @@ public class McRegisterServiceImpl implements McRegisterService {
         }
         //校验用户是否存在
         if (Constants.ZERO != mcUserDao.existUserCount(request.getMobile())) {
-            throw new RRException(AppCode.EXCETPTION_FAIL, Message.MSG_EN_EXIST_USER);
+            throw new RRException(AppCode.CODE_USER_EXIST, Message.MSG_EN_EXIST_USER);
         }
         //设置用户名
         if (StringUtils.isEmpty(request.getUsername())) {
@@ -114,7 +116,7 @@ public class McRegisterServiceImpl implements McRegisterService {
             pwd = Tools.getRandomBit8();
         }
         request.setPassword(
-                new Sha256Hash(pwd, request.getSalt()).toHex()
+                PwdTools.encodeHexPwd(pwd,request.getSalt())
         );
         request.setStatus(Constants.STATUS_NORMAL);
         //注册新用户

@@ -1,5 +1,8 @@
 package com.micro.boot.common.utils;
 
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.shiro.crypto.hash.Sha256Hash;
+
 /**
  * 〈密码校验〉
  *
@@ -57,5 +60,10 @@ public class PwdTools {
         }
         return false;
     }
+
+    public static String encodeHexPwd(String pwd, String salt) {
+        return new Sha256Hash(DigestUtils.sha256Hex(pwd), salt).toHex();
+    }
+
 
 }

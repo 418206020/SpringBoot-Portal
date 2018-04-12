@@ -9,7 +9,9 @@ import com.micro.boot.common.request.BodyInfo;
 import com.micro.boot.common.response.ReturnAppInfo;
 import com.micro.boot.common.utils.PwdTools;
 import net.sf.json.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.shiro.crypto.hash.Sha256Hash;
 
 import java.util.Date;
 
@@ -25,14 +27,23 @@ public class Test {
     private static Object data;
 
     public static void main(String[] args) {
-//        boolean isDecrpt = true;//解密
-        boolean isDecrpt = false;//加密
-        if (isDecrpt) {
-            decrypData();
-        } else {
-            BodyInfo bodyInfo = bodyinfo();//生成加密后的“请求数据”；快速构造测试数据
-            System.out.println("JsonData:" + "\n" + JSONObject.fromObject(bodyInfo.toString()) + "\n");
-        }
+
+        String salt = "5G1Fueti2BkHY0MBDnFY";
+        String apwd = "DK_OWK39DK";
+        String ppwd = new Sha256Hash(DigestUtils.sha256Hex(apwd), salt).toHex();
+        System.out.println(ppwd);
+        ppwd = new Sha256Hash(DigestUtils.sha256Hex(apwd), salt).toHex();
+        System.out.println(ppwd);
+
+
+////        boolean isDecrpt = true;//解密
+//        boolean isDecrpt = false;//加密
+//        if (isDecrpt) {
+//            decrypData();
+//        } else {
+//            BodyInfo bodyInfo = bodyinfo();//生成加密后的“请求数据”；快速构造测试数据
+//            System.out.println("JsonData:" + "\n" + JSONObject.fromObject(bodyInfo.toString()) + "\n");
+//        }
         return;
     }
 
@@ -44,9 +55,9 @@ public class Test {
      */
     private static Object generator() {
 //        data = getRegisterReq();//注册信息 aa471672b7503a6d99d3d1b1342d7aabb9bd28faf3738de4f44d8e48c9c99c3f
-        data = getPasswordRest();//忘记密码重置请求
+//        data = getPasswordRest();//忘记密码重置请求
 //        data=getLoginReq();//登录信息
-//        data = getUpdatePwd();//修改密码
+        data = getUpdatePwd();//修改密码
 
         return data;
     }

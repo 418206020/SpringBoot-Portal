@@ -21,6 +21,7 @@ import com.micro.boot.app.object.response.user.McUserInfoRep;
 import com.micro.boot.app.object.response.user.McUserLoginRep;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 〈用户管理〉
@@ -42,7 +43,7 @@ public interface McUserService {
      * 修改新密码
      * @param request
      */
-    void passwordReset(McPasswordResetReq request, String token);
+    void passwordReset(McPasswordResetReq request, List<String> token);
 
 
     /**

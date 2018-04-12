@@ -81,6 +81,7 @@ public class McRegisterController {
             @ApiResponse(code = AppCode.SUCCESS_RESPONSE, message = Message.MSG_OK_200),
             @ApiResponse(code = AppCode.CODE_ERROR_VERIFY_CODE, message = Message.MSG_EN_ERROR_VERIFY_CODE + " or " + Message.MSG_EN_ERROR_PASSWORD),
             @ApiResponse(code = AppCode.ERROR_CODE_404, message = Message.MSG_EN_ERROR_404),
+            @ApiResponse(code = AppCode.CODE_USER_EXIST, message = Message.MSG_EN_EXIST_USER),
             @ApiResponse(code = AppCode.EXCETPTION_FAIL, message = Message.MSG_EN_ERROR_500)}
     )
     @PostMapping(AppRestUrl.REGISTER_MOBILE)

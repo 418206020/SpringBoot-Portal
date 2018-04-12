@@ -76,6 +76,10 @@ public class AppCode {
      * 查无此人
      */
     public final static int CODE_ERROR_USER = 604;
+    /**
+     * 查无此人
+     */
+    public final static int CODE_USER_EXIST = 605;
 
     /**
      * 非法输入

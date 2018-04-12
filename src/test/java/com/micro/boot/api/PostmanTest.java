@@ -1,6 +1,7 @@
 package com.micro.boot.api;
 
 import com.micro.boot.app.object.request.user.McPasswordResetReq;
+import com.micro.boot.app.object.request.user.McUserLoginReq;
 import com.micro.boot.app.object.request.user.McUserRegisterReq;
 import com.micro.boot.common.Constants;
 import com.micro.boot.common.request.BodyInfo;
@@ -65,7 +66,7 @@ public class PostmanTest {
     }
 
     @Test
-    public void test_1_get_register() throws Exception {
+    public void test_1_get_verify_code() throws Exception {
         String pathParam = "15094011640";
         ResultActions perform = mvc.perform(MockMvcRequestBuilders
                 .get(Url_Preffix + "/register/sms/" + pathParam)
@@ -87,12 +88,10 @@ public class PostmanTest {
         req.setCreateTime(new Date());
         //密码加盐参数
         req.setSalt(RandomStringUtils.randomAlphanumeric(Constants.COUNT_SALT));
-        req.setNickname("夜火阑珊");
-        req.setUsername("DK_OWK39DK");
-        //用户名只允许英文数字和下划线
-        if (!PwdTools.isCorrect_1_8(req.getUsername())) {
-            req.setUsername(req.getUsername().replaceAll("-", "_"));
-        }
+        //用户名只允许英文数字和特殊字符
+        req.setUsername(null);
+        req.setNickname(null);
+        req.setPassword("DK_OWK39DK");
         req.setEmail("418206020@11.com");
         req.setSex("1");//1：男；2：女
         //--------------------构造测试数据------------------------
@@ -117,7 +116,7 @@ public class PostmanTest {
         McPasswordResetReq req = new McPasswordResetReq();
         req.setMobile("15094011640");
         req.setVerifyCode("111222");
-        req.setPassword("kd9k_wkd*");//这个必须写了，
+        req.setPassword("lo08_eoek");//这个必须写了，
         //--------------------构造测试数据------------------------
 
         String bodyContent = JSONObject.fromObject(getData(req).toString()).toString();
@@ -135,4 +134,78 @@ public class PostmanTest {
 //        perform.andExpect(MockMvcResultMatchers.jsonPath("$.code").value("0"));
     }
 
+    /**
+     * 密码登录
+     * @throws Exception
+     */
+    @Test
+    public void test_4_post_login_1() throws Exception {
+        //--------------------构造测试数据------------------------
+        McUserLoginReq req = new McUserLoginReq();
+        req.setMobile("15094011640");
+        req.setPassword("DK_OWK39DK");//密码传输
+        //--------------------构造测试数据------------------------
+
+        String bodyContent = JSONObject.fromObject(getData(req).toString()).toString();
+        System.out.println("TEST-REQUEST-DATA:" + getData(req).toString());
+        ResultActions perform = mvc.perform(MockMvcRequestBuilders
+                .post(Url_Preffix + "/user/login")
+                .header(Constants.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8)
+                .content(bodyContent)
+        );
+        //输出返回
+        System.out.println(perform.andReturn().getResponse().getContentAsString());
+        //根据条件校验是否成功
+        perform.andExpect(MockMvcResultMatchers.status().isOk());
+        perform.andExpect(MockMvcResultMatchers.jsonPath("$.code").value("0"));
+    }
+
+    /**
+     * 验证码登录
+     * @throws Exception
+     */
+    @Test
+    public void test_4_post_login_2() throws Exception {
+        //--------------------构造测试数据------------------------
+        McUserLoginReq req = new McUserLoginReq();
+        req.setMobile("15094011640");
+        req.setVerifyCode("111222");
+        //--------------------构造测试数据------------------------
+
+        String bodyContent = JSONObject.fromObject(getData(req).toString()).toString();
+        System.out.println("TEST-REQUEST-DATA:" + getData(req).toString());
+        ResultActions perform = mvc.perform(MockMvcRequestBuilders
+                .post(Url_Preffix + "/user/login")
+                .header(Constants.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8)
+                .content(bodyContent)
+        );
+        //输出返回
+        System.out.println(perform.andReturn().getResponse().getContentAsString());
+        //根据条件校验是否成功
+        perform.andExpect(MockMvcResultMatchers.status().isOk());
+        perform.andExpect(MockMvcResultMatchers.jsonPath("$.code").value("0"));
+    }
+
+    @Test
+    public void test_5_put_password_update() throws Exception {
+        //--------------------构造测试数据------------------------
+        McPasswordResetReq req = new McPasswordResetReq();
+        String pwd = "aaa0000*";
+        req.setPassword(pwd);
+        //--------------------构造测试数据------------------------
+
+        String bodyContent = JSONObject.fromObject(getData(req).toString()).toString();
+        System.out.println("TEST-REQUEST-DATA:" + getData(req).toString());
+        ResultActions perform = mvc.perform(MockMvcRequestBuilders
+                .put(Url_Preffix + "/user/password/reset")
+                .header(Constants.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8)
+                .content(bodyContent)
+        );
+        //输出返回
+        System.out.println(perform.andReturn().getResponse().getContentAsString());
+        //根据条件校验是否成功
+        perform.andExpect(MockMvcResultMatchers.status().isOk());
+        //PUT无返回value
+//        perform.andExpect(MockMvcResultMatchers.jsonPath("$.code").value("0"));
+    }
 }

@@ -24,7 +24,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 〈注册〉
@@ -55,7 +57,7 @@ public class McUserServiceImpl implements McUserService {
         McUserRegisterRep userRegister = mcUserDao.getUserByMobile(request.getMobile());
         //校验参数 密码至少8位且由英文字符数字下划线组成
         if (StringUtils.isEmpty(request.getPassword()) ||
-                !PwdTools.isCorrect_1_8(request.getPassword())||
+                !PwdTools.isCorrect_1_8(request.getPassword()) ||
                 !PwdTools.isCorrect_2(request.getPassword()))
         {
             throw new RRException(AppCode.CODE_ERROR_INPUT, Message.MSG_EN_INPUT_ERROR
@@ -63,7 +65,8 @@ public class McUserServiceImpl implements McUserService {
         }
         //sha256，加盐，shiro加密
         mcUserDao.updatePasswordByMobile(request.getMobile(),
-                new Sha256Hash(DigestUtils.sha256Hex(request.getPassword()), userRegister.getSalt()).toHex());
+                PwdTools.encodeHexPwd(request.getPassword(),userRegister.getSalt())
+                );
     }
 
     /**
@@ -71,7 +74,11 @@ public class McUserServiceImpl implements McUserService {
      *
      * @param request
      */
-    @Override public void passwordReset(McPasswordResetReq request, String token) {
+    @Override public void passwordReset(McPasswordResetReq request, List<String> tokenList) {
+        String token = null;
+        if (null != tokenList) {
+            token = tokenList.get(0);
+        }
         //校验权限
         if (StringUtils.isEmpty(request.getVerifyCode()) && StringUtils.isEmpty(token)) {
             throw new RRException(AppCode.EXCETPTION_FAIL, Message.MSG_EN_PARAMETERS_ERROR);
@@ -86,7 +93,8 @@ public class McUserServiceImpl implements McUserService {
         }
         //校验参数 密码至少8位且由英文字符数字下划线组成
         if (StringUtils.isEmpty(request.getPassword()) ||
-                !PwdTools.isCorrect_1_8(request.getPassword()))
+                !PwdTools.isCorrect_1_8(request.getPassword()) ||
+                !PwdTools.isCorrect_2(request.getPassword()))
         {
             throw new RRException(AppCode.CODE_ERROR_INPUT, Message.MSG_EN_INPUT_ERROR
                     + " 必须包含数字、字母、特殊字符三种:支持特殊字符范围：^$./,;:'!@#%&*|?-_+(){}[]");
@@ -94,7 +102,7 @@ public class McUserServiceImpl implements McUserService {
         //获取加盐
         McUserRegisterRep userRegister = mcUserDao.getUserByMobile(request.getMobile());
         mcUserDao.updatePasswordByMobile(request.getMobile(),
-                new Sha256Hash(DigestUtils.sha256Hex(request.getPassword()), userRegister.getSalt()).toHex());
+                PwdTools.encodeHexPwd(request.getPassword(),userRegister.getSalt()));
 
     }
 
@@ -126,7 +134,8 @@ public class McUserServiceImpl implements McUserService {
                 throw new RRException(AppCode.CODE_ERROR_USER, Message.MSG_EN_EXIST_USER);
             }
             if (!userRegister.getPassword().equals(
-                    new Sha256Hash(DigestUtils.sha256Hex(request.getPassword()), userRegister.getSalt()).toHex()))
+                    PwdTools.encodeHexPwd(request.getPassword(), userRegister.getSalt())
+            ))
             {
                 throw new RRException(AppCode.CODE_ERROR_PASSWORD, Message.MSG_EN_ERROR_PASSWORD);
             }
