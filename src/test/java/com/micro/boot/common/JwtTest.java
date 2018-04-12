@@ -1,4 +1,4 @@
-package com.micro.boot;
+package com.micro.boot.common;
 
 import com.micro.boot.app.utils.JwtUtils;
 import org.junit.Test;

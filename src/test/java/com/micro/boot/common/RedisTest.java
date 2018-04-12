@@ -1,4 +1,4 @@
-package com.micro.boot;
+package com.micro.boot.common;
 
 import com.micro.boot.common.utils.RedisUtils;
 import com.micro.boot.modules.sys.entity.SysUserEntity;
