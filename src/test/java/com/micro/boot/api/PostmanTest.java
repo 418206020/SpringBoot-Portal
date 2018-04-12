@@ -1,5 +1,6 @@
 package com.micro.boot.api;
 
+import com.micro.boot.app.object.request.user.McPasswordResetReq;
 import com.micro.boot.app.object.request.user.McUserRegisterReq;
 import com.micro.boot.common.Constants;
 import com.micro.boot.common.request.BodyInfo;
@@ -108,6 +109,30 @@ public class PostmanTest {
         //根据条件校验是否成功
         perform.andExpect(MockMvcResultMatchers.status().isOk());
 //        perform.andExpect(MockMvcResultMatchers.jsonPath("$.version").value("v1.0.0"));
+    }
+
+    @Test
+    public void test_3_put_password_reset() throws Exception {
+        //--------------------构造测试数据------------------------
+        McPasswordResetReq req = new McPasswordResetReq();
+        req.setMobile("15094011640");
+        req.setVerifyCode("111222");
+        req.setPassword("kd9k_wkd*");//这个必须写了，
+        //--------------------构造测试数据------------------------
+
+        String bodyContent = JSONObject.fromObject(getData(req).toString()).toString();
+        System.out.println("TEST-REQUEST-DATA:" + getData(req).toString());
+        ResultActions perform = mvc.perform(MockMvcRequestBuilders
+                .put(Url_Preffix + "/user/password/reset/default")
+                .header(Constants.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8)
+                .content(bodyContent)
+        );
+        //输出返回
+        System.out.println(perform.andReturn().getResponse().getContentAsString());
+        //根据条件校验是否成功
+        perform.andExpect(MockMvcResultMatchers.status().isOk());
+        //PUT无返回value
+//        perform.andExpect(MockMvcResultMatchers.jsonPath("$.code").value("0"));
     }
 
 }

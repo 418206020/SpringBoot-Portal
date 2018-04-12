@@ -43,8 +43,8 @@ public class Test {
      * @return
      */
     private static Object generator() {
-        data = getRegisterReq();//注册信息 aa471672b7503a6d99d3d1b1342d7aabb9bd28faf3738de4f44d8e48c9c99c3f
-//        data = getPasswordRest();//忘记密码重置请求
+//        data = getRegisterReq();//注册信息 aa471672b7503a6d99d3d1b1342d7aabb9bd28faf3738de4f44d8e48c9c99c3f
+        data = getPasswordRest();//忘记密码重置请求
 //        data=getLoginReq();//登录信息
 //        data = getUpdatePwd();//修改密码
 

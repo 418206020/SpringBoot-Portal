@@ -97,7 +97,7 @@ public class McUserController {
 
         McPasswordResetReq request = new Gson().fromJson(bodyInfo.decryptData(), McPasswordResetReq.class);
 
-        mcUserService.passwordReset(request.getMobile());
+        mcUserService.passwordReset(request);
         //修改密码成功
         return ReturnAppInfo.successEncrypt(null);
     }

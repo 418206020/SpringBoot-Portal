@@ -34,9 +34,9 @@ public interface McUserService {
 
     /**
      * 密码重置成默认
-     * @param mobile
+     * @param request
      */
-    void passwordReset(String mobile);
+    void passwordReset(McPasswordResetReq request);
 
     /**
      * 修改新密码

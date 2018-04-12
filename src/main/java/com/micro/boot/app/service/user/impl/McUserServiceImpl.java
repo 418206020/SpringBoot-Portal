@@ -49,13 +49,21 @@ public class McUserServiceImpl implements McUserService {
     /**
      * 通过手机 重置用户密码
      *
-     * @param mobile
+     * @param request
      */
-    @Override public void passwordReset(String mobile) {
-        McUserRegisterRep userRegister = mcUserDao.getUserByMobile(mobile);
+    @Override public void passwordReset(McPasswordResetReq request) {
+        McUserRegisterRep userRegister = mcUserDao.getUserByMobile(request.getMobile());
+        //校验参数 密码至少8位且由英文字符数字下划线组成
+        if (StringUtils.isEmpty(request.getPassword()) ||
+                !PwdTools.isCorrect_1_8(request.getPassword())||
+                !PwdTools.isCorrect_2(request.getPassword()))
+        {
+            throw new RRException(AppCode.CODE_ERROR_INPUT, Message.MSG_EN_INPUT_ERROR
+                    + " 必须包含数字、字母、特殊字符三种:支持特殊字符范围：^$./,;:'!@#%&*|?-_+(){}[]");
+        }
         //sha256，加盐，shiro加密
-        mcUserDao.updatePasswordByMobile(mobile,
-                new Sha256Hash(DigestUtils.sha256Hex(Tools.getRandomBit8()), userRegister.getSalt()).toHex());
+        mcUserDao.updatePasswordByMobile(request.getMobile(),
+                new Sha256Hash(DigestUtils.sha256Hex(request.getPassword()), userRegister.getSalt()).toHex());
     }
 
     /**
