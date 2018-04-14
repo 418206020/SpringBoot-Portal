@@ -150,7 +150,7 @@
         update mc_user
         <set>
             <if test="username != null">`username` = #{username}, </if>
-            <if test="nickname != null">`name` = #{nickname}, </if>
+            <if test="nickname != null">`nickname` = #{nickname}, </if>
             <if test="wechatId != null">`wechat_id` = #{wechatId}, </if>
             <if test="qqId != null">`qq_id` = #{qqId}, </if>
             <if test="alipayId != null">`alipay_id` = #{alipayId}, </if>

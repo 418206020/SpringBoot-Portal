@@ -1,6 +1,7 @@
 package com.micro.boot.api;
 
 import com.micro.boot.app.object.request.user.McPasswordResetReq;
+import com.micro.boot.app.object.request.user.McUserInfoReq;
 import com.micro.boot.app.object.request.user.McUserLoginReq;
 import com.micro.boot.app.object.request.user.McUserRegisterReq;
 import com.micro.boot.common.Constants;
@@ -52,6 +53,9 @@ public class PostmanTest {
     private WebApplicationContext context;
 
     private static final String Url_Preffix = "/app/v1.0.0";
+    private static final String TOKEN = "b42a1880c7057bed7fea392cb9ebc711";
+    private static final String MOBILE = "15094011640";
+    private static final String CODE_VERIFY = "111222";
 
     @Before
     public void setupMockMvc() throws Exception {
@@ -208,4 +212,55 @@ public class PostmanTest {
         //PUT无返回value
 //        perform.andExpect(MockMvcResultMatchers.jsonPath("$.code").value("0"));
     }
+
+    @Test
+    public void test_6_get_user() throws Exception {
+        ResultActions perform = mvc.perform(MockMvcRequestBuilders
+                .get(Url_Preffix + "/user/info")
+                .header(Constants.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8)
+                .header("token", TOKEN)
+                .header("mobile", MOBILE)
+        );
+        //输出返回
+        System.out.println(perform.andReturn().getResponse().getContentAsString());
+        //根据条件校验是否成功
+        perform.andExpect(MockMvcResultMatchers.status().isOk());
+//        perform.andExpect(MockMvcResultMatchers.jsonPath("$.version").value("v1.0.0"));
+    }
+
+    @Test
+    public void test_7_update_user() throws Exception {
+        //--------------------构造测试数据------------------------
+        McUserInfoReq req = new McUserInfoReq();
+        req.setNickname("nickname");
+        //--------------------构造测试数据------------------------
+        String bodyContent = JSONObject.fromObject(getData(req).toString()).toString();
+        System.out.println("TEST-REQUEST-DATA:" + getData(req).toString());
+        ResultActions perform = mvc.perform(MockMvcRequestBuilders
+                .post(Url_Preffix + "/user/info/update")
+                .header(Constants.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8)
+                .header("token", TOKEN)
+                .header("mobile", MOBILE)
+                .content(bodyContent)
+        );
+        //输出返回
+        System.out.println(perform.andReturn().getResponse().getContentAsString());
+        //根据条件校验是否成功
+        perform.andExpect(MockMvcResultMatchers.status().isOk());
+        perform.andExpect(MockMvcResultMatchers.jsonPath("$.code").value("0"));
+    }
+
+    @Test
+    public void test_8_logout() throws Exception {
+        ResultActions perform = mvc.perform(MockMvcRequestBuilders
+                .put(Url_Preffix + "/user/password/reset")
+                .header(Constants.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8)
+                .header("token", TOKEN)
+                .header("mobile", MOBILE)
+                .content("")
+        );
+        perform.andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+
 }

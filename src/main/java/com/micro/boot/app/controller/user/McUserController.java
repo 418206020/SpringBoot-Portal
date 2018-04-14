@@ -202,14 +202,14 @@ public class McUserController {
             @ApiResponse(code = AppCode.EXCETPTION_FAIL, message = Message.MSG_EN_ERROR_500)}
     )
     @MobileToken
-    @GetMapping(AppRestUrl.MC_USER_UPDATE)
+    @PostMapping(AppRestUrl.MC_USER_UPDATE)
     public ReturnAppInfo<McUserLoginRep> userUpdate(@RequestBody BodyInfo bodyInfo,
                                                    @RequestHeader HttpHeaders headers) throws Exception
     {
         logger.info(AppRestUrl.MC_USER_UPDATE + ",Param:");
         McUserInfoReq request = new Gson().fromJson(bodyInfo.decryptData(), McUserInfoReq.class);
 
-        request.setMobile(headers.get("mobile").get(0));
+        request.setMobile(headers.get("mobile").get(0));//防止篡改
         McUserInfoRep mcUserInfoRep = mcUserService.updateUserInfo(request);
         return ReturnAppInfo.successEncrypt(mcUserInfoRep);
     }
