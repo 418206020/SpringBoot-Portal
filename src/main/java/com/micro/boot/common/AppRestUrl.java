@@ -9,6 +9,7 @@ package com.micro.boot.common;
  */
 public class AppRestUrl {
 
+    //--------------------------------------------------注册用户----分隔符----------------------------------------------------
     /**
      * 短信验证码
      */
@@ -49,6 +50,36 @@ public class AppRestUrl {
      * 修改个人基本信息
      */
     public static final String MC_USER_UPDATE = "info" + Constants.SEPPARATOR_SLASH + "update";
+
+    //--------------------------------------------------设备----分隔符----------------------------------------------------
+    /**
+     * ADD
+     */
+    public static final String MC_DEVICE_ADD = "info" + Constants.SEPPARATOR_SLASH + "add";
+
+    /**
+     * EDIT
+     */
+    public static final String MC_DEVICE_EDIT = "info" + Constants.SEPPARATOR_SLASH + "edit";
+
+    /**
+     * GET
+     */
+    public static final String MC_DEVICE_GET = "info" + Constants.SEPPARATOR_SLASH + "get";
+
+    /**
+     * DEL
+     */
+    public static final String MC_DEVICE_DEL = "info" + Constants.SEPPARATOR_SLASH + "del";
+
+    /**
+     * LIST
+     */
+    public static final String MC_DEVICE_LIST = "info" + Constants.SEPPARATOR_SLASH + "list";
+
+
+    //--------------------------------------------------队列----分隔符----------------------------------------------------
+
 
 
 }

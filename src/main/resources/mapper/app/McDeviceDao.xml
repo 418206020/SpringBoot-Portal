@@ -37,4 +37,34 @@
         create_time
     </sql>
 
+    <!--添加设备-->
+    <insert id="deviceAdd" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.micro.boot.app.object.request.device.McDeviceReq">
+        insert into mc_device
+        (
+        `dev_type`, `dev_macid`, `dev_name_zh`, `dev_name_en`,
+        `user_id`, `address_id`, `dev_info_id`,
+        `dev_status`, `dev_mode`, `electricity`,
+        `status_wifi`, `status_bluetooth`, `status_voice`, `status_switch`,
+        `public_extend_param1`, `public_extend_param2`, `public_extend_param3`, `create_time`
+        )
+        values
+        (
+        #{devType}, #{devMacid}, #{devNameZh}, #{devNameEn},
+        #{userId}, #{addressId}, #{devInfoId},
+        #{devStatus}, #{devMode}, #{electricity},
+        #{statusWifi}, #{statusBluetooth}, #{statusVoice}, #{statusSwitch},
+        #{publicExtendParam1}, #{publicExtendParam2}, #{publicExtendParam3}, #{createTime}
+        )
+    </insert>
+
+    <!--查询详情-->
+    <select id="getDeviceById"
+            parameterType="java.lang.Long"
+            resultMap="rep">
+        select
+        <include refid="commonColumns"/>
+        from mc_device where id = #{0}
+    </select>
+
 </mapper>

@@ -3,6 +3,7 @@ package com.micro.boot.app.dao;
 import com.micro.boot.app.object.McAddress;
 import com.micro.boot.app.object.request.user.McUserInfoReq;
 import com.micro.boot.app.object.request.user.McUserRegisterReq;
+import com.micro.boot.app.object.response.device.McDeviceRep;
 import com.micro.boot.app.object.response.user.McUserInfoRep;
 import com.micro.boot.app.object.response.user.McUserLoginRep;
 import com.micro.boot.app.object.response.user.McUserRegisterRep;
@@ -20,5 +21,7 @@ import java.util.Date;
 @Mapper
 public interface McAddressDao extends BaseDao<McAddress> {
 
+    long addressAdd(McAddress request);
 
+    McAddress getAddressById(long id);
 }

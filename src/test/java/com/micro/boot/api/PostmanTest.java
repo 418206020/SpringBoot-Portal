@@ -1,5 +1,7 @@
 package com.micro.boot.api;
 
+import com.micro.boot.app.object.McAddress;
+import com.micro.boot.app.object.request.device.McDeviceReq;
 import com.micro.boot.app.object.request.user.McPasswordResetReq;
 import com.micro.boot.app.object.request.user.McUserInfoReq;
 import com.micro.boot.app.object.request.user.McUserLoginReq;
@@ -260,6 +262,38 @@ public class PostmanTest {
                 .content("")
         );
         perform.andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void test_device_1_post() throws Exception {
+        //--------------------构造测试数据------------------------
+        McDeviceReq req = new McDeviceReq();
+        req.setDevType("NC");
+        req.setDevMacid("ieiwow93ie");
+        req.setDevMode(2);
+        req.setDevNameEn("english");
+        req.setDevNameZh("中名称");
+        req.setDevStatus(1);
+        McAddress address = new McAddress();
+        address.setType("C");
+        address.setUndefNation("CN");
+        address.setUndefProvince("sx");
+        req.setMcAddress(address);
+        //--------------------构造测试数据------------------------
+        String bodyContent = JSONObject.fromObject(getData(req).toString()).toString();
+        System.out.println("TEST-REQUEST-DATA:" + getData(req).toString());
+        ResultActions perform = mvc.perform(MockMvcRequestBuilders
+                .post(Url_Preffix + "/device/info/add")
+                .header(Constants.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8)
+                .header("token", TOKEN)
+                .header("mobile", MOBILE)
+                .content(bodyContent)
+        );
+        //输出返回
+        System.out.println(perform.andReturn().getResponse().getContentAsString());
+        //根据条件校验是否成功
+        perform.andExpect(MockMvcResultMatchers.status().isOk());
+        perform.andExpect(MockMvcResultMatchers.jsonPath("$.code").value("0"));
     }
 
 

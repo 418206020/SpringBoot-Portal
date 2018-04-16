@@ -28,7 +28,7 @@ public class McDeviceRep implements Serializable {
     //MC用户
     private Long userId;
     //addressId
-//    private Long addressId;
+    private Long addressId;
     private McAddress mcAddress;
     //设备详细参数信息
     private String devInfoId;
@@ -54,6 +54,14 @@ public class McDeviceRep implements Serializable {
     private String publicExtendParam3;
     //创建时间
     private Date createTime;
+
+    public Long getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
+    }
 
     public Long getId() {
         return id;

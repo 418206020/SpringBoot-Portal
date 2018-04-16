@@ -24,8 +24,34 @@
     <!--common ALL columns-->
     <sql id="commonColumns">
         id, type, coordinate, is_defined, def_address,
-        undef_nation, undef_province, undef_city, undef_county, undef_town, undef_village,undef_house,
+        undef_nation, undef_province, undef_city, undef_county, undef_town, undef_village, undef_house,
         create_time
     </sql>
+
+    <!--添加设备-->
+    <insert id="addressAdd" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.micro.boot.app.object.McAddress">
+        insert into mc_address
+        (
+        `type`, `coordinate`, `is_defined`, `def_address`,
+        `undef_nation`, `undef_province`, `undef_city`, `undef_county`, `undef_town`, `undef_village`, `undef_house`,
+        `create_time`
+        )
+        values
+        (
+        #{type}, #{coordinate}, #{isDefined}, #{defAddress},
+        #{undefNation}, #{undefProvince}, #{undefCity}, #{undefCounty}, #{undefTown}, #{undefVillage}, #{undefHouse},
+        #{createTime}
+        )
+    </insert>
+
+    <!--查询详情-->
+    <select id="getAddressById"
+            parameterType="java.lang.Long"
+            resultMap="rep">
+        select
+        <include refid="commonColumns"/>
+        from mc_address where id = #{0}
+    </select>
 
 </mapper>
