@@ -21,6 +21,8 @@ public class Constants {
 
     public final static String CONTENT_TYPE = "Content-Type";
 
+    public final static String ACCEPT_LANGUAGE = "Accept-Language";
+
     /**
      * 正常状态
      */

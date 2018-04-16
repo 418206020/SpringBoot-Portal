@@ -1,6 +1,7 @@
 package com.micro.boot.app.dao;
 
 import com.micro.boot.app.object.McAddress;
+import com.micro.boot.app.object.McRegion;
 import com.micro.boot.app.object.request.user.McUserInfoReq;
 import com.micro.boot.app.object.request.user.McUserRegisterReq;
 import com.micro.boot.app.object.response.device.McDeviceRep;
@@ -24,4 +25,13 @@ public interface McAddressDao extends BaseDao<McAddress> {
     long addressAdd(McAddress request);
 
     McAddress getAddressById(long id);
+
+    /**
+     * 可查的四个字段：regionCode、regionShortnameEn、fid、level
+     * @param region
+     * @return
+     */
+    McRegion getRegion(McRegion region);
+
+
 }

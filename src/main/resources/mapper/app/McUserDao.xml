@@ -118,7 +118,7 @@
     </select>
 
     <!--通过手机号校验用户是否注册 仅有一个mobile值-->
-    <select id="existUserCount" resultType="int">
+    <select id="existUserCount" resultType="java.lang.Integer">
         select count(1) from mc_user where mobile = #{mobile}
     </select>
 

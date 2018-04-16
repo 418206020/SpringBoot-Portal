@@ -269,15 +269,18 @@ public class PostmanTest {
         //--------------------构造测试数据------------------------
         McDeviceReq req = new McDeviceReq();
         req.setDevType("NC");
-        req.setDevMacid("ieiwow93ie");
+        req.setDevMacid("macid-293s2");
         req.setDevMode(2);
         req.setDevNameEn("english");
-        req.setDevNameZh("中名称");
+        req.setDevNameZh("中文名称");
         req.setDevStatus(1);
         McAddress address = new McAddress();
-        address.setType("C");
-        address.setUndefNation("CN");
-        address.setUndefProvince("sx");
+        address.setType("CN");
+        address.setUndefNation("86");//中国
+        address.setIsDefined(1);//不适用自定义
+        address.setUndefProvince("610000");//陕西省
+        address.setUndefCity("610500");//渭南市
+        address.setUndefCounty("610581");//韩城市
         req.setMcAddress(address);
         //--------------------构造测试数据------------------------
         String bodyContent = JSONObject.fromObject(getData(req).toString()).toString();
@@ -285,6 +288,7 @@ public class PostmanTest {
         ResultActions perform = mvc.perform(MockMvcRequestBuilders
                 .post(Url_Preffix + "/device/info/add")
                 .header(Constants.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8)
+                .header(Constants.ACCEPT_LANGUAGE, Constants.LANG_ZH_CN)
                 .header("token", TOKEN)
                 .header("mobile", MOBILE)
                 .content(bodyContent)

@@ -21,6 +21,17 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
+    <!-- 行政区划 -->
+    <resultMap type="com.micro.boot.app.object.McRegion" id="resultRegion">
+        <result property="id" column="id"/>
+        <result property="region_code" column="regionCode"/>
+        <result property="region_name" column="regionName"/>
+        <result property="fid" column="fid"/>
+        <result property="region_name_en" column="regionNameEn"/>
+        <result property="region_shortname_en" column="regionShortnameEn"/>
+        <result property="level" column="level"/>
+    </resultMap>
+
     <!--common ALL columns-->
     <sql id="commonColumns">
         id, type, coordinate, is_defined, def_address,
@@ -53,5 +64,28 @@
         <include refid="commonColumns"/>
         from mc_address where id = #{0}
     </select>
+
+    <!--查询行政区划-->
+    <select id="getRegion"
+            parameterType="com.micro.boot.app.object.McRegion"
+            resultMap="resultRegion">
+        select
+        id, region_code, region_name, fid, region_name_en, region_shortname_en, level
+        from mc_region
+        where 1=1
+        <if test="fid != null and fid.trim() != ''">
+            and fid = #{fid}
+        </if>
+        <if test="regionCode != null and regionCode.trim() != ''">
+            and region_code = #{regionCode}
+        </if>
+        <if test="level != null and level.trim() != ''">
+            and level = #{level}
+        </if>
+        <if test="regionShortnameEn != null and regionShortnameEn.trim() != ''">
+            and region_shortname_en = #{regionShortnameEn}
+        </if>
+    </select>
+
 
 </mapper>

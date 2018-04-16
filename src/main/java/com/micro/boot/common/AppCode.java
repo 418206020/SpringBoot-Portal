@@ -32,6 +32,11 @@ public class AppCode {
      */
     public final static int EXCETPTION_DATABASE_FAIL = 501;
 
+    /**
+     * 系统错误 服务器不能完成请求
+     */
+    public final static int EXCETPTION_NULL_VALUE = 502;
+
 
 
 // ---------------- Error 错误级-----------------------

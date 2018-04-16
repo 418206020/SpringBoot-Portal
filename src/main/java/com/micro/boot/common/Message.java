@@ -79,5 +79,9 @@ public class Message {
      */
     public final static String MSG_EN_DATABASE = "database operator fail";
 
+    /**
+     * MSG_EN_NULL_VALUE
+     */
+    public final static String MSG_EN_NULL_VALUE = "this value cannot be null";
 
 }

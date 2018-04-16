@@ -18,4 +18,6 @@ public interface McDeviceDao extends BaseDao<McDeviceReq> {
 
     McDeviceRep getDeviceById(long id);
 
+    int isDupMacId(McDeviceReq request);
+
 }

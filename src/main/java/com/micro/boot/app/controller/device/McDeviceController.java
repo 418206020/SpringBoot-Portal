@@ -61,7 +61,7 @@ public class McDeviceController {
     {
         logger.info(AppRestUrl.MC_DEVICE_ADD+",Param:", headers);
         McDeviceReq request = new Gson().fromJson(bodyInfo.decryptData(), McDeviceReq.class);
-        McDeviceRep response = mcDeviceService.addDevice(headers.get("mobile").get(0),request);
+        McDeviceRep response = mcDeviceService.addDevice(headers,request);
         return ReturnAppInfo.successEncrypt(response);
     }
 

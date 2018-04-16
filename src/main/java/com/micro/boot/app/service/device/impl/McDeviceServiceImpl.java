@@ -4,21 +4,16 @@ import com.micro.boot.app.dao.McAddressDao;
 import com.micro.boot.app.dao.McDeviceDao;
 import com.micro.boot.app.dao.McUserDao;
 import com.micro.boot.app.object.McAddress;
+import com.micro.boot.app.object.McRegion;
 import com.micro.boot.app.object.request.device.McDeviceReq;
-import com.micro.boot.app.object.request.user.McUserRegisterReq;
 import com.micro.boot.app.object.response.device.McDeviceRep;
-import com.micro.boot.app.object.response.user.McUserRegisterRep;
 import com.micro.boot.app.service.device.McDeviceService;
-import com.micro.boot.app.service.user.McRegisterService;
 import com.micro.boot.common.AppCode;
 import com.micro.boot.common.Constants;
 import com.micro.boot.common.Message;
 import com.micro.boot.common.exception.RRException;
-import com.micro.boot.common.utils.PwdTools;
 import com.micro.boot.common.utils.RedisUtils;
-import com.micro.boot.common.utils.Tools;
-import org.apache.commons.lang.RandomStringUtils;
-import org.apache.commons.lang.StringUtils;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,15 +56,21 @@ public class McDeviceServiceImpl implements McDeviceService {
         return null;
     }
 
-    @Override public McDeviceRep addDevice(String mobile, McDeviceReq request) {
+    @Override public McDeviceRep addDevice(HttpHeaders headers, McDeviceReq request) {
+        String language = headers.get(Constants.ACCEPT_LANGUAGE).get(0);
+        String mobile = headers.get("mobile").get(0);
         request.setUserId(mcUserDao.getUserInfo(mobile).getId());
         if (null == request.getMcAddress()) {
             throw new RRException(AppCode.CODE_ERROR_INPUT, Message.MSG_EN_PARAMETERS_ERROR);
+        }
+        if (Constants.ZERO != mcDeviceDao.isDupMacId(request)) {
+            throw new RRException(AppCode.EXCETPTION_FAIL, Message.MSG_EN_PARAMETERS_ERROR);
         }
         mcAddressDao.addressAdd(request.getMcAddress());
         request.setAddressId(request.getMcAddress().getId());//设置关联地址
         mcDeviceDao.deviceAdd(request);
         McDeviceRep response = mcDeviceDao.getDeviceById(request.getId());
+        request.setMcAddress(convert2Language(request.getMcAddress(), language));
         response.setMcAddress(request.getMcAddress());//设置返回地址
         return response;
     }
@@ -91,4 +92,67 @@ public class McDeviceServiceImpl implements McDeviceService {
 //        response.setCreateTime();
 //        return response;
 //    }
+
+    /**
+     * 校验输入地址是否合法
+     *
+     * @param address
+     *
+     * @return
+     */
+    public boolean isValid(McAddress address) {
+        //校验国家地区码是否一致
+        if (address.getIsDefined() == Constants.ZERO) {
+            //自定义
+            if (null == address.getDefAddress()) {
+                throw new RRException(AppCode.EXCETPTION_NULL_VALUE, Message.MSG_EN_NULL_VALUE);
+            }
+        } else {
+            McRegion region = new McRegion();
+            region.setRegionCode(address.getUndefProvince());//省
+            if (null == mcAddressDao.getRegion(region)) {
+                return false;
+            }
+            region.setRegionCode(address.getUndefCity());//市
+            if (null == mcAddressDao.getRegion(region)) {
+                return false;
+            }
+            region.setRegionCode(address.getUndefCounty());//县
+            if (null == mcAddressDao.getRegion(region)) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param address
+     * @param language
+     *
+     * @return
+     */
+    public McAddress convert2Language(McAddress address, String language) {
+        McAddress response = new McAddress();
+        McRegion region = new McRegion();
+        if (Constants.LANG_ZH_EN.equals(language)) {
+            region.setRegionCode(address.getUndefProvince());//省
+            response.setUndefProvince(mcAddressDao.getRegion(region).getRegionName());
+            region.setRegionCode(address.getUndefCity());//市
+            response.setUndefCity(mcAddressDao.getRegion(region).getRegionName());
+            region.setRegionCode(address.getUndefCounty());//县
+            response.setUndefCounty(mcAddressDao.getRegion(region).getRegionName());
+        } else if (Constants.LANG_ZH_CN.equals(language) ||
+                Constants.LANG_ZH_TW.equals(language))//TODO 暂不支持繁体
+        {
+            region.setRegionCode(address.getUndefProvince());//省
+            McRegion obj = mcAddressDao.getRegion(region);
+            response.setUndefProvince(obj.getRegionName());
+            region.setRegionCode(address.getUndefCity());//市
+            response.setUndefCity(mcAddressDao.getRegion(region).getRegionName());
+            region.setRegionCode(address.getUndefCounty());//县
+            response.setUndefCounty(mcAddressDao.getRegion(region).getRegionName());
+        }
+        return response;
+    }
 }

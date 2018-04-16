@@ -14,6 +14,7 @@ package com.micro.boot.app.service.device;
  */
 
 
+import com.micro.boot.app.object.McAddress;
 import com.micro.boot.app.object.request.device.McDeviceReq;
 import com.micro.boot.app.object.request.user.McPasswordResetReq;
 import com.micro.boot.app.object.request.user.McUserInfoReq;
@@ -21,6 +22,7 @@ import com.micro.boot.app.object.request.user.McUserLoginReq;
 import com.micro.boot.app.object.response.device.McDeviceRep;
 import com.micro.boot.app.object.response.user.McUserInfoRep;
 import com.micro.boot.app.object.response.user.McUserLoginRep;
+import org.springframework.http.HttpHeaders;
 
 import java.util.Date;
 import java.util.List;
@@ -64,7 +66,7 @@ public interface McDeviceService {
      *
      * @return
      */
-    McDeviceRep addDevice(String mobile, McDeviceReq request);
+    McDeviceRep addDevice(HttpHeaders headers, McDeviceReq request);
 
     /**
      * 校验设备属于该用户的操作权限
@@ -73,5 +75,9 @@ public interface McDeviceService {
      * @return
      */
     boolean authDeviceByMobile(String mobile, McDeviceReq request);
+
+    McAddress convert2Language(McAddress address, String language);
+
+    boolean isValid(McAddress address);
 
 }

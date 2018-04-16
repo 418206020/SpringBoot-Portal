@@ -67,4 +67,11 @@
         from mc_device where id = #{0}
     </select>
 
+
+    <!--校验重复-->
+    <select id="isDupMacId" resultType="java.lang.Integer"
+            parameterType="com.micro.boot.app.object.request.device.McDeviceReq">
+        select count(1) from mc_device where dev_macid = #{devMacid}
+    </select>
+
 </mapper>
