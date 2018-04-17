@@ -55,11 +55,11 @@ public interface McDeviceService {
     McDeviceRep editDevice(McDeviceReq request);
 
     /**
-     * @param request
+     * @param macId
      *
      * @return
      */
-    McDeviceRep getDetail(McDeviceReq request);
+    McDeviceRep getDetail(String macId);
 
     /**
      * @param request

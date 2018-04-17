@@ -65,7 +65,7 @@ public class AppRestUrl {
     /**
      * GET
      */
-    public static final String MC_DEVICE_GET = "info" + Constants.SEPPARATOR_SLASH + "get";
+    public static final String MC_DEVICE_GET = "info" + Constants.SEPPARATOR_SLASH + "{macId}";
 
     /**
      * DEL

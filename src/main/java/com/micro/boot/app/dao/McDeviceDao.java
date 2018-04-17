@@ -14,10 +14,39 @@ import org.apache.ibatis.annotations.Mapper;
 public interface McDeviceDao extends BaseDao<McDeviceReq> {
 
 
+    /**
+     * 添加
+     * @param request
+     * @return
+     */
     long deviceAdd(McDeviceReq request);
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     McDeviceRep getDeviceById(long id);
 
+    /**
+     *
+     * @param macId
+     * @return
+     */
+    McDeviceRep getDeviceByMacId(String macId);
+
+    /**
+     * 根据macID更新
+     * @param request
+     * @return
+     */
+    int updateDeviceByMacId(McDeviceReq request);
+
+    /**
+     * 重复校验
+     * @param request
+     * @return
+     */
     int isDupMacId(McDeviceReq request);
 
 }

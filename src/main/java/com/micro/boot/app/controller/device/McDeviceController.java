@@ -68,7 +68,7 @@ public class McDeviceController {
     }
 
     /**
-     * 查询详情
+     * 查询详情：id或者macId
      *
      * @param headers
      *
@@ -83,12 +83,11 @@ public class McDeviceController {
             @ApiResponse(code = AppCode.EXCETPTION_FAIL, message = Message.MSG_EN_ERROR_500)}
     )
     @GetMapping(AppRestUrl.MC_DEVICE_GET)
-    public ReturnAppInfo<McUserLoginRep> getOne(@RequestBody BodyInfo bodyInfo,
+    public ReturnAppInfo<McUserLoginRep> getOne(@PathVariable String macId,
                                              @RequestHeader HttpHeaders headers) throws Exception
     {
         logger.info(AppRestUrl.MC_DEVICE_GET+",Param:", headers);
-        McDeviceReq request = new Gson().fromJson(bodyInfo.decryptData(), McDeviceReq.class);
-        McDeviceRep response = mcDeviceService.getDetail(request);
+        McDeviceRep response = mcDeviceService.getDetail(macId);
         return ReturnAppInfo.successEncrypt(response);
     }
 

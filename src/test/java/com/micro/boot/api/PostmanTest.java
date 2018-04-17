@@ -6,7 +6,9 @@ import com.micro.boot.app.object.request.user.McPasswordResetReq;
 import com.micro.boot.app.object.request.user.McUserInfoReq;
 import com.micro.boot.app.object.request.user.McUserLoginReq;
 import com.micro.boot.app.object.request.user.McUserRegisterReq;
+import com.micro.boot.common.AppRestUrl;
 import com.micro.boot.common.Constants;
+import com.micro.boot.common.ModuleConstant;
 import com.micro.boot.common.request.BodyInfo;
 import com.micro.boot.common.utils.PwdTools;
 import net.sf.json.JSONObject;
@@ -288,7 +290,51 @@ public class PostmanTest {
         String bodyContent = JSONObject.fromObject(getData(req).toString()).toString();
         System.out.println("TEST-REQUEST-DATA:" + getData(req).toString());
         ResultActions perform = mvc.perform(MockMvcRequestBuilders
-                .post(Url_Preffix + "/device/info/add")
+                .post(Url_Preffix+ Constants.SEPPARATOR_SLASH + ModuleConstant.MODULE_DEVICE
+                        + Constants.SEPPARATOR_SLASH+ AppRestUrl.MC_DEVICE_ADD)
+                .header(Constants.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8)
+                .header(Constants.ACCEPT_LANGUAGE, Constants.LANG_ZH_CN)
+                .header("token", TOKEN)
+                .header("mobile", MOBILE)
+                .content(bodyContent)
+        );
+        //输出返回
+        System.out.println(perform.andReturn().getResponse().getContentAsString());
+        //根据条件校验是否成功
+        perform.andExpect(MockMvcResultMatchers.status().isOk());
+        perform.andExpect(MockMvcResultMatchers.jsonPath("$.code").value("0"));
+    }
+
+    /**
+     * 修改
+     * @throws Exception
+     */
+    @Test
+    public void test_device_3_post() throws Exception {
+        //--------------------构造测试数据------------------------
+        McDeviceReq req = new McDeviceReq();
+        req.setDevType("NC");
+        req.setDevMacid("macid-293s2");
+        req.setDevMode(2);
+        req.setDevNameEn("englishName");
+        req.setDevNameZh("中文名称");
+        req.setDevStatus(1);
+        McAddress address = new McAddress();
+        address.setType("CN86");
+        address.setUndefNation("86");//中国
+        address.setIsDefined(1);//不适用自定义
+        address.setUndefProvince("610000");//陕西省
+        address.setUndefCity("610500");//渭南市
+        address.setUndefCounty("610581");//韩城市
+        address.setDefAddress("详细地址.");
+        address.setCoordinate("0.0.0.0.0");//卫星定位坐标
+        req.setMcAddress(address);
+        //--------------------构造测试数据------------------------
+        String bodyContent = JSONObject.fromObject(getData(req).toString()).toString();
+        System.out.println("TEST-REQUEST-DATA:" + getData(req).toString());
+        ResultActions perform = mvc.perform(MockMvcRequestBuilders
+                .post(Url_Preffix+ Constants.SEPPARATOR_SLASH + ModuleConstant.MODULE_DEVICE
+                        + Constants.SEPPARATOR_SLASH+ AppRestUrl.MC_DEVICE_EDIT)
                 .header(Constants.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8)
                 .header(Constants.ACCEPT_LANGUAGE, Constants.LANG_ZH_CN)
                 .header("token", TOKEN)

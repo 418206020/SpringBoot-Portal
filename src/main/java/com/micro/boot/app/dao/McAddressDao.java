@@ -22,9 +22,26 @@ import java.util.Date;
 @Mapper
 public interface McAddressDao extends BaseDao<McAddress> {
 
+    /**
+     * 添加
+     * @param request
+     * @return
+     */
     long addressAdd(McAddress request);
 
+    /**
+     * 查询
+     * @param id
+     * @return
+     */
     McAddress getAddressById(long id);
+
+    /**
+     * 根据id更新
+     * @param address
+     * @return
+     */
+    int updateAddressById(McAddress address);
 
     /**
      * 可查的四个字段：regionCode、regionShortnameEn、fid、level

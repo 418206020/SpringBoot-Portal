@@ -13,6 +13,7 @@ import com.micro.boot.common.Constants;
 import com.micro.boot.common.Message;
 import com.micro.boot.common.exception.RRException;
 import com.micro.boot.common.utils.RedisUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,10 +53,30 @@ public class McDeviceServiceImpl implements McDeviceService {
         return null;
     }
 
-    @Override public McDeviceRep getDetail(McDeviceReq request) {
-        return null;
+    /**
+     * 查询
+     * @param macId
+     *
+     * @return
+     */
+    @Override public McDeviceRep getDetail(String macId) {
+        if (StringUtils.isEmpty(macId)) {
+            McDeviceRep response =  mcDeviceDao.getDeviceByMacId(macId);
+            //查询地址关联信息
+            response.setMcAddress(mcAddressDao.getAddressById(response.getAddressId()));
+            return response;
+        } else {
+            throw new RRException(AppCode.CODE_ERROR_INPUT, Message.MSG_EN_PARAMETERS_ERROR);
+        }
     }
 
+    /**
+     * 添加
+     * @param headers
+     * @param request
+     *
+     * @return
+     */
     @Override public McDeviceRep addDevice(HttpHeaders headers, McDeviceReq request) {
 //        String language = headers.get(Constants.ACCEPT_LANGUAGE).get(0);
         String mobile = headers.get("mobile").get(0);

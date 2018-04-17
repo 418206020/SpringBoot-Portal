@@ -39,7 +39,7 @@
         create_time
     </sql>
 
-    <!--添加设备-->
+    <!--添加-->
     <insert id="addressAdd" useGeneratedKeys="true" keyProperty="id"
             parameterType="com.micro.boot.app.object.McAddress">
         insert into mc_address
@@ -64,6 +64,27 @@
         <include refid="commonColumns"/>
         from mc_address where id = #{0}
     </select>
+
+    <!--修改-->
+    <update id="updateAddressById"
+            parameterType="com.micro.boot.app.object.McAddress">
+        update mc_address
+        <set>
+            <if test="type != null">`type` = #{type}, </if>
+            <if test="coordinate != null">`coordinate` = #{coordinate}, </if>
+            <if test="isDefined != null">`is_defined` = #{isDefined}, </if>
+            <if test="defAddress != null">`def_address` = #{defAddress}, </if>
+            <if test="undefNation != null">`undef_nation` = #{undefNation}, </if>
+            <if test="undefProvince != null">`undef_province` = #{undefProvince}, </if>
+            <if test="undefCity != null">`undef_city` = #{undefCity}, </if>
+            <if test="undefCounty != null">`undef_county` = #{undefCounty}, </if>
+            <if test="undefTown != null">`undef_town` = #{undefTown}, </if>
+            <if test="undefVillage != null">`undef_village` = #{undefVillage}, </if>
+            <if test="undefHouse != null">`undef_house` = #{undefHouse}, </if>
+            <if test="createTime != null">`create_time` = #{createTime}</if>
+        </set>
+        where dev_macid = #{devMacid}
+    </update>
 
     <!--查询行政区划-->
     <select id="getRegion"
