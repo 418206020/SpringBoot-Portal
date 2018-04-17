@@ -53,6 +53,8 @@ public class McDeviceController {
     @ApiResponses(value = {
             @ApiResponse(code = AppCode.SUCCESS_RESPONSE, message = Message.MSG_OK_200),
             @ApiResponse(code = AppCode.ERROR_CODE_404, message = Message.MSG_EN_ERROR_404),
+            @ApiResponse(code = AppCode.CODE_ERROR_INPUT, message = Message.MSG_EN_PARAMETERS_ERROR),
+            @ApiResponse(code = AppCode.CODE_ERROR_EXIST, message = Message.MSG_EN_PARAMETERS_EXIST),
             @ApiResponse(code = AppCode.EXCETPTION_FAIL, message = Message.MSG_EN_ERROR_500)}
     )
     @PostMapping(AppRestUrl.MC_DEVICE_ADD)

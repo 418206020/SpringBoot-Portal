@@ -91,6 +91,12 @@ public class AppCode {
      */
     public final static int CODE_ERROR_INPUT = 606;
 
+    /**
+     * 数据已存在
+     */
+    public final static int CODE_ERROR_EXIST = 607;
+
+
 
 
 // ---------------- REDIS KEY TYPE-----------------------

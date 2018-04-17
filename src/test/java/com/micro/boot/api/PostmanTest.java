@@ -281,6 +281,8 @@ public class PostmanTest {
         address.setUndefProvince("610000");//陕西省
         address.setUndefCity("610500");//渭南市
         address.setUndefCounty("610581");//韩城市
+        address.setDefAddress("详细地址");
+        address.setCoordinate("0.0.0.0.0");//卫星定位坐标
         req.setMcAddress(address);
         //--------------------构造测试数据------------------------
         String bodyContent = JSONObject.fromObject(getData(req).toString()).toString();

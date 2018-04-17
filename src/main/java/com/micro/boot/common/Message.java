@@ -67,6 +67,11 @@ public class Message {
     /**
      * MSG_EN_PARAMETERS_ERROR
      */
+    public final static String MSG_EN_PARAMETERS_EXIST = "the parameters had exist";
+
+    /**
+     * MSG_EN_PARAMETERS_ERROR
+     */
     public final static String MSG_EN_INPUT_ERROR = "please input correct info of request";
 
     /**

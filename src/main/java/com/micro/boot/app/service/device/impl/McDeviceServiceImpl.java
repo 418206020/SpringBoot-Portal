@@ -57,20 +57,21 @@ public class McDeviceServiceImpl implements McDeviceService {
     }
 
     @Override public McDeviceRep addDevice(HttpHeaders headers, McDeviceReq request) {
-        String language = headers.get(Constants.ACCEPT_LANGUAGE).get(0);
+//        String language = headers.get(Constants.ACCEPT_LANGUAGE).get(0);
         String mobile = headers.get("mobile").get(0);
         request.setUserId(mcUserDao.getUserInfo(mobile).getId());
         if (null == request.getMcAddress()) {
             throw new RRException(AppCode.CODE_ERROR_INPUT, Message.MSG_EN_PARAMETERS_ERROR);
         }
         if (Constants.ZERO != mcDeviceDao.isDupMacId(request)) {
-            throw new RRException(AppCode.EXCETPTION_FAIL, Message.MSG_EN_PARAMETERS_ERROR);
+            throw new RRException(AppCode.CODE_ERROR_EXIST, Message.MSG_EN_PARAMETERS_EXIST);
         }
         mcAddressDao.addressAdd(request.getMcAddress());
         request.setAddressId(request.getMcAddress().getId());//设置关联地址
         mcDeviceDao.deviceAdd(request);
         McDeviceRep response = mcDeviceDao.getDeviceById(request.getId());
-        request.setMcAddress(convert2Language(request.getMcAddress(), language));
+        //根据行政区划编码转换 当前禁用
+//        request.setMcAddress(convert2Language(request.getMcAddress(), language));
         response.setMcAddress(request.getMcAddress());//设置返回地址
         return response;
     }
