@@ -80,11 +80,11 @@
             parameterType="com.micro.boot.app.object.request.device.McDeviceReq">
         update mc_device
         <set>
-            <if test="devType != null">`dev_type` = #{devType}, </if>
-            <if test="devNameZh != null">`dev_name_zh` = #{devNameZh}, </if>
-            <if test="devNameEn != null">`dev_name_en` = #{devNameEn}, </if>
-            <if test="userId != null">`user_id` = #{userId}, </if>
-            <if test="addressId != null">`address_id` = #{addressId}, </if>
+            <if test="devType != null">`dev_type` = #{devType},</if>
+            <if test="devNameZh != null">`dev_name_zh` = #{devNameZh},</if>
+            <if test="devNameEn != null">`dev_name_en` = #{devNameEn},</if>
+            <if test="userId != null">`user_id` = #{userId},</if>
+            <if test="addressId != null">`address_id` = #{addressId},</if>
             <if test="devInfoId != null">`dev_info_id` = #{devInfoId},</if>
             <if test="devStatus != null">`dev_status` = #{devStatus},</if>
             <if test="devMode != null">`dev_mode` = #{devMode},</if>
@@ -115,12 +115,25 @@
     <select id="listDevice"
             parameterType="com.micro.boot.app.object.request.device.McBatchDeviceReq"
             resultMap="rep">
-        select * from mc_device
-        <choose>
-            <when test="orderString != null and orderString.trim() != ''">
-                order by ${orderString}
-            </when>
-        </choose>
+        select
+        <include refid="commonColumns"/>
+        from mc_device
+        <where>
+            <!--USERID 必须有-->
+            `user_id` = #{userId}
+            <if test="devMode != null">
+                AND `dev_mode` = #{devMode}
+            </if>
+            <if test="devStatus != null">
+                AND `dev_status` = #{devStatus}
+            </if>
+            <if test="devType != null">
+                AND `dev_type` = #{devType}
+            </if>
+        </where>
+        <if test="orderString != null">
+            order by ${orderString}
+        </if>
         <if test="offset != null and limit != null">
             limit #{offset}, #{limit}
         </if>
