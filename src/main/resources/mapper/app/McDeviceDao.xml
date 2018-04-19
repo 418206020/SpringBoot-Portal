@@ -112,4 +112,18 @@
         select count(1) from mc_device where dev_macid = #{devMacid}
     </select>
 
+    <select id="listDevice"
+            parameterType="com.micro.boot.app.object.request.device.McBatchDeviceReq"
+            resultMap="rep">
+        select * from mc_device
+        <choose>
+            <when test="orderString != null and orderString.trim() != ''">
+                order by ${orderString}
+            </when>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
 </mapper>

@@ -5,6 +5,8 @@ import com.micro.boot.app.dao.McDeviceDao;
 import com.micro.boot.app.dao.McUserDao;
 import com.micro.boot.app.object.McAddress;
 import com.micro.boot.app.object.McRegion;
+import com.micro.boot.app.object.McRequestPage;
+import com.micro.boot.app.object.request.device.McBatchDeviceReq;
 import com.micro.boot.app.object.request.device.McDeviceReq;
 import com.micro.boot.app.object.response.device.McDeviceRep;
 import com.micro.boot.app.service.device.McDeviceService;
@@ -13,6 +15,7 @@ import com.micro.boot.common.Constants;
 import com.micro.boot.common.Message;
 import com.micro.boot.common.exception.RRException;
 import com.micro.boot.common.utils.RedisUtils;
+import io.swagger.models.auth.In;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Administrator
@@ -42,8 +46,25 @@ public class McDeviceServiceImpl implements McDeviceService {
     @Resource
     private McUserDao mcUserDao;
 
-    @Override public McDeviceRep listDevice(McDeviceReq request) {
-        return null;
+    /**
+     * 批量分页查询
+     *
+     * @param headers
+     * @param page
+     *
+     * @return
+     */
+    @Override
+    public List<McDeviceRep> listDevice(HttpHeaders headers, McRequestPage page, String devType, Integer devStatus)
+    {
+        //构造查询条件
+        McBatchDeviceReq request = new McBatchDeviceReq();
+        request.setPage(page.getPageNo(),page.getPageSize());
+        String mobile = headers.get("mobile").get(Constants.ZERO);
+        request.setUserId(mcUserDao.getUserInfo(mobile).getId());//设置查询的用户
+        request.setDevType(devType);
+        request.setDevStatus(devStatus);
+        return mcDeviceDao.listDevice(request);
     }
 
     /**
@@ -51,11 +72,13 @@ public class McDeviceServiceImpl implements McDeviceService {
      *
      * @param macId
      */
-    @Override public void deleteDevice(String macId) {
+    @Override
+    public void deleteDevice(String macId) {
         mcDeviceDao.deleteByMacId(macId);
     }
 
-    @Override public McDeviceRep editDevice(McDeviceReq request) {
+    @Override
+    public McDeviceRep editDevice(McDeviceReq request) {
         request.setCreateTime(new Date());
         mcDeviceDao.updateDeviceByMacId(request);
         return mcDeviceDao.getDeviceByMacId(request.getDevMacid());
@@ -68,7 +91,8 @@ public class McDeviceServiceImpl implements McDeviceService {
      *
      * @return
      */
-    @Override public McDeviceRep getDetail(String macId) {
+    @Override
+    public McDeviceRep getDetail(String macId) {
         if (!StringUtils.isEmpty(macId)) {
             McDeviceRep response = mcDeviceDao.getDeviceByMacId(macId);
             //查询地址关联信息
@@ -87,7 +111,8 @@ public class McDeviceServiceImpl implements McDeviceService {
      *
      * @return
      */
-    @Override public McDeviceRep addDevice(HttpHeaders headers, McDeviceReq request) {
+    @Override
+    public McDeviceRep addDevice(HttpHeaders headers, McDeviceReq request) {
 //        String language = headers.get(Constants.ACCEPT_LANGUAGE).get(0);
         String mobile = headers.get("mobile").get(0);
         request.setUserId(mcUserDao.getUserInfo(mobile).getId());
@@ -115,7 +140,8 @@ public class McDeviceServiceImpl implements McDeviceService {
      *
      * @return
      */
-    @Override public boolean authDeviceByMobile(String mobile, McDeviceReq request) {
+    @Override
+    public boolean authDeviceByMobile(String mobile, McDeviceReq request) {
         return false;
     }
 
@@ -126,6 +152,7 @@ public class McDeviceServiceImpl implements McDeviceService {
      *
      * @return
      */
+    @Override
     public boolean isValid(McAddress address) {
         //校验国家地区码是否一致
         if (address.getIsDefined() == Constants.ZERO) {
@@ -158,6 +185,7 @@ public class McDeviceServiceImpl implements McDeviceService {
      *
      * @return
      */
+    @Override
     public McAddress convert2Language(McAddress address, String language) {
         McAddress response = new McAddress();
         McRegion region = new McRegion();

@@ -3,6 +3,7 @@ package com.micro.boot.app.controller.device;
 
 import com.google.gson.Gson;
 import com.micro.boot.app.annotation.MobileToken;
+import com.micro.boot.app.object.McRequestPage;
 import com.micro.boot.app.object.request.device.McDeviceReq;
 import com.micro.boot.app.object.response.device.McDeviceRep;
 import com.micro.boot.app.object.response.user.McUserLoginRep;
@@ -14,12 +15,14 @@ import com.micro.boot.common.utils.RedisUtils;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.junit.runners.Parameterized;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 设备
@@ -61,11 +64,11 @@ public class McDeviceController {
     @MobileToken
     @PostMapping(AppRestUrl.MC_DEVICE_ADD)
     public ReturnAppInfo<McUserLoginRep> add(@RequestBody BodyInfo bodyInfo,
-                                                  @RequestHeader HttpHeaders headers) throws Exception
+                                             @RequestHeader HttpHeaders headers) throws Exception
     {
-        logger.info(AppRestUrl.MC_DEVICE_ADD+",Param:", headers);
+        logger.info(AppRestUrl.MC_DEVICE_ADD + ",Param:", headers);
         McDeviceReq request = new Gson().fromJson(bodyInfo.decryptData(), McDeviceReq.class);
-        McDeviceRep response = mcDeviceService.addDevice(headers,request);
+        McDeviceRep response = mcDeviceService.addDevice(headers, request);
         return ReturnAppInfo.successEncrypt(response);
     }
 
@@ -87,9 +90,9 @@ public class McDeviceController {
     @MobileToken
     @GetMapping(AppRestUrl.MC_DEVICE_GET)
     public ReturnAppInfo<McUserLoginRep> getOne(@PathVariable String macId,
-                                             @RequestHeader HttpHeaders headers) throws Exception
+                                                @RequestHeader HttpHeaders headers) throws Exception
     {
-        logger.info(AppRestUrl.MC_DEVICE_GET+",Param:", headers);
+        logger.info(AppRestUrl.MC_DEVICE_GET + ",Param:", headers);
         McDeviceRep response = mcDeviceService.getDetail(macId);
         return ReturnAppInfo.successEncrypt(response);
     }
@@ -112,9 +115,9 @@ public class McDeviceController {
     @MobileToken
     @PostMapping(AppRestUrl.MC_DEVICE_EDIT)
     public ReturnAppInfo<McUserLoginRep> edit(@RequestBody BodyInfo bodyInfo,
-                                                      @RequestHeader HttpHeaders headers) throws Exception
+                                              @RequestHeader HttpHeaders headers) throws Exception
     {
-        logger.info(AppRestUrl.MC_DEVICE_EDIT+",Param:", headers);
+        logger.info(AppRestUrl.MC_DEVICE_EDIT + ",Param:", headers);
         McDeviceReq request = new Gson().fromJson(bodyInfo.decryptData(), McDeviceReq.class);
         McDeviceRep response = mcDeviceService.editDevice(request);
         return ReturnAppInfo.successEncrypt(response);
@@ -138,9 +141,9 @@ public class McDeviceController {
     @MobileToken
     @DeleteMapping(AppRestUrl.MC_DEVICE_DEL)
     public ReturnAppInfo<McUserLoginRep> delete(@PathVariable String macId,
-                                                    @RequestHeader HttpHeaders headers) throws Exception
+                                                @RequestHeader HttpHeaders headers) throws Exception
     {
-        logger.info(AppRestUrl.MC_DEVICE_DEL+",Param:", headers);
+        logger.info(AppRestUrl.MC_DEVICE_DEL + ",Param:", headers);
         mcDeviceService.deleteDevice(macId);
         return ReturnAppInfo.successEncrypt(null);
     }
@@ -162,12 +165,21 @@ public class McDeviceController {
     )
     @MobileToken
     @GetMapping(AppRestUrl.MC_DEVICE_LIST)
-    public ReturnAppInfo<McUserLoginRep> list(@RequestBody BodyInfo bodyInfo,
-                                                @RequestHeader HttpHeaders headers) throws Exception
+    public ReturnAppInfo<McUserLoginRep> list(@RequestParam Integer pageNo,
+                                              @RequestParam Integer pageSize,
+                                              @RequestParam String orderBy,
+                                              @RequestParam String orderDesc,
+                                              @RequestParam String devType,
+                                              @RequestParam Integer devStatus,
+                                              @RequestHeader HttpHeaders headers) throws Exception
     {
-        logger.info(AppRestUrl.MC_DEVICE_LIST+",Param:", headers);
-        McDeviceReq request = new Gson().fromJson(bodyInfo.decryptData(), McDeviceReq.class);
-        McDeviceRep response =  mcDeviceService.listDevice(request);
+        logger.info(AppRestUrl.MC_DEVICE_LIST + ",Param:", headers);
+        McRequestPage page = new McRequestPage();
+        page.setOrderDesc(orderDesc);
+        page.setOrderBy(orderBy);
+        page.setPageNo(pageNo);
+        page.setPageSize(pageSize);
+        List<McDeviceRep> response = mcDeviceService.listDevice(headers, page, devType, devStatus);
         return ReturnAppInfo.successEncrypt(response);
     }
 

@@ -15,6 +15,7 @@ package com.micro.boot.app.service.device;
 
 
 import com.micro.boot.app.object.McAddress;
+import com.micro.boot.app.object.McRequestPage;
 import com.micro.boot.app.object.request.device.McDeviceReq;
 import com.micro.boot.app.object.request.user.McPasswordResetReq;
 import com.micro.boot.app.object.request.user.McUserInfoReq;
@@ -36,11 +37,11 @@ public interface McDeviceService {
 
 
     /**
-     * @param request
+     * @param page
      *
      * @return
      */
-    McDeviceRep listDevice(McDeviceReq request);
+    List<McDeviceRep> listDevice(HttpHeaders headers, McRequestPage page, String devType, Integer devStatus);
 
     /**
      * @param macId
