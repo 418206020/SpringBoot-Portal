@@ -2,6 +2,7 @@ package com.micro.boot.app.controller.device;
 
 
 import com.google.gson.Gson;
+import com.micro.boot.app.annotation.MobileToken;
 import com.micro.boot.app.object.request.device.McDeviceReq;
 import com.micro.boot.app.object.response.device.McDeviceRep;
 import com.micro.boot.app.object.response.user.McUserLoginRep;
@@ -57,6 +58,7 @@ public class McDeviceController {
             @ApiResponse(code = AppCode.CODE_ERROR_EXIST, message = Message.MSG_EN_PARAMETERS_EXIST),
             @ApiResponse(code = AppCode.EXCETPTION_FAIL, message = Message.MSG_EN_ERROR_500)}
     )
+    @MobileToken
     @PostMapping(AppRestUrl.MC_DEVICE_ADD)
     public ReturnAppInfo<McUserLoginRep> add(@RequestBody BodyInfo bodyInfo,
                                                   @RequestHeader HttpHeaders headers) throws Exception
@@ -82,6 +84,7 @@ public class McDeviceController {
             @ApiResponse(code = AppCode.ERROR_CODE_404, message = Message.MSG_EN_ERROR_404),
             @ApiResponse(code = AppCode.EXCETPTION_FAIL, message = Message.MSG_EN_ERROR_500)}
     )
+    @MobileToken
     @GetMapping(AppRestUrl.MC_DEVICE_GET)
     public ReturnAppInfo<McUserLoginRep> getOne(@PathVariable String macId,
                                              @RequestHeader HttpHeaders headers) throws Exception
@@ -106,6 +109,7 @@ public class McDeviceController {
             @ApiResponse(code = AppCode.ERROR_CODE_404, message = Message.MSG_EN_ERROR_404),
             @ApiResponse(code = AppCode.EXCETPTION_FAIL, message = Message.MSG_EN_ERROR_500)}
     )
+    @MobileToken
     @PostMapping(AppRestUrl.MC_DEVICE_EDIT)
     public ReturnAppInfo<McUserLoginRep> edit(@RequestBody BodyInfo bodyInfo,
                                                       @RequestHeader HttpHeaders headers) throws Exception
@@ -131,13 +135,13 @@ public class McDeviceController {
             @ApiResponse(code = AppCode.ERROR_CODE_404, message = Message.MSG_EN_ERROR_404),
             @ApiResponse(code = AppCode.EXCETPTION_FAIL, message = Message.MSG_EN_ERROR_500)}
     )
+    @MobileToken
     @DeleteMapping(AppRestUrl.MC_DEVICE_DEL)
-    public ReturnAppInfo<McUserLoginRep> delete(@RequestBody BodyInfo bodyInfo,
+    public ReturnAppInfo<McUserLoginRep> delete(@PathVariable String macId,
                                                     @RequestHeader HttpHeaders headers) throws Exception
     {
         logger.info(AppRestUrl.MC_DEVICE_DEL+",Param:", headers);
-        McDeviceReq request = new Gson().fromJson(bodyInfo.decryptData(), McDeviceReq.class);
-        mcDeviceService.deleteDevice(request);
+        mcDeviceService.deleteDevice(macId);
         return ReturnAppInfo.successEncrypt(null);
     }
 
@@ -156,6 +160,7 @@ public class McDeviceController {
             @ApiResponse(code = AppCode.ERROR_CODE_404, message = Message.MSG_EN_ERROR_404),
             @ApiResponse(code = AppCode.EXCETPTION_FAIL, message = Message.MSG_EN_ERROR_500)}
     )
+    @MobileToken
     @GetMapping(AppRestUrl.MC_DEVICE_LIST)
     public ReturnAppInfo<McUserLoginRep> list(@RequestBody BodyInfo bodyInfo,
                                                 @RequestHeader HttpHeaders headers) throws Exception

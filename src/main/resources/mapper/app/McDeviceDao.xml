@@ -85,22 +85,25 @@
             <if test="devNameEn != null">`dev_name_en` = #{devNameEn}, </if>
             <if test="userId != null">`user_id` = #{userId}, </if>
             <if test="addressId != null">`address_id` = #{addressId}, </if>
-            <if test="devInfoId != null">`dev_info_id` = #{devInfoId}</if>
-            <if test="devStatus != null">`dev_status` = #{devStatus}</if>
-            <if test="devMode != null">`dev_mode` = #{devMode}</if>
-            <if test="electricity != null">`electricity` = #{electricity}</if>
-            <if test="statusWifi != null">`status_wifi` = #{statusWifi}</if>
-            <if test="statusBluetooth != null">`status_bluetooth` = #{statusBluetooth}</if>
-            <if test="statusVoice != null">`status_voice` = #{statusVoice}</if>
+            <if test="devInfoId != null">`dev_info_id` = #{devInfoId},</if>
+            <if test="devStatus != null">`dev_status` = #{devStatus},</if>
+            <if test="devMode != null">`dev_mode` = #{devMode},</if>
+            <if test="electricity != null">`electricity` = #{electricity},</if>
+            <if test="statusWifi != null">`status_wifi` = #{statusWifi},</if>
+            <if test="statusBluetooth != null">`status_bluetooth` = #{statusBluetooth},</if>
+            <if test="statusVoice != null">`status_voice` = #{statusVoice},</if>
             <if test="statusSwitch != null">`status_switch` = #{statusSwitch}</if>
-            <if test="publicExtendParam1 != null">`public_extend_param1` = #{publicExtendParam1}</if>
-            <if test="publicExtendParam2 != null">`public_extend_param2` = #{publicExtendParam2}</if>
-            <if test="publicExtendParam3 != null">`public_extend_param3` = #{publicExtendParam3}</if>
-            <if test="createTime != null">`create_time` = #{createTime}</if>
+            <if test="publicExtendParam1 != null">`public_extend_param1` = #{publicExtendParam1},</if>
+            <if test="publicExtendParam2 != null">`public_extend_param2` = #{publicExtendParam2},</if>
+            <if test="publicExtendParam3 != null">`public_extend_param3` = #{publicExtendParam3},</if>
+            <if test="createTime != null">`create_time` = #{createTime}</if> //最后一行不加分隔符逗号
         </set>
         where dev_macid = #{devMacid}
     </update>
 
+    <delete id="deleteByMacId">
+        delete from mc_device where dev_macid = #{0}
+    </delete>
 
     <!--校验重复-->
     <select id="isDupMacId" resultType="java.lang.Integer"

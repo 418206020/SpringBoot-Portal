@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * @author Administrator
@@ -45,23 +46,31 @@ public class McDeviceServiceImpl implements McDeviceService {
         return null;
     }
 
-    @Override public void deleteDevice(McDeviceReq request) {
-
+    /**
+     * 删除
+     *
+     * @param macId
+     */
+    @Override public void deleteDevice(String macId) {
+        mcDeviceDao.deleteByMacId(macId);
     }
 
     @Override public McDeviceRep editDevice(McDeviceReq request) {
-        return null;
+        request.setCreateTime(new Date());
+        mcDeviceDao.updateDeviceByMacId(request);
+        return mcDeviceDao.getDeviceByMacId(request.getDevMacid());
     }
 
     /**
      * 查询
+     *
      * @param macId
      *
      * @return
      */
     @Override public McDeviceRep getDetail(String macId) {
         if (StringUtils.isEmpty(macId)) {
-            McDeviceRep response =  mcDeviceDao.getDeviceByMacId(macId);
+            McDeviceRep response = mcDeviceDao.getDeviceByMacId(macId);
             //查询地址关联信息
             response.setMcAddress(mcAddressDao.getAddressById(response.getAddressId()));
             return response;
@@ -72,6 +81,7 @@ public class McDeviceServiceImpl implements McDeviceService {
 
     /**
      * 添加
+     *
      * @param headers
      * @param request
      *
@@ -108,12 +118,6 @@ public class McDeviceServiceImpl implements McDeviceService {
     @Override public boolean authDeviceByMobile(String mobile, McDeviceReq request) {
         return false;
     }
-
-//    public McDeviceRep convert2Rep(McDeviceReq request){
-//        McDeviceRep response = new McDeviceRep();
-//        response.setCreateTime();
-//        return response;
-//    }
 
     /**
      * 校验输入地址是否合法

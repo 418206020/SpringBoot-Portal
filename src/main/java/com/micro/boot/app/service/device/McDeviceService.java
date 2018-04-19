@@ -43,9 +43,9 @@ public interface McDeviceService {
     McDeviceRep listDevice(McDeviceReq request);
 
     /**
-     * @param request
+     * @param macId
      */
-    void deleteDevice(McDeviceReq request);
+    void deleteDevice(String macId);
 
     /**
      * @param request

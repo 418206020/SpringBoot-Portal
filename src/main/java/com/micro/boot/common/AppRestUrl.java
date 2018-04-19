@@ -70,7 +70,7 @@ public class AppRestUrl {
     /**
      * DEL
      */
-    public static final String MC_DEVICE_DEL = "info" + Constants.SEPPARATOR_SLASH + "del";
+    public static final String MC_DEVICE_DEL = "info" + Constants.SEPPARATOR_SLASH+ "{macId}";
 
     /**
      * LIST
