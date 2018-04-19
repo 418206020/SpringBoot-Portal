@@ -121,13 +121,13 @@
         <where>
             <!--USERID 必须有-->
             `user_id` = #{userId}
-            <if test="devMode != null">
+            <if test="devMode != null  and devMode.trim() != '' ">
                 AND `dev_mode` = #{devMode}
             </if>
-            <if test="devStatus != null">
+            <if test="devStatus != null and devStatus.trim() != ''">
                 AND `dev_status` = #{devStatus}
             </if>
-            <if test="devType != null">
+            <if test="devType != null and devType.trim() != ''">
                 AND `dev_type` = #{devType}
             </if>
         </where>
