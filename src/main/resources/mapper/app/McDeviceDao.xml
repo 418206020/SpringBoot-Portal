@@ -96,12 +96,13 @@
             <if test="publicExtendParam1 != null">`public_extend_param1` = #{publicExtendParam1},</if>
             <if test="publicExtendParam2 != null">`public_extend_param2` = #{publicExtendParam2},</if>
             <if test="publicExtendParam3 != null">`public_extend_param3` = #{publicExtendParam3},</if>
-            <if test="createTime != null">`create_time` = #{createTime}</if> //最后一行不加分隔符逗号
+            <if test="createTime != null">`create_time` = #{createTime}</if>
+            <!--最后一行不加分隔符逗号-->
         </set>
         where dev_macid = #{devMacid}
     </update>
 
-    <delete id="deleteByMacId">
+    <delete id="deleteByMacId" parameterType="java.lang.String">
         delete from mc_device where dev_macid = #{0}
     </delete>
 

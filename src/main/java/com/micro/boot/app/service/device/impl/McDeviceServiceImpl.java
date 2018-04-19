@@ -69,7 +69,7 @@ public class McDeviceServiceImpl implements McDeviceService {
      * @return
      */
     @Override public McDeviceRep getDetail(String macId) {
-        if (StringUtils.isEmpty(macId)) {
+        if (!StringUtils.isEmpty(macId)) {
             McDeviceRep response = mcDeviceDao.getDeviceByMacId(macId);
             //查询地址关联信息
             response.setMcAddress(mcAddressDao.getAddressById(response.getAddressId()));

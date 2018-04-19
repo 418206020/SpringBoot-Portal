@@ -306,6 +306,21 @@ public class PostmanTest {
     }
 
     /**
+     *
+     * @throws Exception
+     */
+    @Test
+    public void test_device_2_get() throws Exception {
+        ResultActions perform = mvc.perform(MockMvcRequestBuilders
+                .get(Url_Preffix + "/device/info/macid-293s2")
+                .header(Constants.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8)
+                .header("token", TOKEN)
+                .header("mobile", MOBILE)
+                .content("")
+        );
+        perform.andExpect(MockMvcResultMatchers.status().isOk());
+    }
+    /**
      * 修改
      * @throws Exception
      */
@@ -346,6 +361,18 @@ public class PostmanTest {
         //根据条件校验是否成功
         perform.andExpect(MockMvcResultMatchers.status().isOk());
         perform.andExpect(MockMvcResultMatchers.jsonPath("$.code").value("0"));
+    }
+
+    @Test
+    public void test_device_4_delete() throws Exception {
+        ResultActions perform = mvc.perform(MockMvcRequestBuilders
+                .delete(Url_Preffix + "/device/info/macid-293s2")
+                .header(Constants.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8)
+                .header("token", TOKEN)
+                .header("mobile", MOBILE)
+                .content("")
+        );
+        perform.andExpect(MockMvcResultMatchers.status().isOk());
     }
 
 

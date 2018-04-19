@@ -40,7 +40,7 @@ public interface McDeviceDao extends BaseDao<McDeviceReq> {
      * @param macId
      * @return
      */
-    McDeviceRep deleteByMacId(String macId);
+    int deleteByMacId(String macId);
 
     /**
      * 根据macID更新
