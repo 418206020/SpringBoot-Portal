@@ -167,10 +167,10 @@ public class McDeviceController {
     @GetMapping(AppRestUrl.MC_DEVICE_LIST)
     public ReturnAppInfo<McUserLoginRep> list(@RequestParam Integer pageNo,
                                               @RequestParam Integer pageSize,
-                                              @RequestParam String orderBy,
-                                              @RequestParam String orderDesc,
-                                              @RequestParam String devType,
-                                              @RequestParam Integer devStatus,
+                                              @RequestParam(required = false) String orderBy,
+                                              @RequestParam(required = false) String orderDesc,
+                                              @RequestParam(required = false) String devType,
+                                              @RequestParam(required = false) Integer devStatus,
                                               @RequestHeader HttpHeaders headers) throws Exception
     {
         logger.info(AppRestUrl.MC_DEVICE_LIST + ",Param:", headers);
