@@ -83,8 +83,12 @@
             <if test="undefHouse != null">`undef_house` = #{undefHouse}, </if>
             <if test="createTime != null">`create_time` = #{createTime}</if>
         </set>
-        where dev_macid = #{devMacid}
+        where id = #{id}
     </update>
+
+    <delete id="delete">
+        delete from mc_address where id = #{value}
+    </delete>
 
     <!--查询行政区划-->
     <select id="getRegion"

@@ -74,6 +74,9 @@ public class McDeviceServiceImpl implements McDeviceService {
      */
     @Override
     public void deleteDevice(String macId) {
+        McDeviceRep rep = mcDeviceDao.getDeviceByMacId(macId);
+        //先删除地址
+        mcAddressDao.delete(rep.getAddressId());
         mcDeviceDao.deleteByMacId(macId);
     }
 
@@ -81,7 +84,13 @@ public class McDeviceServiceImpl implements McDeviceService {
     public McDeviceRep editDevice(McDeviceReq request) {
         request.setCreateTime(new Date());
         mcDeviceDao.updateDeviceByMacId(request);
-        return mcDeviceDao.getDeviceByMacId(request.getDevMacid());
+        //更新设备详细地址
+        McDeviceRep rep = mcDeviceDao.getDeviceByMacId(request.getDevMacid());
+        McAddress address = request.getMcAddress();
+        address.setId(rep.getAddressId());
+        mcAddressDao.updateAddressById(address);
+        rep.setMcAddress(address);
+        return rep;
     }
 
     /**
