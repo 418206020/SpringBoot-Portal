@@ -163,7 +163,7 @@ public class McMessageController {
             @ApiResponse(code = AppCode.EXCETPTION_FAIL, message = Message.MSG_EN_ERROR_500)}
     )
     @MobileToken
-    @GetMapping(AppRestUrl.MC_MSG_LIST_USER)
+    @GetMapping(AppRestUrl.MC_MSG_LIST_USER_DEVICE)
     public ReturnAppInfo<McUserLoginRep> listByUser(@PathVariable String devId,
                                                     @RequestParam Integer pageNo,
                                                     @RequestParam Integer pageSize,
@@ -173,7 +173,7 @@ public class McMessageController {
                                                     @RequestParam(required = false) Integer devStatus,
                                                     @RequestHeader HttpHeaders headers) throws Exception
     {
-        logger.info(AppRestUrl.MC_MSG_LIST_USER + ",Param:", headers);
+        logger.info(AppRestUrl.MC_MSG_LIST_USER_DEVICE + ",Param:", headers);
         McRequestPage page = new McRequestPage();
         page.setOrderDesc(orderDesc);
         page.setOrderBy(orderBy);
