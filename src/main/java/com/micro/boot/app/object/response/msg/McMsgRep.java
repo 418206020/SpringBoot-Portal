@@ -17,6 +17,7 @@ public class McMsgRep implements Serializable {
     private Long id;
     //所属topic
     private Long topId;
+    private Long userid;
     //消息分类
     private Long msgType;
     //消息报文
@@ -31,6 +32,14 @@ public class McMsgRep implements Serializable {
     private Date timeConsumer;
     //状态  0：消费   1：生产
     private Integer status;
+
+    public Long getUserid() {
+        return userid;
+    }
+
+    public void setUserid(Long userid) {
+        this.userid = userid;
+    }
 
     public Long getId() {
         return id;

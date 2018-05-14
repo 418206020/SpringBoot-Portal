@@ -8,6 +8,7 @@
     <resultMap type="com.micro.boot.app.object.response.msg.McMsgRep" id="rep">
         <result property="id" column="id"/>
         <result property="topId" column="top_id"/>
+        <result property="userid" column="userid"/>
         <result property="msgType" column="msg_type"/>
         <result property="requestQos" column="request_qos"/>
         <result property="suback" column="suback"/>
@@ -19,7 +20,7 @@
 
     <!--common ALL columns-->
     <sql id="commonColumns">
-        id, top_id, msg_type, request_qos, suback,
+        id, top_id, userid, msg_type, request_qos, suback,
         msg_size, time_producer, time_consumer, status
     </sql>
 

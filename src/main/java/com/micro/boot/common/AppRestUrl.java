@@ -78,6 +78,37 @@ public class AppRestUrl {
     public static final String MC_DEVICE_LIST = "info" + Constants.SEPPARATOR_SLASH + "list";
 
 
+    //--------------------------------------------------消息----分隔符----------------------------------------------------
+    /**
+     * ADD
+     */
+    public static final String MC_MSG_ADD = "info" + Constants.SEPPARATOR_SLASH + "add";
+
+    /**
+     * EDIT
+     */
+    public static final String MC_MSG_EDIT = "info" + Constants.SEPPARATOR_SLASH + "edit";
+
+    /**
+     * GET
+     */
+    public static final String MC_MSG_GET = "info" + Constants.SEPPARATOR_SLASH + "{id}";
+
+    /**
+     * DEL
+     */
+    public static final String MC_MSG_DEL = "info" + Constants.SEPPARATOR_SLASH+ "{id}";
+
+    /**
+     * LIST 用户指定设备
+     */
+    public static final String MC_MSG_LIST_USER_DEVICE = "list" + Constants.SEPPARATOR_SLASH + "{devId}";
+
+    /**
+     * LIST
+     */
+    public static final String MC_MSG_LIST_USER = "list";
+
     //--------------------------------------------------队列----分隔符----------------------------------------------------
 
 
