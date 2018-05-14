@@ -64,7 +64,12 @@ public class McDeviceServiceImpl implements McDeviceService {
         request.setUserId(mcUserDao.getUserInfo(mobile).getId());//设置查询的用户
         request.setDevType(devType);
         request.setDevStatus(devStatus);
-        return mcDeviceDao.listDevice(request);
+        List<McDeviceRep> deviceRepList = mcDeviceDao.listDevice(request);
+        for (McDeviceRep rep: deviceRepList
+             ) {
+            rep.setMcAddress(mcAddressDao.getAddressById(rep.getAddressId()));
+        }
+        return deviceRepList;
     }
 
     /**
