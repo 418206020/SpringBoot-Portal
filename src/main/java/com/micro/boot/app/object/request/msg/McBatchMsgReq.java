@@ -1,4 +1,4 @@
-package com.micro.boot.app.object.response.msg;
+package com.micro.boot.app.object.request.msg;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,15 +10,28 @@ import java.util.Date;
  * @create 2018/3/25
  * @since 1.0.0
  */
-public class McMsgRep implements Serializable {
+public class McBatchMsgReq implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 分页SQL固定
+     * offset
+     * limit
+     */
+    private Integer offset;
+    private Integer limit;
+    //排序
+    private String orderString;
+
 
     //id
     private Long id;
     //所属topic
     private Long topId;
+
     private Long userid;
-    private Long devid;
+
+    private String devid;//特殊处理
     //消息分类
     private Long msgType;
     //消息报文
@@ -34,11 +47,43 @@ public class McMsgRep implements Serializable {
     //状态  0：消费   1：生产
     private Integer status;
 
-    public Long getDevid() {
+    /**
+     * 公共方法
+     */
+    public void setPage(Integer pageNo, Integer pageSize) {
+        this.setOffset(pageSize * (pageNo - 1));
+        this.setLimit(pageSize * pageNo);
+    }
+
+    public String getOrderString() {
+        return orderString;
+    }
+
+    public void setOrderString(String orderString) {
+        this.orderString = orderString;
+    }
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Integer offset) {
+        this.offset = offset;
+    }
+
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
+
+    public String getDevid() {
         return devid;
     }
 
-    public void setDevid(Long devid) {
+    public void setDevid(String devid) {
         this.devid = devid;
     }
 

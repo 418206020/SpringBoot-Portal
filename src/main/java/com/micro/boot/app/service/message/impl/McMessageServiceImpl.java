@@ -6,9 +6,11 @@ import com.micro.boot.app.dao.McUserDao;
 import com.micro.boot.app.object.McAddress;
 import com.micro.boot.app.object.McRegion;
 import com.micro.boot.app.object.McRequestPage;
+import com.micro.boot.app.object.request.msg.McBatchMsgReq;
 import com.micro.boot.app.object.request.msg.McMsgReq;
 import com.micro.boot.app.object.response.msg.McMsgRep;
 import com.micro.boot.app.service.message.McMessageService;
+import com.micro.boot.app.utils.AppUtils;
 import com.micro.boot.common.AppCode;
 import com.micro.boot.common.Constants;
 import com.micro.boot.common.Message;
@@ -53,11 +55,37 @@ public class McMessageServiceImpl implements McMessageService {
      * @return
      */
     @Override
-    public List<McMsgRep> listMessage(HttpHeaders headers, McRequestPage page, String devType, Integer devStatus)
+    public List<McMsgRep> listMessageByUserDevId(HttpHeaders headers, McBatchMsgReq req, McRequestPage page, long devId)
     {
         //构造查询条件
+        McBatchMsgReq request = new McBatchMsgReq();
+        request.setPage(page.getPageNo(), page.getPageSize());
+        request.setOrderString(AppUtils.getOrderString(page));
+        String mobile = headers.get("mobile").get(Constants.ZERO);
+        request.setUserid(mcUserDao.getUserInfo(mobile).getId());//设置查询的用户
+        //其他查询条件:目前暂不支持其他条件
+        if (StringUtils.equals("0", String.valueOf(devId))) {
+            request.setDevid(null);
+        } else {
+            request.setDevid(String.valueOf(devId));
+        }
+        List<McMsgRep> deviceRepList = mcMessageDao.listMsgByUser(request);
+        return deviceRepList;
+    }
 
-        return null;
+    /**
+     * 批量分页查询
+     *
+     * @param headers
+     * @param page
+     *
+     * @return
+     */
+    @Override
+    public List<McMsgRep> listMessageByUser(HttpHeaders headers, McBatchMsgReq req, McRequestPage page)
+    {
+        //不限制dev 传0
+        return listMessageByUserDevId(headers, req, page, Constants.ZERO);
     }
 
     /**
@@ -66,13 +94,14 @@ public class McMessageServiceImpl implements McMessageService {
      * @param msgId
      */
     @Override
-    public void deleteMessage(String msgId) {
-        mcMessageDao.deleteById(msgId);
+    public void deleteMessage(long msgId) {
+        mcMessageDao.deleteMsgById(msgId);
     }
 
     @Override
     public McMsgRep editMessage(McMsgReq request) {
-        return mcMessageDao.updateMsgById(request);
+        mcMessageDao.updateMsgById(request);
+        return mcMessageDao.getMessageById(request.getId());
     }
 
     /**
@@ -83,13 +112,9 @@ public class McMessageServiceImpl implements McMessageService {
      * @return
      */
     @Override
-    public McMsgRep getDetail(String msgId) {
-        if (!StringUtils.isEmpty(msgId)) {
-            McMsgRep response = mcMessageDao.getMsgById(msgId);
-            return response;
-        } else {
-            throw new RRException(AppCode.CODE_ERROR_INPUT, Message.MSG_EN_PARAMETERS_ERROR);
-        }
+    public McMsgRep getMessageById(long msgId) {
+        McMsgRep response = mcMessageDao.getMessageById(msgId);
+        return response;
     }
 
     /**
@@ -102,9 +127,9 @@ public class McMessageServiceImpl implements McMessageService {
      */
     @Override
     public McMsgRep addMessage(HttpHeaders headers, McMsgReq request) {
-//        String language = headers.get(Constants.ACCEPT_LANGUAGE).get(0);
         String mobile = headers.get("mobile").get(0);
         request.setUserid(mcUserDao.getUserInfo(mobile).getId());
+        mcMessageDao.messageAdd(request);
         McMsgRep response = mcMessageDao.getMessageById(request.getId());
         return response;
     }

@@ -16,6 +16,7 @@ package com.micro.boot.app.service.message;
 
 import com.micro.boot.app.object.McAddress;
 import com.micro.boot.app.object.McRequestPage;
+import com.micro.boot.app.object.request.msg.McBatchMsgReq;
 import com.micro.boot.app.object.request.msg.McMsgReq;
 import com.micro.boot.app.object.response.msg.McMsgRep;
 import org.springframework.http.HttpHeaders;
@@ -31,16 +32,27 @@ public interface McMessageService {
 
 
     /**
+     * 查询指定设备消息
+     *
      * @param page
      *
      * @return
      */
-    List<McMsgRep> listMessage(HttpHeaders headers, McRequestPage page, String devType, Integer devStatus);
+    List<McMsgRep> listMessageByUserDevId(HttpHeaders headers, McBatchMsgReq req, McRequestPage page, long devId);
+
+    /**
+     * 查询指定设备消息
+     *
+     * @param page
+     *
+     * @return
+     */
+    List<McMsgRep> listMessageByUser(HttpHeaders headers, McBatchMsgReq req, McRequestPage page);
 
     /**
      * @param msgId
      */
-    void deleteMessage(String msgId);
+    void deleteMessage(long msgId);
 
     /**
      * @param request
@@ -54,7 +66,7 @@ public interface McMessageService {
      *
      * @return
      */
-    McMsgRep getDetail(String msgId);
+    McMsgRep getMessageById(long msgId);
 
     /**
      * @param request

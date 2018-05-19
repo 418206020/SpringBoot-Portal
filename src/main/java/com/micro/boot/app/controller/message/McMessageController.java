@@ -4,9 +4,9 @@ package com.micro.boot.app.controller.message;
 import com.google.gson.Gson;
 import com.micro.boot.app.annotation.MobileToken;
 import com.micro.boot.app.object.McRequestPage;
+import com.micro.boot.app.object.request.msg.McBatchMsgReq;
 import com.micro.boot.app.object.request.msg.McMsgReq;
 import com.micro.boot.app.object.response.msg.McMsgRep;
-import com.micro.boot.app.object.response.user.McUserLoginRep;
 import com.micro.boot.app.service.message.McMessageService;
 import com.micro.boot.common.*;
 import com.micro.boot.common.request.BodyInfo;
@@ -62,8 +62,8 @@ public class McMessageController {
     )
     @MobileToken
     @PostMapping(AppRestUrl.MC_MSG_ADD)
-    public ReturnAppInfo<McUserLoginRep> add(@RequestBody BodyInfo bodyInfo,
-                                             @RequestHeader HttpHeaders headers) throws Exception
+    public ReturnAppInfo<McMsgRep> add(@RequestBody BodyInfo bodyInfo,
+                                       @RequestHeader HttpHeaders headers) throws Exception
     {
         logger.info(AppRestUrl.MC_MSG_ADD + ",Param:", headers);
         McMsgReq request = new Gson().fromJson(bodyInfo.decryptData(), McMsgReq.class);
@@ -88,11 +88,11 @@ public class McMessageController {
     )
     @MobileToken
     @GetMapping(AppRestUrl.MC_MSG_GET)
-    public ReturnAppInfo<McUserLoginRep> getOne(@PathVariable String msgId,
-                                                @RequestHeader HttpHeaders headers) throws Exception
+    public ReturnAppInfo<McMsgRep> getOne(@PathVariable String msgId,
+                                          @RequestHeader HttpHeaders headers) throws Exception
     {
         logger.info(AppRestUrl.MC_MSG_GET + ",Param:", headers);
-        McMsgRep response = mcMessageService.getDetail(msgId);
+        McMsgRep response = mcMessageService.getMessageById(Long.parseLong(msgId));
         return ReturnAppInfo.successEncrypt(response);
     }
 
@@ -113,8 +113,8 @@ public class McMessageController {
     )
     @MobileToken
     @PostMapping(AppRestUrl.MC_MSG_EDIT)
-    public ReturnAppInfo<McUserLoginRep> edit(@RequestBody BodyInfo bodyInfo,
-                                              @RequestHeader HttpHeaders headers) throws Exception
+    public ReturnAppInfo<McMsgRep> edit(@RequestBody BodyInfo bodyInfo,
+                                        @RequestHeader HttpHeaders headers) throws Exception
     {
         logger.info(AppRestUrl.MC_MSG_EDIT + ",Param:", headers);
         McMsgReq request = new Gson().fromJson(bodyInfo.decryptData(), McMsgReq.class);
@@ -139,11 +139,11 @@ public class McMessageController {
     )
     @MobileToken
     @DeleteMapping(AppRestUrl.MC_MSG_DEL)
-    public ReturnAppInfo<McUserLoginRep> delete(@PathVariable String msgId,
-                                                @RequestHeader HttpHeaders headers) throws Exception
+    public ReturnAppInfo<McMsgRep> delete(@PathVariable String msgId,
+                                          @RequestHeader HttpHeaders headers) throws Exception
     {
         logger.info(AppRestUrl.MC_MSG_DEL + ",Param:", headers);
-        mcMessageService.deleteMessage(msgId);
+        mcMessageService.deleteMessage(Long.parseLong(msgId));
         return ReturnAppInfo.successEncrypt(null);
     }
 
@@ -164,14 +164,12 @@ public class McMessageController {
     )
     @MobileToken
     @GetMapping(AppRestUrl.MC_MSG_LIST_USER_DEVICE)
-    public ReturnAppInfo<McUserLoginRep> listByUser(@PathVariable String devId,
-                                                    @RequestParam Integer pageNo,
-                                                    @RequestParam Integer pageSize,
-                                                    @RequestParam(required = false) String orderBy,
-                                                    @RequestParam(required = false) String orderDesc,
-                                                    @RequestParam(required = false) String devType,
-                                                    @RequestParam(required = false) Integer devStatus,
-                                                    @RequestHeader HttpHeaders headers) throws Exception
+    public ReturnAppInfo<McMsgRep> listByUser(@PathVariable String devId,
+                                              @RequestParam Integer pageNo,
+                                              @RequestParam Integer pageSize,
+                                              @RequestParam(required = false) String orderBy,
+                                              @RequestParam(required = false) String orderDesc,
+                                              @RequestHeader HttpHeaders headers) throws Exception
     {
         logger.info(AppRestUrl.MC_MSG_LIST_USER_DEVICE + ",Param:", headers);
         McRequestPage page = new McRequestPage();
@@ -179,7 +177,8 @@ public class McMessageController {
         page.setOrderBy(orderBy);
         page.setPageNo(pageNo);
         page.setPageSize(pageSize);
-        List<McMsgRep> response = mcMessageService.listMessage(headers, page, devType, devStatus);
+        McBatchMsgReq req = new McBatchMsgReq();
+        List<McMsgRep> response = mcMessageService.listMessageByUserDevId(headers, req, page, Long.parseLong(devId));
         return ReturnAppInfo.successEncrypt(response);
     }
 
@@ -200,13 +199,11 @@ public class McMessageController {
     )
     @MobileToken
     @GetMapping(AppRestUrl.MC_MSG_LIST_USER)
-    public ReturnAppInfo<McUserLoginRep> listByUserDev(
+    public ReturnAppInfo<McMsgRep> listByUserDev(
             @RequestParam Integer pageNo,
             @RequestParam Integer pageSize,
             @RequestParam(required = false) String orderBy,
             @RequestParam(required = false) String orderDesc,
-            @RequestParam(required = false) String devType,
-            @RequestParam(required = false) Integer devStatus,
             @RequestHeader HttpHeaders headers) throws Exception
     {
         logger.info(AppRestUrl.MC_MSG_LIST_USER + ",Param:", headers);
@@ -215,7 +212,8 @@ public class McMessageController {
         page.setOrderBy(orderBy);
         page.setPageNo(pageNo);
         page.setPageSize(pageSize);
-        List<McMsgRep> response = mcMessageService.listMessage(headers, page, devType, devStatus);
+        McBatchMsgReq req = new McBatchMsgReq();
+        List<McMsgRep> response = mcMessageService.listMessageByUser(headers, req, page);
         return ReturnAppInfo.successEncrypt(response);
     }
 

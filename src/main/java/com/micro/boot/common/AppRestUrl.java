@@ -92,12 +92,12 @@ public class AppRestUrl {
     /**
      * GET
      */
-    public static final String MC_MSG_GET = "info" + Constants.SEPPARATOR_SLASH + "{id}";
+    public static final String MC_MSG_GET = "info" + Constants.SEPPARATOR_SLASH + "{msgId}";
 
     /**
      * DEL
      */
-    public static final String MC_MSG_DEL = "info" + Constants.SEPPARATOR_SLASH+ "{id}";
+    public static final String MC_MSG_DEL = "info" + Constants.SEPPARATOR_SLASH+ "{msgId}";
 
     /**
      * LIST 用户指定设备

@@ -19,6 +19,7 @@ public class McMsgReq implements Serializable {
     private Long topId;
 
     private Long userid;
+    private Long devid;
     //消息分类
     private Long msgType;
     //消息报文
@@ -33,6 +34,14 @@ public class McMsgReq implements Serializable {
     private Date timeConsumer;
     //状态  0：消费   1：生产
     private Integer status;
+
+    public Long getDevid() {
+        return devid;
+    }
+
+    public void setDevid(Long devid) {
+        this.devid = devid;
+    }
 
     public Long getUserid() {
         return userid;
