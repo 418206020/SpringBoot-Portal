@@ -24,7 +24,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.MqttTopic;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
-public class Server extends JFrame {
+public class MQTTServer extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel panel;
     private JButton button;
@@ -38,12 +38,12 @@ public class Server extends JFrame {
     private MqttTopic topic;
     private MqttMessage message;
 
-    private String myTopic = "/m2m/"+"1234567890000000";
+    private String myTopic = "/m2m/"+"#";
 
-    public Server() {
+    public MQTTServer() {
 
         try {
-            client = new MqttClient(host, "Server",
+            client = new MqttClient(host, "MQTTServer",
                     new MemoryPersistence());
             connect();
         } catch (Exception e) {
@@ -119,7 +119,7 @@ public class Server extends JFrame {
     }
 
     public static void main(String[] args) {
-        Server s = new Server();
+        MQTTServer s = new MQTTServer();
         s.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         s.setSize(600, 370);
         s.setLocationRelativeTo(null);

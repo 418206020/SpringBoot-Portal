@@ -1,23 +1,11 @@
 package com.micro.boot;
 
-import com.google.gson.Gson;
-import com.micro.boot.app.object.McRequestPage;
-import com.micro.boot.app.object.request.user.McPasswordResetReq;
-import com.micro.boot.app.object.request.user.McUserLoginReq;
-import com.micro.boot.app.object.request.user.McUserRegisterReq;
-import com.micro.boot.app.utils.AppUtils;
 import com.micro.boot.common.Constants;
 import com.micro.boot.common.request.BodyInfo;
-import com.micro.boot.common.response.ReturnAppInfo;
-import com.micro.boot.common.utils.PwdTools;
-import com.micro.boot.thirdparty.paho.ClientSearch;
-import net.sf.json.JSONObject;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.RandomStringUtils;
-import org.apache.shiro.crypto.hash.Sha256Hash;
+import com.micro.boot.thirdparty.paho.MQTTClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
-import java.util.Date;
+import java.util.UUID;
 
 /**
  * 〈〉
@@ -51,25 +39,32 @@ public class Test {
 //
 
 
+
         return;
     }
 
 
     public static void runTask() {
-        final long timeInterval = 20000;// 两秒运行一次
+        final long timeInterval = 10000;// 两秒运行一次
         Runnable runnable = new Runnable() {
             public void run() {
                 while (true) {
                     // ------- code for task to run
-                    ClientSearch clientSearch = new ClientSearch();
-                    try {
-                        String[] topics = {Constants.M2M + "1234567890000000"};
-                        clientSearch.subscribe("13488120792", topics);
-                    } catch (MqttException e) {
+                    try {       //你要运行的程序
+                        MQTTClient MQTTClient = new MQTTClient();
+                        try {
+                            String[] topics = {Constants.M2M + "1234567890000000"};
+                            String clientID = UUID.randomUUID().toString();
+                            MQTTClient.subscribe(clientID, topics);
+//                            MQTTClient.start();
+//                            MQTTClient.disconnect();
+                        } catch (MqttException e) {
+                            e.printStackTrace();
+                        }
+                        Thread.sleep(1); //给一秒时间接收服务器消息
+                    } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-
-                    // ------- ends here
                     try {
                         Thread.sleep(timeInterval);
                     } catch (InterruptedException e) {
