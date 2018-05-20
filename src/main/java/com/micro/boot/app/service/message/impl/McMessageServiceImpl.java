@@ -128,10 +128,36 @@ public class McMessageServiceImpl implements McMessageService {
     @Override
     public McMsgRep addMessage(HttpHeaders headers, McMsgReq request) {
         String mobile = headers.get("mobile").get(0);
-        request.setUserid(mcUserDao.getUserInfo(mobile).getId());
-        mcMessageDao.messageAdd(request);
+        saveMessage(mobile, request);
         McMsgRep response = mcMessageDao.getMessageById(request.getId());
         return response;
+    }
+
+    /**
+     * @param request
+     */
+    @Override
+    public void saveMessage(String mobile, McMsgReq request) {
+        request.setUserid(mcUserDao.getUserInfo(mobile).getId());
+        mcMessageDao.messageAdd(request);
+    }
+
+    /**
+     * @param message
+     */
+    @Override
+    public void saveMQTT(String topic, String message) {
+        McMsgReq request = new McMsgReq();
+        String[] topicName = topic.split(Constants.SEPPARATOR_SLASH);
+        if (topicName.length > Constants.ONE) {
+            request.setTopicName(topicName[Constants.ONE]);
+            request.setMsgType((long) Constants.ZERO);//类别
+        } else {
+            request.setTopicName(topic);
+            request.setMsgType((long) Constants.ONE);//类别
+        }
+        request.setMessage(message);
+        mcMessageDao.messageAdd(request);
     }
 
 }

@@ -17,6 +17,7 @@ public class Constants {
      * 0
      */
     public final static int ZERO = 0;
+    public final static int ONE = 1;
 
     public static final String M2M = "/m2m/";
 

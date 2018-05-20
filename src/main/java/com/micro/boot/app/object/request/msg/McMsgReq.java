@@ -20,6 +20,11 @@ public class McMsgReq implements Serializable {
 
     private Long userid;
     private Long devid;
+
+    //扩展字段：手机、主题名称（设备macid）、消息
+    private String mobile;
+    private String topicName;
+    private String message;
     //消息分类
     private Long msgType;
     //消息报文
@@ -34,6 +39,30 @@ public class McMsgReq implements Serializable {
     private Date timeConsumer;
     //状态  0：消费   1：生产
     private Integer status;
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getTopicName() {
+        return topicName;
+    }
+
+    public void setTopicName(String topicName) {
+        this.topicName = topicName;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     public Long getDevid() {
         return devid;

@@ -22,7 +22,7 @@ public class Message {
     /**
      * MSG_EN_ERROR_MOBILE
      */
-    public final static String MSG_EN_ERROR_500 = "Internal Server Error";
+    public final static String MSG_EN_ERROR_500 = "Internal MQTTServer Error";
 
     /**
      * MSG_EN_ERROR_MOBILE

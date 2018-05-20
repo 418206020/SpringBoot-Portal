@@ -75,5 +75,14 @@ public interface McMessageService {
      */
     McMsgRep addMessage(HttpHeaders headers, McMsgReq request);
 
+    /**
+     *
+     * @param request
+     */
+    public void saveMessage(String mobile, McMsgReq request);
+
+
+    public void saveMQTT(String topic, String message);
+
 
 }

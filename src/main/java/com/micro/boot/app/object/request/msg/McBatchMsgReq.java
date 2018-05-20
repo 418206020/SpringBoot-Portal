@@ -32,6 +32,12 @@ public class McBatchMsgReq implements Serializable {
     private Long userid;
 
     private String devid;//特殊处理
+
+    //扩展字段：手机、主题名称（设备macid）、消息
+    private String mobile;
+    private String topicName;
+    private String message;
+
     //消息分类
     private Long msgType;
     //消息报文
@@ -53,6 +59,30 @@ public class McBatchMsgReq implements Serializable {
     public void setPage(Integer pageNo, Integer pageSize) {
         this.setOffset(pageSize * (pageNo - 1));
         this.setLimit(pageSize * pageNo);
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getTopicName() {
+        return topicName;
+    }
+
+    public void setTopicName(String topicName) {
+        this.topicName = topicName;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getOrderString() {

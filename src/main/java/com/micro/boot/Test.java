@@ -45,7 +45,7 @@ public class Test {
 
 
     public static void runTask() {
-        final long timeInterval = 10000;// 两秒运行一次
+        final long timeInterval = 30*000;// 30秒运行一次
         Runnable runnable = new Runnable() {
             public void run() {
                 while (true) {
@@ -53,7 +53,7 @@ public class Test {
                     try {       //你要运行的程序
                         MQTTClient MQTTClient = new MQTTClient();
                         try {
-                            String[] topics = {Constants.M2M + "1234567890000000"};
+                            String[] topics = {Constants.M2M + "#"};
                             String clientID = UUID.randomUUID().toString();
                             MQTTClient.subscribe(clientID, topics);
 //                            MQTTClient.start();
@@ -61,7 +61,7 @@ public class Test {
                         } catch (MqttException e) {
                             e.printStackTrace();
                         }
-                        Thread.sleep(1); //给一秒时间接收服务器消息
+                        Thread.sleep(5); //接收服务器消息
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

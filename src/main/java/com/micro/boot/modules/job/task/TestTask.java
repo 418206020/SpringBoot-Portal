@@ -2,9 +2,7 @@ package com.micro.boot.modules.job.task;
 
 import com.micro.boot.modules.sys.entity.SysUserEntity;
 import com.micro.boot.modules.sys.service.SysUserService;
-import com.micro.boot.thirdparty.paho.ClientSearch;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.eclipse.paho.client.mqttv3.MqttException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -10,6 +10,9 @@
         <result property="topId" column="top_id"/>
         <result property="userid" column="userid"/>
         <result property="devid" column="devid"/>
+        <result property="mobile" column="mobile"/>
+        <result property="topicName" column="topicName"/>
+        <result property="message" column="message"/>
         <result property="msgType" column="msg_type"/>
         <result property="requestQos" column="request_qos"/>
         <result property="suback" column="suback"/>
@@ -22,6 +25,7 @@
     <!--common ALL columns-->
     <sql id="commonColumns">
         id, top_id, userid, devid, msg_type, request_qos, suback,
+        mobile, topic_name, message,
         msg_size, time_producer, time_consumer, status
     </sql>
 
@@ -31,11 +35,13 @@
         insert into mc_msg
         (
         `top_id`, `userid`, `devid`, `msg_type`, `request_qos`,
+        `mobile`, `topic_name`, `message`,
         `suback`, `msg_size`, `time_producer`, `time_consumer`, `status`
         )
         values
         (
         #{topId}, #{userid},  #{devid}, #{msgType}, #{requestQos},
+        #{mobile}, #{topicName}, #{message},
         #{suback}, #{msgSize}, #{timeProducer}, #{timeConsumer}, #{status}
         )
     </insert>
@@ -49,6 +55,9 @@
             <if test="userid != null">`userid` = #{userid},</if>
             <if test="devid != null">`devid` = #{devid},</if>
             <if test="msgType != null">`msg_type` = #{msgType},</if>
+            <if test="mobile != null">`mobile` = #{mobile},</if>
+            <if test="topicName != null">`topic_name` = #{topicName},</if>
+            <if test="message != null">`message` = #{message},</if>
             <if test="requestQos != null">`request_qos` = #{requestQos},</if>
             <if test="suback != null">`suback` = #{suback},</if>
             <if test="msgSize != null">`msg_size` = #{msgSize},</if>
