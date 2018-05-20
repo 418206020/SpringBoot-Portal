@@ -23,5 +23,8 @@ package com.micro.boot.app.service.queue;
 public interface McTopicService {
 
 
+    String[] getTopicByMobile(String mobile);
+
+    String[] getTopicByClient(String clientId);
 
 }

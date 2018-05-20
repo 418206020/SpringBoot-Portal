@@ -18,6 +18,7 @@ public class Constants {
      */
     public final static int ZERO = 0;
 
+    public static final String M2M = "/m2m/";
 
     public final static String CONTENT_TYPE = "Content-Type";
 

@@ -18,6 +18,14 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
+    <!-- 数据库字段映射 -->
+    <resultMap type="com.micro.boot.app.object.MQTTSubscriber" id="mqttRep">
+        <result property="mobile" column="mobile"/>
+        <result property="user_id" column="userId"/>
+        <result property="dev_macid" column="devMacid"/>
+        <result property="dev_status" column="devStatus"/>
+    </resultMap>
+
     <!--common ALL columns-->
     <sql id="commonColumns">
         id, name, messages,
@@ -25,5 +33,22 @@
         size_producers, size_consumers,
         user_id, status, create_time
     </sql>
+
+    <select id="listTopicByMobile"
+            parameterType="com.micro.boot.app.object.MQTTSubscriber"
+            resultMap="mqttRep">
+        select
+        d.dev_macid, d.user_id, u.mobile, d.dev_status
+        from mc_device d , mc_user u
+        <where>
+            d.user_id = u.id
+            <if test="mobile != null  and mobile.trim() != '' ">
+                AND u.mobile = #{mobile}
+            </if>
+            <if test="userId != null  and userId.trim() != '' ">
+                AND d.user_id = #{userId}
+            </if>
+        </where>
+    </select>
 
 </mapper>
