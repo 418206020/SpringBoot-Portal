@@ -1,5 +1,7 @@
 package com.micro.boot.modules.job.task;
 
+import com.micro.boot.app.dao.McSubscribeDao;
+import com.micro.boot.app.object.request.subscribe.McSubscribeReq;
 import com.micro.boot.app.service.queue.McTopicService;
 import com.micro.boot.common.Constants;
 import com.micro.boot.thirdparty.paho.MQTTClient;
@@ -9,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -24,11 +27,14 @@ import java.util.UUID;
 public class MqttTask {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    //间隔5秒
+    //间隔
     private static final long INTERVAL = 30 * 1000;
 
     @Resource
     private McTopicService mcTopicService;
+
+    @Resource
+    private McSubscribeDao mcSubscribeDao;
 
     @Resource
     private MQTTClient mqttClient;
@@ -39,31 +45,52 @@ public class MqttTask {
      * @param params
      */
     public void listener(String params) {
-        final long timeInterval = INTERVAL;
         Runnable runnable = new Runnable() {
             public void run() {
-                while (true) {
+                String[] topics = {Constants.M2M + "#"};
+                String clientID = String.valueOf(System.currentTimeMillis());
+                try {
                     try {
-                        try {
-                            String[] topics = {Constants.M2M + "#"};
-                            String clientID = UUID.randomUUID().toString();
-                            mqttClient.subscribe(clientID, topics);
-                        } catch (MqttException e) {
-                            e.printStackTrace();
-                        }
-                        Thread.sleep(5); //接收服务器消息
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        logger.info("subscribe:" + clientID);
+                        mqttClient.subscribe(clientID, topics);
+                        McSubscribeReq request = new McSubscribeReq();
+                        request.setStatus(String.valueOf(Constants.ONE));//启动订阅
+                        request.setSubTime(new Date());
+                        request.setClientid(clientID);
+                        request.setTopics(topics[0]);//以**分隔符
+                        mcSubscribeDao.addSubscriber(request);
+                    } catch (MqttException e) {
+                        logger.info(e.getMessage());
                     }
+                    Thread.sleep(5); //接收服务器消息
+                } catch (InterruptedException e) {
+                    logger.info(e.getMessage());
+                } finally {
                     try {
-                        Thread.sleep(timeInterval);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        logger.info("unsubscribe:" + clientID);
+                        mqttClient.unsubscribe(clientID, topics);
+                    } catch (MqttException e) {
+                        logger.info(e.getMessage());
                     }
                 }
             }
         };
         Thread thread = new Thread(runnable);
         thread.start();
+    }
+
+    /**
+     *
+     */
+    public void update() {
+        mcTopicService.updateNullDeviceId();
+        mcTopicService.updateNullUserId();
+    }
+
+    /**
+     *
+     */
+    public void history() {
+        mcTopicService.deleteHistory();
     }
 }

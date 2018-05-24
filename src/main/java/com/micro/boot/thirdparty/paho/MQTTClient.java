@@ -54,7 +54,7 @@ public class MQTTClient {
     public void subscribe(String mobile, String[] topics) throws MqttException {
 
         // host为主机名，clientid即连接MQTT的客户端ID，一般以唯一标识符表示，MemoryPersistence设置clientid的保存形式，默认为以内存保存
-        client = new MqttClient(HOST, UUID.randomUUID().toString(), new MemoryPersistence());
+        client = new MqttClient(HOST, mobile, new MemoryPersistence());
         // MQTT的连接设置
         options = new MqttConnectOptions();
         // 设置是否清空session,这里如果设置为false表示服务器会保留客户端的连接记录，设置为true表示每次连接到服务器都以新的身份连接
@@ -83,13 +83,39 @@ public class MQTTClient {
                     String msg = message.toString();
                     logger.info(topic + msg);
                     DeviceStateRep rep = AnalyticUtil.analytic(msg);
-                    mcMessageService.saveMQTT(topic, msg);
+                    mcMessageService.saveMQTT(mobile, topic, msg);
                     logger.info("DeviceStateRep:" + rep.toString());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
+    }
+
+    /**
+     * 指定客户端订阅主题
+     *
+     * @param clientId 手机号做客户端ID
+     * @param topics 主题
+     *
+     * @throws MqttException
+     */
+    public void unsubscribe(String clientId, String[] topics) throws MqttException {
+
+        // host为主机名，clientid即连接MQTT的客户端ID，一般以唯一标识符表示，MemoryPersistence设置clientid的保存形式，默认为以内存保存
+        client = new MqttClient(HOST, clientId, new MemoryPersistence());
+        // MQTT的连接设置
+        options = new MqttConnectOptions();
+        // 设置是否清空session,这里如果设置为false表示服务器会保留客户端的连接记录，设置为true表示每次连接到服务器都以新的身份连接
+        options.setCleanSession(false);
+        // 设置连接的用户名
+        options.setUserName(userName);
+        // 设置连接的密码
+        options.setPassword(passWord.toCharArray());
+
+        client.connect(options);
+        //默认Qos=1
+        client.unsubscribe(topics);
     }
 
 }

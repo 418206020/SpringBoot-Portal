@@ -82,7 +82,7 @@ public interface McMessageService {
     public void saveMessage(String mobile, McMsgReq request);
 
 
-    public void saveMQTT(String topic, String message);
+    public void saveMQTT(String client, String topic, String message);
 
 
 }

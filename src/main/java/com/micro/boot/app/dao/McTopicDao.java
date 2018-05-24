@@ -1,10 +1,12 @@
 package com.micro.boot.app.dao;
 
 import com.micro.boot.app.object.MQTTSubscriber;
+import com.micro.boot.app.object.request.msg.McMsgReq;
 import com.micro.boot.app.object.request.topic.McTopicReq;
 import com.micro.boot.modules.sys.dao.BaseDao;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -15,6 +17,44 @@ import java.util.List;
 @Mapper
 public interface McTopicDao extends BaseDao<McTopicReq> {
 
+    /**
+     * @param mqttSubscriber
+     *
+     * @return
+     */
     List<MQTTSubscriber> listTopicByMobile(MQTTSubscriber mqttSubscriber);
+
+    /**
+     * 批量更新所属用户
+     *
+     * @return
+     */
+    int updateMqttUser();
+
+    /**
+     * 批量更新所属设备
+     *
+     * @return
+     */
+    int updateMqttDevice();
+
+    /**
+     * 更新 所属用户
+     *
+     * @return
+     */
+    int updateUserByMsg(long msgId);
+
+    /**
+     * 更新 所属设备
+     *
+     * @return
+     */
+    int updateDeviceByMsg(long msgId);
+
+    /**
+     * @return
+     */
+    int deleteHistory(McMsgReq req);
 
 }

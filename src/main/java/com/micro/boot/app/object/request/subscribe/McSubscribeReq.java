@@ -22,11 +22,30 @@ public class McSubscribeReq implements Serializable {
     //订阅主题
     private Long subTopicId;
 
+    private String topics;
+    private String clientid;
+
     //状态  0：禁用   1：正常
     private String status;
 
     //创建时间
     private Date subTime;
+
+    public String getClientid() {
+        return clientid;
+    }
+
+    public void setClientid(String clientid) {
+        this.clientid = clientid;
+    }
+
+    public String getTopics() {
+        return topics;
+    }
+
+    public void setTopics(String topics) {
+        this.topics = topics;
+    }
 
     public Long getId() {
         return id;

@@ -51,4 +51,67 @@
         </where>
     </select>
 
+    <!--更新 批量-->
+    <update id="updateMqttUser"
+            parameterType="java.lang.String">
+        update mc_msg msg set userid = (
+        select
+        u.id as devid
+        from mc_device d , mc_user u
+        where d.user_id = u.id
+        and msg.topic_name = d.dev_macid
+        )
+        where msg.userid is null
+    </update>
+
+    <!--更新 批量-->
+    <update id="updateMqttDevice"
+            parameterType="java.lang.String">
+        update mc_msg msg set userid = (
+        select
+        u.id as devid
+        from mc_device d , mc_user u
+        where d.user_id = u.id
+        and msg.topic_name = d.dev_macid
+        )
+        where msg.userid is null
+    </update>
+
+    <!--更新 所属用户-->
+    <update id="updateUserByMsg"
+            parameterType="java.lang.String">
+        update mc_msg msg set userid = (
+        select
+        u.id as devid
+        from mc_device d , mc_user u
+        where d.user_id = u.id
+        and msg.topic_name = d.dev_macid
+        )
+        where msg.id = #{0}
+    </update>
+
+    <!--更新 所属设备-->
+    <update id="updateDeviceByMsg"
+            parameterType="java.lang.String">
+        update mc_msg msg set devid = (
+        select
+        d.id as devid
+        from mc_device d , mc_user u
+        where d.user_id = u.id
+        and msg.topic_name = d.dev_macid
+        )
+        where msg.id = #{0}
+    </update>
+
+    <delete id="deleteHistory" parameterType="com.micro.boot.app.object.request.msg.McMsgReq">
+        delete from mc_msg
+        <if test="timeConsumer!=null and timeConsumer!=''">
+            where
+            <![CDATA[
+              DATE_FORMAT(time_consumer, '%Y-%m-%d %H:00:00') >=  DATE_FORMAT(#{timeConsumer}, '%Y-%m-%d %H:00:00')
+             ]]>
+        </if>
+    </delete>
+
+
 </mapper>

@@ -13,4 +13,27 @@ import org.apache.ibatis.annotations.Mapper;
 public interface McSubscribeDao extends BaseDao<McSubscribeReq> {
 
 
+    /**
+     * 添加
+     *
+     * @param request
+     *
+     * @return
+     */
+    long addSubscriber(McSubscribeReq request);
+
+    /**
+     * @param request
+     *
+     * @return
+     */
+    int updateSubscriberById(McSubscribeReq request);
+
+    /**
+     * 取消所有订阅
+     * @return
+     */
+    int unsubscribe();
+
+
 }

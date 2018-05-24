@@ -27,4 +27,10 @@ public interface McTopicService {
 
     String[] getTopicByClient(String clientId);
 
+    void updateNullUserId();
+
+    void updateNullDeviceId();
+
+    void deleteHistory();
+
 }

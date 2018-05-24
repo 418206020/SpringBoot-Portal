@@ -2,6 +2,7 @@ package com.micro.boot.app.service.message.impl;
 
 import com.micro.boot.app.dao.McAddressDao;
 import com.micro.boot.app.dao.McMsgDao;
+import com.micro.boot.app.dao.McTopicDao;
 import com.micro.boot.app.dao.McUserDao;
 import com.micro.boot.app.object.McAddress;
 import com.micro.boot.app.object.McRegion;
@@ -42,6 +43,9 @@ public class McMessageServiceImpl implements McMessageService {
 
     @Resource
     private McMsgDao mcMessageDao;
+
+    @Resource
+    private McTopicDao mcTopicDao;
 
     @Resource
     private McUserDao mcUserDao;
@@ -143,10 +147,11 @@ public class McMessageServiceImpl implements McMessageService {
     }
 
     /**
+     * 实时更新
      * @param message
      */
     @Override
-    public void saveMQTT(String topic, String message) {
+    public void saveMQTT(String client, String topic, String message) {
         McMsgReq request = new McMsgReq();
         String[] topicName = topic.split(Constants.SEPPARATOR_SLASH);
         if (topicName.length > Constants.ONE) {
@@ -156,8 +161,16 @@ public class McMessageServiceImpl implements McMessageService {
             request.setTopicName(topic);
             request.setMsgType((long) Constants.ONE);//类别
         }
+        request.setTimeConsumer(new Date());
+        request.setTimeProducer(new Date());
+        request.setMsgType(Long.valueOf(client));
         request.setMessage(message);
         mcMessageDao.messageAdd(request);
+
+        //更新所属用户
+        mcTopicDao.updateUserByMsg(request.getId());
+        //更新所属设备
+        mcTopicDao.updateDeviceByMsg(request.getId());
     }
 
 }

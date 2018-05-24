@@ -2,13 +2,16 @@ package com.micro.boot.app.service.queue.impl;
 
 import com.micro.boot.app.dao.McTopicDao;
 import com.micro.boot.app.object.MQTTSubscriber;
+import com.micro.boot.app.object.request.msg.McMsgReq;
 import com.micro.boot.app.service.queue.McTopicService;
 import com.micro.boot.common.Constants;
+import com.micro.boot.common.utils.DateUtils;
 import com.micro.boot.common.utils.RedisUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,6 +31,7 @@ public class McTopicServiceImpl implements McTopicService {
 
     /**
      * 返回注册用户所有设备MAC作为主题订阅
+     *
      * @param mobile
      *
      * @return
@@ -43,7 +47,43 @@ public class McTopicServiceImpl implements McTopicService {
         return topics;
     }
 
+    /**
+     * @param clientId
+     *
+     * @return
+     */
     @Override public String[] getTopicByClient(String clientId) {
         return getTopicByMobile(clientId);
+    }
+
+    /**
+     * 更新
+     *
+     * @param
+     */
+    @Override public void updateNullUserId() {
+        mcTopicDao.updateMqttUser();
+    }
+
+    /**
+     * 更新
+     *
+     * @param
+     */
+    @Override public void updateNullDeviceId() {
+        mcTopicDao.updateMqttDevice();
+    }
+
+    /**
+     * 每天23:23:59清空当天数据之前
+     * 删除历史
+     *
+     * @param
+     */
+    @Override public void deleteHistory() {
+        Date beforeDate = DateUtils.getOneMinuteBefore(new Date(System.currentTimeMillis()));
+        McMsgReq req = new McMsgReq();
+        req.setTimeConsumer(DateUtils.getSqlDateByUtilDate(beforeDate));
+        mcTopicDao.deleteHistory(req);
     }
 }

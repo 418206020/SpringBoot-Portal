@@ -11,11 +11,47 @@
         <result property="subTopicId" column="sub_topic_id"/>
         <result property="subTime" column="sub_time"/>
         <result property="status" column="status"/>
+        <result property="topics" column="topics"/>
+        <result property="clientid" column="clientid"/>
     </resultMap>
 
     <!--common ALL columns-->
     <sql id="commonColumns">
-        id, sub_user_id, sub_topic_id, sub_time, status
+        id, sub_user_id, sub_topic_id, sub_time,
+        topics, clientid, status
     </sql>
+
+    <!--添加-->
+    <insert id="addSubscriber" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.micro.boot.app.object.request.subscribe.McSubscribeReq">
+        insert into mc_subscribe
+        (
+        `sub_user_id`, `sub_topic_id`, `sub_time`,
+        `topics`, `clientid`, `status`
+        )
+        values
+        (
+        #{subUserId}, #{subTopicId}, #{subTime},
+        #{topics}, #{clientid}, #{status}
+        )
+    </insert>
+
+    <update id="updateSubscriberById" parameterType="com.micro.boot.app.object.request.subscribe.McSubscribeReq">
+        update mc_subscribe
+        <set>
+            <if test="subUserId != null">`sub_user_id` = #{subUserId}, </if>
+            <if test="subTopicId != null">`sub_topic_id` = #{subTopicId}, </if>
+            <if test="subTime != null">`sub_time` = #{subTime}, </if>
+            <if test="topics != null">`topics` = #{topics}, </if>
+            <if test="clientid != null">`clientid` = #{clientid}, </if>
+            <if test="status != null">`status` = #{status}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--取消订阅-->
+    <update id="unsubscribe" parameterType="com.micro.boot.app.object.request.subscribe.McSubscribeReq">
+        update mc_subscribe set status=0
+    </update>
 
 </mapper>
