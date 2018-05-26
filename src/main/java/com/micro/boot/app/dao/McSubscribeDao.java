@@ -1,8 +1,11 @@
 package com.micro.boot.app.dao;
 
 import com.micro.boot.app.object.request.subscribe.McSubscribeReq;
+import com.micro.boot.app.object.response.subscribe.McSubscribeRep;
 import com.micro.boot.modules.sys.dao.BaseDao;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * @author huliang
@@ -36,4 +39,5 @@ public interface McSubscribeDao extends BaseDao<McSubscribeReq> {
     int unsubscribe();
 
 
+    List<McSubscribeRep> listSubsriber(McSubscribeReq request);
 }

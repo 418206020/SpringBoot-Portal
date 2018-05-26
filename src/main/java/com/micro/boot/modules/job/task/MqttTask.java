@@ -2,6 +2,8 @@ package com.micro.boot.modules.job.task;
 
 import com.micro.boot.app.dao.McSubscribeDao;
 import com.micro.boot.app.object.request.subscribe.McSubscribeReq;
+import com.micro.boot.app.object.response.subscribe.McSubscribeRep;
+import com.micro.boot.app.service.queue.McSubscriberService;
 import com.micro.boot.app.service.queue.McTopicService;
 import com.micro.boot.common.Constants;
 import com.micro.boot.thirdparty.paho.MQTTClient;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -34,7 +37,7 @@ public class MqttTask {
     private McTopicService mcTopicService;
 
     @Resource
-    private McSubscribeDao mcSubscribeDao;
+    private McSubscriberService mcSubscriberService;
 
     @Resource
     private MQTTClient mqttClient;
@@ -53,26 +56,22 @@ public class MqttTask {
                     try {
                         logger.info("subscribe:" + clientID);
                         mqttClient.subscribe(clientID, topics);
-                        McSubscribeReq request = new McSubscribeReq();
-                        request.setStatus(String.valueOf(Constants.ONE));//启动订阅
-                        request.setSubTime(new Date());
-                        request.setClientid(clientID);
-                        request.setTopics(topics[0]);//以**分隔符
-                        mcSubscribeDao.addSubscriber(request);
+                        mcSubscriberService.subscriber(clientID, topics);
                     } catch (MqttException e) {
                         logger.info(e.getMessage());
                     }
                     Thread.sleep(5); //接收服务器消息
                 } catch (InterruptedException e) {
                     logger.info(e.getMessage());
-                } finally {
-                    try {
-                        logger.info("unsubscribe:" + clientID);
-                        mqttClient.unsubscribe(clientID, topics);
-                    } catch (MqttException e) {
-                        logger.info(e.getMessage());
-                    }
                 }
+//                finally {
+//                    try {
+//                        logger.info("unsubscribe:" + clientID);
+//                        mqttClient.unsubscribe(clientID, topics);
+//                    } catch (MqttException e) {
+//                        logger.info(e.getMessage());
+//                    }
+//                }
             }
         };
         Thread thread = new Thread(runnable);
@@ -92,5 +91,19 @@ public class MqttTask {
      */
     public void history() {
         mcTopicService.deleteHistory();
+    }
+
+    /**
+     * 取消历史订阅
+     */
+    public void unSubscriber() throws MqttException {
+        McSubscribeReq request = new McSubscribeReq();
+        request.setStatus(String.valueOf(Constants.ONE));
+        List<McSubscribeRep> unscriberList = mcSubscriberService.listSubscriber(request);
+        //循环取消client的订阅
+        for (McSubscribeRep rep : unscriberList) {
+            mqttClient.unsubscribe(rep.getClientid(), new String[]{rep.getTopics()});
+        }
+        mcSubscriberService.unsubscribe();
     }
 }

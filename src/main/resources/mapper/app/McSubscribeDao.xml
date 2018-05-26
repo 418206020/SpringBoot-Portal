@@ -51,7 +51,28 @@
 
     <!--取消订阅-->
     <update id="unsubscribe" parameterType="com.micro.boot.app.object.request.subscribe.McSubscribeReq">
-        update mc_subscribe set status=0
+        update mc_subscribe set status = 0
     </update>
+
+    <select id="listSubsriber"
+            parameterType="com.micro.boot.app.object.request.subscribe.McSubscribeReq"
+            resultMap="rep">
+        select
+        <include refid="commonColumns"/>
+        from mc_subscribe
+        <where>
+            <!--USERID 必须有-->
+            1 = 1
+            <if test="status != null  and status.trim() != '' ">
+                AND `status` = #{status}
+            </if>
+            <if test="clientid != null and clientid.trim() != ''">
+                AND `clientid` = #{clientid}
+            </if>
+            <if test="id != null and id.trim() != ''">
+                AND `id` = #{id}
+            </if>
+        </where>
+    </select>
 
 </mapper>

@@ -43,14 +43,14 @@ public interface McTopicDao extends BaseDao<McTopicReq> {
      *
      * @return
      */
-    int updateUserByMsg(long msgId);
+    int updateUserByMsg(String msgId);
 
     /**
      * 更新 所属设备
      *
      * @return
      */
-    int updateDeviceByMsg(long msgId);
+    int updateDeviceByMsg(String msgId);
 
     /**
      * @return

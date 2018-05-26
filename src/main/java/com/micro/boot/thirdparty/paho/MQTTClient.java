@@ -2,6 +2,7 @@ package com.micro.boot.thirdparty.paho;
 
 import com.micro.boot.app.object.request.msg.McMsgReq;
 import com.micro.boot.app.service.message.McMessageService;
+import com.micro.boot.app.service.queue.McSubscriberService;
 import com.micro.boot.app.service.queue.McTopicService;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
@@ -43,6 +44,9 @@ public class MQTTClient {
     @Resource
     private McMessageService mcMessageService;
 
+    @Resource
+    private McSubscriberService mcSubscriberService;
+
     /**
      * 指定客户端订阅主题
      *
@@ -71,7 +75,13 @@ public class MQTTClient {
         // 设置回调
         client.setCallback(new MqttCallback() {
             public void connectionLost(Throwable cause) {
-                System.out.println("connectionLost, retry...");
+                System.out.println("connectionLost, ");
+                logger.info("unsubscribe history..");
+                mcSubscriberService.unsubscribe();//取消
+                //重新订阅
+                String clientRetry = String.valueOf(System.currentTimeMillis());
+                mcSubscriberService.subscriber(clientRetry, topics);
+                logger.info("subscribe new topics by client " + clientRetry + "..");
             }
 
             public void deliveryComplete(IMqttDeliveryToken token) {
@@ -96,7 +106,7 @@ public class MQTTClient {
      * 指定客户端订阅主题
      *
      * @param clientId 手机号做客户端ID
-     * @param topics 主题
+     * @param topics   主题
      *
      * @throws MqttException
      */

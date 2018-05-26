@@ -22,6 +22,9 @@ public class McSubscribeRep implements Serializable {
     //订阅主题
     private Long subTopicId;
 
+    private String topics;
+    private String clientid;
+
     //状态  0：禁用   1：正常
     private String status;
 
@@ -50,6 +53,22 @@ public class McSubscribeRep implements Serializable {
 
     public void setSubTopicId(Long subTopicId) {
         this.subTopicId = subTopicId;
+    }
+
+    public String getTopics() {
+        return topics;
+    }
+
+    public void setTopics(String topics) {
+        this.topics = topics;
+    }
+
+    public String getClientid() {
+        return clientid;
+    }
+
+    public void setClientid(String clientid) {
+        this.clientid = clientid;
     }
 
     public String getStatus() {

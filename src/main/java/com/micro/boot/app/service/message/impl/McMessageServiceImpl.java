@@ -148,6 +148,7 @@ public class McMessageServiceImpl implements McMessageService {
 
     /**
      * 实时更新
+     *
      * @param message
      */
     @Override
@@ -168,9 +169,9 @@ public class McMessageServiceImpl implements McMessageService {
         mcMessageDao.messageAdd(request);
 
         //更新所属用户
-        mcTopicDao.updateUserByMsg(request.getId());
+        mcTopicDao.updateUserByMsg(String.valueOf(request.getId()));
         //更新所属设备
-        mcTopicDao.updateDeviceByMsg(request.getId());
+        mcTopicDao.updateDeviceByMsg(String.valueOf(request.getId()));
     }
 
 }
