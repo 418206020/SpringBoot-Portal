@@ -10,8 +10,8 @@
 	<select id="queryList" resultType="com.micro.boot.modules.sys.entity.AppMcUserEntity">
 		select * from mc_user 
 		<where>
-			<if test="username != null and username.trim() != ''">
-				and `username` like concat('%',#{username},'%')
+			<if test="mobile != null and mobile.trim() != ''">
+				and `mobile` like concat('%',#{mobile},'%')
 			</if>
 		</where>
 		<choose>

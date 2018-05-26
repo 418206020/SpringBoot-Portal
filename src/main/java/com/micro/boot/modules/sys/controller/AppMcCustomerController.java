@@ -1,5 +1,6 @@
 package com.micro.boot.modules.sys.controller;
 
+import com.micro.boot.app.service.user.McUserService;
 import com.micro.boot.common.annotation.SysLog;
 import com.micro.boot.common.response.ReturnMapInfo;
 import com.micro.boot.common.utils.Constant;
@@ -31,6 +32,9 @@ import java.util.Map;
 public class AppMcCustomerController extends AbstractController {
 	@Autowired
 	private AppMcCustomerService appMcCustomerService;
+
+    @Autowired
+    private McUserService mcUserService;
 	
 	/**
 	 * 客户列表

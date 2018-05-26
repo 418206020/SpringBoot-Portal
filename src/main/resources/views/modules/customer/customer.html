@@ -40,10 +40,22 @@
 		<div class="panel-heading">{{title}}</div>
 		<form class="form-horizontal">
 			<div class="form-group">
-			   	<div class="col-sm-2 control-label">客户名称</div>
+			   	<div class="col-sm-2 control-label">客户姓名</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="customer.username" placeholder="客户名称"/>
+			      <input type="text" class="form-control" v-model="customer.username" placeholder="客户姓名"/>
 			    </div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">性别</div>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" v-model="customer.sex" placeholder="性别"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">微信识别码</div>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" v-model="customer.wechatId" placeholder="微信识别码"/>
+				</div>
 			</div>
 			<div class="form-group">
 			   	<div class="col-sm-2 control-label">邮箱</div>

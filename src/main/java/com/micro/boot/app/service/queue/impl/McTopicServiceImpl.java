@@ -81,7 +81,8 @@ public class McTopicServiceImpl implements McTopicService {
      * @param
      */
     @Override public void deleteHistory() {
-        Date beforeDate = DateUtils.getOneMinuteBefore(new Date(System.currentTimeMillis()));
+        //删除一天之前的数据
+        Date beforeDate = DateUtils.getOneDayBefore(new Date(System.currentTimeMillis()));
         McMsgReq req = new McMsgReq();
         req.setTimeConsumer(DateUtils.getSqlDateByUtilDate(beforeDate));
         mcTopicDao.deleteHistory(req);
