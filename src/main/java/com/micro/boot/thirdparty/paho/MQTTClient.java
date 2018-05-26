@@ -4,6 +4,7 @@ import com.micro.boot.app.object.request.msg.McMsgReq;
 import com.micro.boot.app.service.message.McMessageService;
 import com.micro.boot.app.service.queue.McSubscriberService;
 import com.micro.boot.app.service.queue.McTopicService;
+import com.micro.boot.modules.job.service.ScheduleJobService;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.slf4j.Logger;
@@ -40,12 +41,15 @@ public class MQTTClient {
     private MqttConnectOptions options;
     private String userName = "admin";
     private String passWord = "password";
+    private long jobId = 3; //立即执行任务
 
     @Resource
     private McMessageService mcMessageService;
 
     @Resource
     private McSubscriberService mcSubscriberService;
+    @Resource
+    private ScheduleJobService scheduleJobService;
 
     /**
      * 指定客户端订阅主题
@@ -81,6 +85,10 @@ public class MQTTClient {
                 //重新订阅
                 String clientRetry = String.valueOf(System.currentTimeMillis());
                 mcSubscriberService.subscriber(clientRetry, topics);
+                //MQTT重连
+                Long[] jobs = new Long[1];
+                jobs[0] = jobId;
+                scheduleJobService.run(jobs);
                 logger.info("subscribe new topics by client " + clientRetry + "..");
             }
 

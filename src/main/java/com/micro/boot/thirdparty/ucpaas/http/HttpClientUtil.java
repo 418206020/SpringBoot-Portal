@@ -47,13 +47,13 @@ public class HttpClientUtil {
                 StringEntity se = new StringEntity(body, charset);
                 httpPost.setEntity(se);
                 //TODO 测试中，注释以下代码，发短信要钱啊
-//                HttpResponse response = httpClient.execute(httpPost);
-//                if (response != null) {
-//                    HttpEntity resEntity = response.getEntity();
-//                    if (resEntity != null) {
-//                        result = EntityUtils.toString(resEntity, charset);
-//                    }
-//                }
+                HttpResponse response = httpClient.execute(httpPost);
+                if (response != null) {
+                    HttpEntity resEntity = response.getEntity();
+                    if (resEntity != null) {
+                        result = EntityUtils.toString(resEntity, charset);
+                    }
+                }
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

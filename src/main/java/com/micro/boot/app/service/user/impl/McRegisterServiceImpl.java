@@ -11,6 +11,7 @@ import com.micro.boot.common.exception.RRException;
 import com.micro.boot.common.utils.PwdTools;
 import com.micro.boot.common.utils.RedisUtils;
 import com.micro.boot.common.utils.Tools;
+import com.micro.boot.thirdparty.ucpaas.send.PostApp;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
@@ -53,12 +54,11 @@ public class McRegisterServiceImpl implements McRegisterService {
         //生成验证码
         String verifyCode = String.valueOf(Tools.getRandomNum());
 
-//        PostApp.sendSms(null, verifyCode, mobile); //TODO 正式开关
-        verifyCode = "111222";// todo 测试
-
+        PostApp.sendSms(null, verifyCode, mobile); //TODO 正式开关
+//        verifyCode = "111222";// todo 测试
         //存储到redis，时常60秒
         redisUtils
-                .set(RedisUtils.redisGetKey(mobile, AppCode.REDIS_VERIFY_CODE), verifyCode, RedisUtils.DEFAULT_EXPIRE);
+                .set(RedisUtils.redisGetKey(mobile, AppCode.REDIS_VERIFY_CODE), verifyCode, RedisUtils.EXPIRE_SECONDS_60);
 
         return verifyCode;
     }
