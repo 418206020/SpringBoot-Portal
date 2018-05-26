@@ -1,7 +1,6 @@
 package com.micro.boot.modules.sys.dao;
 
-import com.micro.boot.modules.sys.entity.AppMcUserEntity;
-import com.micro.boot.modules.sys.entity.SysRoleEntity;
+import com.micro.boot.modules.sys.entity.AppMcDeviceEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -14,7 +13,7 @@ import java.util.List;
  * @date 2016年9月18日 上午9:33:33
  */
 @Mapper
-public interface AppMcCustomerDao extends BaseDao<AppMcUserEntity> {
+public interface AppMcDeviceDao extends BaseDao<AppMcDeviceEntity> {
 
 	/**
 	 * 查询用户创建的角色ID列表

@@ -27,7 +27,7 @@ public interface AppMcCustomerService {
 	void update(AppMcUserEntity role);
 	
 	void deleteBatch(Long[] roleIds);
-	
+
 	/**
 	 * 查询用户创建的角色ID列表
 	 */
