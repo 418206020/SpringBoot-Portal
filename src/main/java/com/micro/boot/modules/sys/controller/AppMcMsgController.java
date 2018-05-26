@@ -6,8 +6,8 @@ import com.micro.boot.common.utils.Constant;
 import com.micro.boot.common.utils.PageUtils;
 import com.micro.boot.common.utils.Query;
 import com.micro.boot.common.validator.ValidatorUtils;
-import com.micro.boot.modules.sys.entity.AppMcDeviceEntity;
-import com.micro.boot.modules.sys.service.AppMcDeviceService;
+import com.micro.boot.modules.sys.entity.AppMcMsgEntity;
+import com.micro.boot.modules.sys.service.AppMcMsgService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,17 +23,17 @@ import java.util.Map;
  * @date 2016年11月8日 下午2:18:33
  */
 @RestController
-@RequestMapping("/device/device")
-public class AppMcDeviceController extends AbstractController {
+@RequestMapping("/msg/msg")
+public class AppMcMsgController extends AbstractController {
 	@Autowired
-	private AppMcDeviceService appMcDeviceService;
+	private AppMcMsgService appMcMsgService;
 
 	
 	/**
 	 * 客户列表
 	 */
 	@RequestMapping("/list")
-	@RequiresPermissions("device:device:list")
+	@RequiresPermissions("msg:msg:list")
 	public ReturnMapInfo list(@RequestParam Map<String, Object> params){
 		//如果不是超级管理员，则只查询自己创建的角色列表
 		if(getUserId() != Constant.SUPER_ADMIN){
@@ -42,8 +42,8 @@ public class AppMcDeviceController extends AbstractController {
 		
 		//查询列表数据
 		Query query = new Query(params);
-		List<AppMcDeviceEntity> list = appMcDeviceService.queryList(query);
-		int total = appMcDeviceService.queryTotal(query);
+		List<AppMcMsgEntity> list = appMcMsgService.queryList(query);
+		int total = appMcMsgService.queryTotal(query);
 		
 		PageUtils pageUtil = new PageUtils(list, total, query.getLimit(), query.getPage());
 		
@@ -54,7 +54,7 @@ public class AppMcDeviceController extends AbstractController {
 	 * 角色列表
 	 */
 	@RequestMapping("/select")
-	@RequiresPermissions("device:device:select")
+	@RequiresPermissions("msg:msg:select")
 	public ReturnMapInfo select(){
 		Map<String, Object> map = new HashMap<>();
 		
@@ -62,7 +62,7 @@ public class AppMcDeviceController extends AbstractController {
 		if(getUserId() != Constant.SUPER_ADMIN){
 			map.put("createUserId", getUserId());
 		}
-		List<AppMcDeviceEntity> list = appMcDeviceService.queryList(map);
+		List<AppMcMsgEntity> list = appMcMsgService.queryList(map);
 		
 		return ReturnMapInfo.ok().put("list", list);
 	}
@@ -71,9 +71,9 @@ public class AppMcDeviceController extends AbstractController {
 	 * 角色信息
 	 */
 	@RequestMapping("/info/{roleId}")
-	@RequiresPermissions("device:device:info")
+	@RequiresPermissions("msg:msg:info")
 	public ReturnMapInfo info(@PathVariable("roleId") Long roleId){
-		AppMcDeviceEntity role = appMcDeviceService.queryObject(roleId);
+		AppMcMsgEntity role = appMcMsgService.queryObject(roleId);
 		
 		//查询角色对应的菜单
 		return ReturnMapInfo.ok().put("role", role);
@@ -84,12 +84,12 @@ public class AppMcDeviceController extends AbstractController {
 	 */
 	@SysLog("保存角色")
 	@RequestMapping("/save")
-	@RequiresPermissions("device:device:save")
-	public ReturnMapInfo save(@RequestBody AppMcDeviceEntity role){
+	@RequiresPermissions("msg:msg:save")
+	public ReturnMapInfo save(@RequestBody AppMcMsgEntity role){
 		ValidatorUtils.validateEntity(role);
 		
-//		role.setCreateDeviceId(getDeviceId());
-		appMcDeviceService.save(role);
+//		role.setCreateMsgId(getMsgId());
+		appMcMsgService.save(role);
 		
 		return ReturnMapInfo.ok();
 	}
@@ -99,12 +99,12 @@ public class AppMcDeviceController extends AbstractController {
 	 */
 	@SysLog("修改角色")
 	@RequestMapping("/update")
-	@RequiresPermissions("device:device:update")
-	public ReturnMapInfo update(@RequestBody AppMcDeviceEntity role){
+	@RequiresPermissions("msg:msg:update")
+	public ReturnMapInfo update(@RequestBody AppMcMsgEntity role){
 		ValidatorUtils.validateEntity(role);
 		
-//		role.setCreateDeviceId(getDeviceId());
-		appMcDeviceService.update(role);
+//		role.setCreateMsgId(getMsgId());
+		appMcMsgService.update(role);
 		
 		return ReturnMapInfo.ok();
 	}
@@ -114,9 +114,9 @@ public class AppMcDeviceController extends AbstractController {
 	 */
 	@SysLog("删除角色")
 	@RequestMapping("/delete")
-	@RequiresPermissions("device:device:delete")
+	@RequiresPermissions("msg:msg:delete")
 	public ReturnMapInfo delete(@RequestBody Long[] roleIds){
-		appMcDeviceService.deleteBatch(roleIds);
+		appMcMsgService.deleteBatch(roleIds);
 		
 		return ReturnMapInfo.ok();
 	}

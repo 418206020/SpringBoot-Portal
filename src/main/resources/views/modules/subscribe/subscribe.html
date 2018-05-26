@@ -1,83 +1,78 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>客户管理</title>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-<link rel="stylesheet" href="../../css/bootstrap.min.css">
-<link rel="stylesheet" href="../../css/font-awesome.min.css">
-<link rel="stylesheet" href="../../plugins/jqgrid/ui.jqgrid-bootstrap.css">
-<link rel="stylesheet" href="../../plugins/ztree/css/metroStyle/metroStyle.css">
-<link rel="stylesheet" href="../../css/main.css">
-<script src="../../libs/jquery.min.js"></script>
-<script src="../../plugins/layer/layer.js"></script>
-<script src="../../libs/bootstrap.min.js"></script>
-<script src="../../libs/vue.min.js"></script>
-<script src="../../plugins/jqgrid/grid.locale-cn.js"></script>
-<script src="../../plugins/jqgrid/jquery.jqGrid.min.js"></script>
-<script src="../../plugins/ztree/jquery.ztree.all.min.js"></script>
-<script src="../../js/common.js"></script>
+	<title>客户管理</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=subscribe-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="../../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../../css/font-awesome.min.css">
+	<link rel="stylesheet" href="../../plugins/jqgrid/ui.jqgrid-bootstrap.css">
+	<link rel="stylesheet" href="../../plugins/ztree/css/metroStyle/metroStyle.css">
+	<link rel="stylesheet" href="../../css/main.css">
+	<script src="../../libs/jquery.min.js"></script>
+	<script src="../../plugins/layer/layer.js"></script>
+	<script src="../../libs/bootstrap.min.js"></script>
+	<script src="../../libs/vue.min.js"></script>
+	<script src="../../plugins/jqgrid/grid.locale-cn.js"></script>
+	<script src="../../plugins/jqgrid/jquery.jqGrid.min.js"></script>
+	<script src="../../plugins/ztree/jquery.ztree.all.min.js"></script>
+	<script src="../../js/common.js"></script>
 </head>
 <body>
 <div id="rrapp" v-cloak>
 	<div v-show="showList">
 		<div class="grid-btn">
 			<div class="form-group col-sm-2">
-				<input type="text" class="form-control" v-model="q.mobile" @keyup.enter="query" placeholder="手机号码">
+				<input type="text" class="form-control" v-model="q.topics" @keyup.enter="query" placeholder="订阅主题">
 			</div>
 			<a class="btn btn-default" @click="query">查询</a>
-			
-			<a v-if="hasPermission('sys:customer:save')" class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
-			<a v-if="hasPermission('sys:customer:update')" class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
-			<a v-if="hasPermission('sys:customer:delete')" class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+
+			<a v-if="hasPermission('sys:subscribe:save')" class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+			<a v-if="hasPermission('sys:subscribe:update')" class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+			<a v-if="hasPermission('sys:subscribe:delete')" class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
 		</div>
-	    <table id="jqGrid"></table>
-	    <div id="jqGridPager"></div>
-    </div>
-    
-    <div v-show="!showList" class="panel panel-default">
+		<table id="jqGrid"></table>
+		<div id="jqGridPager"></div>
+	</div>
+
+	<div v-show="!showList" class="panel panel-default">
 		<div class="panel-heading">{{title}}</div>
 		<form class="form-horizontal">
 			<div class="form-group">
-			   	<div class="col-sm-2 control-label">客户姓名</div>
-			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="customer.username" placeholder="客户姓名"/>
-			    </div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-2 control-label">性别</div>
+				<div class="col-sm-2 control-label">订阅主题</div>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" v-model="customer.sex" placeholder="性别"/>
+					<input type="text" class="form-control" v-model="subscribe.topics" placeholder="订阅主题"/>
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-sm-2 control-label">微信识别码</div>
+				<div class="col-sm-2 control-label">客户端</div>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" v-model="customer.wechatId" placeholder="微信识别码"/>
+					<input type="text" class="form-control" v-model="subscribe.clientid" placeholder="客户端"/>
 				</div>
 			</div>
 			<div class="form-group">
-			   	<div class="col-sm-2 control-label">邮箱</div>
-			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="customer.email" placeholder="邮箱"/>
-			    </div>
+				<div class="col-sm-2 control-label">状态</div>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" v-model="subscribe.status" placeholder="状态"/>
+				</div>
 			</div>
 			<div class="form-group">
-			   	<div class="col-sm-2 control-label">授权</div>
-			   	<div class="col-sm-10">
-			      <ul id="menuTree" class="ztree"></ul>
-			    </div>
+				<div class="col-sm-2 control-label">订阅时间</div>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" v-model="subscribe.subTime" placeholder="订阅时间"/>
+				</div>
 			</div>
+
 			<div class="form-group">
-				<div class="col-sm-2 control-label"></div> 
+				<div class="col-sm-2 control-label"></div>
 				<input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
 				&nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
 			</div>
 		</form>
 	</div>
 </div>
-   
-<script src="../../js/modules/customer/customer.js"></script>
+
+<script src="../../js/modules/subscribe/subscribe.js"></script>
 </body>
 </html>

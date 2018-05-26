@@ -1,20 +1,18 @@
 $(function () {
     $("#jqGrid").jqGrid({
-        url: baseURL + 'customer/customer/list',
+        url: baseURL + 'subscribe/subscribe/list',
         datatype: "json",
         colModel: [
-			{ label: '手机号码', name: 'mobile', index: "mobile", width: 65, key: true },
-			{ label: '客户名称', name: 'username', index: "username", width: 105 },
-			{ label: '性别', name: 'sex', width: 30,
-			    formatter: function(value, options, row){
-                    return value === '1' ?
-                        '<span>男</span>' :
-                        '<span>女</span>';
+			{ label: '订阅主题', name: 'topics', index: "topics", width: 280, key: true },
+			{ label: '客户端', name: 'clientid', index: "clientid", width: 105 },
+			{ label: '状态', name: 'status',width: 80,
+                formatter: function(value, options, row){
+                     return value === 1 ?
+                        '<span class="label label-success">运行</span>' :
+                        '<span class="label label-warning">终止</span>';
                 }
             },
-			{ label: '微信识别码', name: 'wechatId', width: 100 },
-			{ label: '邮箱', name: 'email', width: 100 },
-			{ label: '创建时间', name: 'createTime', index: "create_time", width: 80}
+			{ label: '订阅时间', name: 'subTime', index: "subTime", width: 80}
         ],
 		viewrecords: true,
         height: 385,
@@ -70,7 +68,7 @@ var vm = new Vue({
 		},
 		showList: true,
 		title:null,
-		customer:{}
+		subscribe:{}
 	},
 	methods: {
 		query: function () {
@@ -79,7 +77,7 @@ var vm = new Vue({
 		add: function(){
 			vm.showList = false;
 			vm.title = "新增";
-			vm.customer = {};
+			vm.subscribe = {};
 			vm.getMenuTree(null);
 		},
 		update: function () {
@@ -101,7 +99,7 @@ var vm = new Vue({
 			confirm('确定要删除选中的记录？', function(){
 				$.ajax({
 					type: "POST",
-				    url: baseURL + "customer/customer/delete",
+				    url: baseURL + "subscribe/subscribe/delete",
                     contentType: "application/json",
 				    data: JSON.stringify(roleIds),
 				    success: function(r){
@@ -117,11 +115,11 @@ var vm = new Vue({
 			});
 		},
 		getRole: function(roleId){
-            $.get(baseURL + "customer/customer/info/"+roleId, function(r){
-            	vm.customer = r.customer;
+            $.get(baseURL + "subscribe/subscribe/info/"+roleId, function(r){
+            	vm.subscribe = r.subscribe;
 
                 //勾选角色所拥有的菜单
-    			var menuIds = vm.customer.menuIdList;
+    			var menuIds = vm.subscribe.menuIdList;
     			for(var i=0; i<menuIds.length; i++) {
     				var node = ztree.getNodeByParam("menuId", menuIds[i]);
     				ztree.checkNode(node, true, false);
@@ -139,14 +137,14 @@ var vm = new Vue({
 			for(var i=0; i<nodes.length; i++) {
 				menuIdList.push(nodes[i].menuId);
 			}
-			vm.customer.menuIdList = menuIdList;
+			vm.subscribe.menuIdList = menuIdList;
 
-			var url = vm.customer.roleId == null ? "customer/customer/save" : "customer/customer/update";
+			var url = vm.subscribe.roleId == null ? "subscribe/subscribe/save" : "subscribe/subscribe/update";
 			$.ajax({
 				type: "POST",
 			    url: baseURL + url,
                 contentType: "application/json",
-			    data: JSON.stringify(vm.customer),
+			    data: JSON.stringify(vm.subscribe),
 			    success: function(r){
 			    	if(r.code === 0){
 						alert('操作成功', function(){
@@ -160,7 +158,7 @@ var vm = new Vue({
 		},
 		getMenuTree: function(roleId) {
 			//加载菜单树
-			$.get(baseURL + "customer/menu/list", function(r){
+			$.get(baseURL + "subscribe/menu/list", function(r){
 				ztree = $.fn.zTree.init($("#menuTree"), setting, r);
 				//展开所有节点
 				ztree.expandAll(true);
@@ -174,13 +172,13 @@ var vm = new Vue({
 	    	vm.showList = true;
 			var page = $("#jqGrid").jqGrid('getGridParam','page');
 			$("#jqGrid").jqGrid('setGridParam',{
-                postData:{'mobile': vm.q.mobile},
+                postData:{'topics': vm.q.topics},
                 page:page
             }).trigger("reloadGrid");
 		},
         validator: function () {
-            if(isBlank(vm.customer.mobile)){
-                alert("角色名不能为空");
+            if(isBlank(vm.subscribe.topics)){
+                alert("topics不能为空");
                 return true;
             }
         }

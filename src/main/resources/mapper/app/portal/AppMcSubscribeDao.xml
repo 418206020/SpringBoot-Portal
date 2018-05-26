@@ -4,14 +4,14 @@
 <mapper namespace="com.micro.boot.modules.sys.dao.AppMcSubscribeDao">
 
 	<select id="queryObject" resultType="com.micro.boot.modules.sys.entity.AppMcSubscribeEntity">
-		select * from mc_subscribe where mobile = #{value}
+		select * from mc_subscribe where topics = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.micro.boot.modules.sys.entity.AppMcSubscribeEntity">
 		select * from mc_subscribe
 		<where>
-			<if test="mobile != null and mobile.trim() != ''">
-				and `mobile` like concat('%',#{mobile},'%')
+			<if test="topics != null and topics.trim() != ''">
+				and `topics` like concat('%',#{topics},'%')
 			</if>
 		</where>
 		<choose>
@@ -19,7 +19,7 @@
 				order by ${sidx} ${order}
 			</when>
 			<otherwise>
-				order by mobile asc
+				order by topics asc
 			</otherwise>
 		</choose>
 		<if test="offset != null and limit != null">
@@ -30,8 +30,8 @@
 	<select id="queryTotal" resultType="int">
 		select count(*) from mc_subscribe
 		<where>
-			<if test="username != null and username.trim() != ''">
-				and `username` like concat('%',#{username},'%')
+			<if test="topics != null and topics.trim() != ''">
+				and `topics` like concat('%',#{topics},'%')
 			</if>
 		</where>
 	</select>
