@@ -24,13 +24,13 @@
 	<div v-show="showList">
 		<div class="grid-btn">
 			<div class="form-group col-sm-2">
-				<input type="text" class="form-control" v-model="q.mobile" @keyup.enter="query" placeholder="手机号码">
+				<input type="text" class="form-control" v-model="q.devMacid" @keyup.enter="query" placeholder="MAC标识">
 			</div>
 			<a class="btn btn-default" @click="query">查询</a>
 			
-			<a v-if="hasPermission('sys:customer:save')" class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
-			<a v-if="hasPermission('sys:customer:update')" class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
-			<a v-if="hasPermission('sys:customer:delete')" class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+			<a v-if="hasPermission('sys:device:save')" class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+			<a v-if="hasPermission('sys:device:update')" class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+			<a v-if="hasPermission('sys:device:delete')" class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
 		</div>
 	    <table id="jqGrid"></table>
 	    <div id="jqGridPager"></div>
@@ -40,35 +40,48 @@
 		<div class="panel-heading">{{title}}</div>
 		<form class="form-horizontal">
 			<div class="form-group">
-			   	<div class="col-sm-2 control-label">客户姓名</div>
+			   	<div class="col-sm-2 control-label">MAC标识</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="customer.username" placeholder="客户姓名"/>
+			      <input type="text" class="form-control" v-model="device.devMacid" placeholder="MAC标识"/>
 			    </div>
 			</div>
 			<div class="form-group">
-				<div class="col-sm-2 control-label">性别</div>
+				<div class="col-sm-2 control-label">设备中文名称</div>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" v-model="customer.sex" placeholder="性别"/>
+					<input type="text" class="form-control" v-model="device.devNameZh" placeholder="设备中文名称"/>
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-sm-2 control-label">微信识别码</div>
+				<div class="col-sm-2 control-label">设备英文名称</div>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" v-model="customer.wechatId" placeholder="微信识别码"/>
+					<input type="text" class="form-control" v-model="device.devNameEn" placeholder="设备英文名称"/>
 				</div>
 			</div>
 			<div class="form-group">
-			   	<div class="col-sm-2 control-label">邮箱</div>
+				<div class="col-sm-2 control-label">MC用户</div>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" v-model="device.userId" placeholder="MC用户"/>
+				</div>
+			</div>
+			<div class="form-group">
+			   	<div class="col-sm-2 control-label">设备状态</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="customer.email" placeholder="邮箱"/>
+			      <input type="text" class="form-control" v-model="device.devStatus" placeholder="设备状态"/>
 			    </div>
 			</div>
 			<div class="form-group">
-			   	<div class="col-sm-2 control-label">授权</div>
+			   	<div class="col-sm-2 control-label">开关状态</div>
 			   	<div class="col-sm-10">
-			      <ul id="menuTree" class="ztree"></ul>
+			      <input type="text" class="form-control" v-model="device.statusSwitch" placeholder="开关状态"/>
 			    </div>
 			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">电量%</div>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" v-model="device.electricity" placeholder="电量%"/>
+				</div>
+			</div>
+
 			<div class="form-group">
 				<div class="col-sm-2 control-label"></div> 
 				<input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
@@ -78,6 +91,6 @@
 	</div>
 </div>
    
-<script src="../../js/modules/customer/customer.js"></script>
+<script src="../../js/modules/device/device.js"></script>
 </body>
 </html>

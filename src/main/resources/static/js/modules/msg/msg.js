@@ -1,4 +1,4 @@
-$(function () {
+ $(function () {
     $("#jqGrid").jqGrid({
         url: baseURL + 'customer/customer/list',
         datatype: "json",

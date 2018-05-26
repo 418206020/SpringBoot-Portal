@@ -1,20 +1,27 @@
 $(function () {
     $("#jqGrid").jqGrid({
-        url: baseURL + 'customer/customer/list',
+        url: baseURL + 'device/device/list',
         datatype: "json",
         colModel: [
-			{ label: '手机号码', name: 'mobile', index: "mobile", width: 65, key: true },
-			{ label: '客户名称', name: 'username', index: "username", width: 105 },
-			{ label: '性别', name: 'sex', width: 30,
-			    formatter: function(value, options, row){
-                    return value === '1' ?
-                        '<span>男</span>' :
-                        '<span>女</span>';
+			{ label: 'MAC标识', name: 'devMacid', index: "devMacid", width: 120, key: true },
+			{ label: '设备中文名称', name: 'devNameZh', index: "devNameZh", width: 105 },
+			{ label: '设备英文名称', name: 'devNameEn', index: "devNameEn", width: 105 },
+			{ label: 'MC用户', name: 'userId', index: "userId", width: 20 },
+			{ label: '开关状态', name: 'statusSwitch',width: 40,
+                formatter: function(value, options, row){
+                     return value === 1 ?
+                        '<span class="label label-info">OPEN</span>' :
+                        '<span class="label label-warning">CLOSE</span>';
                 }
             },
-			{ label: '微信识别码', name: 'wechatId', width: 100 },
-			{ label: '邮箱', name: 'email', width: 100 },
-			{ label: '创建时间', name: 'createTime', index: "create_time", width: 80}
+            { label: '设备状态', name: 'devStatus',width: 40,
+                formatter: function(value, options, row){
+                     return value === 1 ?
+                        '<span class="label label-success">正常</span>' :
+                        '<span class="label label-warning">危险</span>';
+                }
+            },
+			{ label: '电量%', name: 'electricity', index: "electricity", width: 40 }
         ],
 		viewrecords: true,
         height: 385,
@@ -70,7 +77,7 @@ var vm = new Vue({
 		},
 		showList: true,
 		title:null,
-		customer:{}
+		device:{}
 	},
 	methods: {
 		query: function () {
@@ -79,7 +86,7 @@ var vm = new Vue({
 		add: function(){
 			vm.showList = false;
 			vm.title = "新增";
-			vm.customer = {};
+			vm.device = {};
 			vm.getMenuTree(null);
 		},
 		update: function () {
@@ -101,7 +108,7 @@ var vm = new Vue({
 			confirm('确定要删除选中的记录？', function(){
 				$.ajax({
 					type: "POST",
-				    url: baseURL + "customer/customer/delete",
+				    url: baseURL + "device/device/delete",
                     contentType: "application/json",
 				    data: JSON.stringify(roleIds),
 				    success: function(r){
@@ -117,11 +124,11 @@ var vm = new Vue({
 			});
 		},
 		getRole: function(roleId){
-            $.get(baseURL + "customer/customer/info/"+roleId, function(r){
-            	vm.customer = r.customer;
+            $.get(baseURL + "device/device/info/"+roleId, function(r){
+            	vm.device = r.device;
 
                 //勾选角色所拥有的菜单
-    			var menuIds = vm.customer.menuIdList;
+    			var menuIds = vm.device.menuIdList;
     			for(var i=0; i<menuIds.length; i++) {
     				var node = ztree.getNodeByParam("menuId", menuIds[i]);
     				ztree.checkNode(node, true, false);
@@ -139,14 +146,14 @@ var vm = new Vue({
 			for(var i=0; i<nodes.length; i++) {
 				menuIdList.push(nodes[i].menuId);
 			}
-			vm.customer.menuIdList = menuIdList;
+			vm.device.menuIdList = menuIdList;
 
-			var url = vm.customer.roleId == null ? "customer/customer/save" : "customer/customer/update";
+			var url = vm.device.roleId == null ? "device/device/save" : "device/device/update";
 			$.ajax({
 				type: "POST",
 			    url: baseURL + url,
                 contentType: "application/json",
-			    data: JSON.stringify(vm.customer),
+			    data: JSON.stringify(vm.device),
 			    success: function(r){
 			    	if(r.code === 0){
 						alert('操作成功', function(){
@@ -160,7 +167,7 @@ var vm = new Vue({
 		},
 		getMenuTree: function(roleId) {
 			//加载菜单树
-			$.get(baseURL + "customer/menu/list", function(r){
+			$.get(baseURL + "device/menu/list", function(r){
 				ztree = $.fn.zTree.init($("#menuTree"), setting, r);
 				//展开所有节点
 				ztree.expandAll(true);
@@ -174,13 +181,13 @@ var vm = new Vue({
 	    	vm.showList = true;
 			var page = $("#jqGrid").jqGrid('getGridParam','page');
 			$("#jqGrid").jqGrid('setGridParam',{
-                postData:{'mobile': vm.q.mobile},
+                postData:{'devMacid': vm.q.devMacid},
                 page:page
             }).trigger("reloadGrid");
 		},
         validator: function () {
-            if(isBlank(vm.customer.mobile)){
-                alert("角色名不能为空");
+            if(isBlank(vm.device.devMacid)){
+                alert("devMacid不能为空");
                 return true;
             }
         }
