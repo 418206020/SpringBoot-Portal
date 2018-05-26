@@ -155,9 +155,9 @@ Menu.initColumn = function () {
     var columns = [
         {field: 'selectItem', radio: true},
         {title: '菜单ID', field: 'menuId', visible: false, align: 'center', valign: 'middle', width: '80px'},
-        {title: '菜单名称', field: 'name', align: 'center', valign: 'middle', sortable: true, width: '180px'},
-        {title: '上级菜单', field: 'parentName', align: 'center', valign: 'middle', sortable: true, width: '100px'},
-        {title: '图标', field: 'icon', align: 'center', valign: 'middle', sortable: true, width: '80px', formatter: function(item, index){
+        {title: '菜单名称', field: 'name', align: 'center', valign: 'middle', sortable: true, width: '120px'},
+        {title: '上级菜单', field: 'parentName', align: 'center', valign: 'middle', sortable: true, width: '120px'},
+        {title: '图标', field: 'icon', align: 'center', valign: 'middle', sortable: true, width: '60px', formatter: function(item, index){
             return item.icon == null ? '' : '<i class="'+item.icon+' fa-lg"></i>';
         }},
         {title: '类型', field: 'type', align: 'center', valign: 'middle', sortable: true, width: '100px', formatter: function(item, index){
@@ -171,8 +171,8 @@ Menu.initColumn = function () {
                 return '<span class="label label-warning">按钮</span>';
             }
         }},
-        {title: '排序号', field: 'orderNum', align: 'center', valign: 'middle', sortable: true, width: '100px'},
-        {title: '菜单URL', field: 'url', align: 'center', valign: 'middle', sortable: true, width: '160px'},
+        {title: '排序号', field: 'orderNum', align: 'center', valign: 'middle', sortable: true, width: '80px'},
+        {title: '菜单URL', field: 'url', align: 'center', valign: 'middle', sortable: true, width: '360px'},
         {title: '授权标识', field: 'perms', align: 'center', valign: 'middle', sortable: true}]
     return columns;
 };
