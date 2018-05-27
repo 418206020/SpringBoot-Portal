@@ -3,7 +3,8 @@ $(function () {
         url: baseURL + 'customer/customer/list',
         datatype: "json",
         colModel: [
-			{ label: '手机号码', name: 'mobile', index: "mobile", width: 65, key: true },
+			{ label: '编号', name: 'id', index: "id", width: 45, key: true },
+			{ label: '手机号码', name: 'mobile', index: "mobile", width: 65},
 			{ label: '客户名称', name: 'username', index: "username", width: 105 },
 			{ label: '性别', name: 'sex', width: 30,
 			    formatter: function(value, options, row){

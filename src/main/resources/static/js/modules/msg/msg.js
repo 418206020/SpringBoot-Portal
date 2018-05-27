@@ -3,7 +3,8 @@ $(function () {
         url: baseURL + 'msg/msg/list',
         datatype: "json",
         colModel: [
-			{ label: '设备编号', name: 'devid', index: "devid", width: 30, key: true },
+			{ label: '编号', name: 'id', index: "id", width: 45, key: true },
+			{ label: '设备编号', name: 'devid', index: "devid", width: 30 },
 			{ label: '客户编号', name: 'userid', index: "userid", width: 30 },
 			{ label: '消息来源', name: 'msgType', index: "msgType", width: 105 },
 			{ label: '主题', name: 'topicName', index: "topicName", width: 90 },

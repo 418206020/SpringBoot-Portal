@@ -3,7 +3,8 @@ $(function () {
         url: baseURL + 'device/device/list',
         datatype: "json",
         colModel: [
-			{ label: 'MAC标识', name: 'devMacid', index: "devMacid", width: 120, key: true },
+            { label: '编号', name: 'id', index: "id", width: 45, key: true },
+			{ label: 'MAC标识', name: 'devMacid', index: "devMacid", width: 120},
 			{ label: '设备中文名称', name: 'devNameZh', index: "devNameZh", width: 105 },
 			{ label: '设备英文名称', name: 'devNameEn', index: "devNameEn", width: 105 },
 			{ label: 'MC用户', name: 'userId', index: "userId", width: 20 },

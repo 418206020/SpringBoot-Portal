@@ -3,7 +3,8 @@ $(function () {
         url: baseURL + 'subscribe/subscribe/list',
         datatype: "json",
         colModel: [
-			{ label: '订阅主题', name: 'topics', index: "topics", width: 280, key: true },
+			{ label: '编号', name: 'id', index: "id", width: 45, key: true },
+			{ label: '订阅主题', name: 'topics', index: "topics", width: 280 },
 			{ label: '客户端', name: 'clientid', index: "clientid", width: 105 },
 			{ label: '状态', name: 'status',width: 80,
                 formatter: function(value, options, row){
