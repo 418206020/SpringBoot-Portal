@@ -20,6 +20,8 @@ public class Swagger2 {
     /**
      * 通过 createRestApi函数来构建一个DocketBean
      * 函数名,可以随意命名,喜欢什么命名就什么命名
+     * 创建swagger访问地址http://localhost:8080/X_Portal/swagger/index.html
+     * 备注：在static下面配置
      */
     @Bean
     public Docket createRestApi() {
@@ -29,7 +31,7 @@ public class Swagger2 {
                 //控制暴露出去的路径下的实例
                 //如果某个接口不想暴露,可以使用以下注解
                 //这样,该接口就不会暴露在 swagger2 的页面下
-                .apis(RequestHandlerSelectors.basePackage("com.micro.boot.app"))
+                .apis(RequestHandlerSelectors.basePackage("com.micro.boot.app.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }
@@ -39,7 +41,7 @@ public class Swagger2 {
                 //页面标题
                 .title("X_Portal API")
                 //创建人
-                .contact("czx")
+                .contact("418206020")
                 //版本号
                 .version("1.0")
                 //描述
