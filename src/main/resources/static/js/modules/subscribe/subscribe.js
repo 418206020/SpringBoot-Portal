@@ -8,7 +8,7 @@ $(function () {
 			{ label: '客户端', name: 'clientid', index: "clientid", width: 105 },
 			{ label: '状态', name: 'status',width: 80,
                 formatter: function(value, options, row){
-                     return value === 1 ?
+                     return value == 1 ?
                         '<span class="label label-success">运行</span>' :
                         '<span class="label label-warning">终止</span>';
                 }

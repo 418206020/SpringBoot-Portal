@@ -93,16 +93,13 @@ public class MQTTClient {
             }
 
             public void deliveryComplete(IMqttDeliveryToken token) {
-                System.out.println("deliveryComplete---------" + token.isComplete());
             }
 
             public void messageArrived(String topic, MqttMessage message) throws Exception {
                 try {
                     String msg = message.toString();
                     logger.info(topic + msg);
-                    DeviceStateRep rep = AnalyticUtil.analytic(msg);
                     mcMessageService.saveMQTT(mobile, topic, msg);
-                    logger.info("DeviceStateRep:" + rep.toString());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
