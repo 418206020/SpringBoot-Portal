@@ -25,8 +25,8 @@ public class AppMcCustomerServiceImpl implements AppMcCustomerService {
 	private AppMcCustomerDao appMcCustomerDao;
 
 	@Override
-	public AppMcUserEntity queryObject(Long roleId) {
-		return appMcCustomerDao.queryObject(roleId);
+	public AppMcUserEntity queryObject(Long id) {
+		return appMcCustomerDao.queryObject(id);
 	}
 
 	@Override
@@ -41,21 +41,21 @@ public class AppMcCustomerServiceImpl implements AppMcCustomerService {
 
 	@Override
 	@Transactional
-	public void save(AppMcUserEntity role) {
-		role.setCreateTime(new Date());
-		appMcCustomerDao.save(role);
+	public void save(AppMcUserEntity customer) {
+		customer.setCreateTime(new Date());
+		appMcCustomerDao.save(customer);
 	}
 
 	@Override
 	@Transactional
-	public void update(AppMcUserEntity role) {
-		appMcCustomerDao.update(role);
+	public void update(AppMcUserEntity customer) {
+		appMcCustomerDao.update(customer);
 	}
 
 	@Override
 	@Transactional
-	public void deleteBatch(Long[] roleIds) {
-		appMcCustomerDao.deleteBatch(roleIds);
+	public void deleteBatch(Long[] ids) {
+		appMcCustomerDao.deleteBatch(ids);
 	}
 
 	@Override

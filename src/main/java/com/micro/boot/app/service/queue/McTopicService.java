@@ -31,6 +31,6 @@ public interface McTopicService {
 
     void updateNullDeviceId();
 
-    void deleteHistory();
+    void deleteHistory(int minutes);
 
 }

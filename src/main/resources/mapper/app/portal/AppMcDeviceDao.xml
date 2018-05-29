@@ -4,7 +4,7 @@
 <mapper namespace="com.micro.boot.modules.sys.dao.AppMcDeviceDao">
 
 	<select id="queryObject" resultType="com.micro.boot.modules.sys.entity.AppMcDeviceEntity">
-		select * from mc_device where dev_macid = #{value}
+		select * from mc_device where id = #{value}
 	</select>
 	
 	<select id="queryList" resultType="com.micro.boot.modules.sys.entity.AppMcDeviceEntity">
@@ -35,5 +35,18 @@
 			</if>
 		</where>
 	</select>
+
+	<update id="update" parameterType="com.micro.boot.modules.sys.entity.AppMcDeviceEntity">
+		update mc_device set `dev_macid` = #{devMacid}, `user_id` = #{userId},
+		`dev_name_zh` = #{devNameZh}, `dev_name_en` = #{devNameEn}, electricity = #{electricity}
+		where id = #{id}
+	</update>
+
+	<delete id="deleteBatch" parameterType="int">
+		delete from mc_device where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
 
 </mapper>

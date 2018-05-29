@@ -89,8 +89,13 @@ public class MqttTask {
     /**
      *
      */
-    public void history() {
-        mcTopicService.deleteHistory();
+    public void history(String minutes) {
+        try {
+            int min = Integer.parseInt(minutes);
+            mcTopicService.deleteHistory(min);
+        }catch (Exception e){
+
+        }
     }
 
     /**

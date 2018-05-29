@@ -25,8 +25,8 @@ public class AppMcDeviceServiceImpl implements AppMcDeviceService {
 	private AppMcDeviceDao appMcDeviceDao;
 
 	@Override
-	public AppMcDeviceEntity queryObject(Long roleId) {
-		return appMcDeviceDao.queryObject(roleId);
+	public AppMcDeviceEntity queryObject(Long id) {
+		return appMcDeviceDao.queryObject(id);
 	}
 
 	@Override
@@ -41,21 +41,21 @@ public class AppMcDeviceServiceImpl implements AppMcDeviceService {
 
 	@Override
 	@Transactional
-	public void save(AppMcDeviceEntity role) {
-		role.setCreateTime(new Date());
-		appMcDeviceDao.save(role);
+	public void save(AppMcDeviceEntity device) {
+		device.setCreateTime(new Date());
+		appMcDeviceDao.save(device);
 	}
 
 	@Override
 	@Transactional
-	public void update(AppMcDeviceEntity role) {
-		appMcDeviceDao.update(role);
+	public void update(AppMcDeviceEntity device) {
+		appMcDeviceDao.update(device);
 	}
 
 	@Override
 	@Transactional
-	public void deleteBatch(Long[] roleIds) {
-		appMcDeviceDao.deleteBatch(roleIds);
+	public void deleteBatch(Long[] deviceIds) {
+		appMcDeviceDao.deleteBatch(deviceIds);
 	}
 
 	@Override

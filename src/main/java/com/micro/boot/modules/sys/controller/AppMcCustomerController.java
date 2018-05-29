@@ -42,7 +42,7 @@ public class AppMcCustomerController extends AbstractController {
 	@RequestMapping("/list")
 	@RequiresPermissions("customer:customer:list")
 	public ReturnMapInfo list(@RequestParam Map<String, Object> params){
-		//如果不是超级管理员，则只查询自己创建的角色列表
+		//如果不是超级管理员，则只查询自己创建的客户列表
 		if(getUserId() != Constant.SUPER_ADMIN){
 			params.put("createUserId", getUserId());
 		}
@@ -58,14 +58,14 @@ public class AppMcCustomerController extends AbstractController {
 	}
 	
 	/**
-	 * 角色列表
+	 * 客户列表
 	 */
 	@RequestMapping("/select")
 	@RequiresPermissions("customer:customer:select")
 	public ReturnMapInfo select(){
 		Map<String, Object> map = new HashMap<>();
 		
-		//如果不是超级管理员，则只查询自己所拥有的角色列表
+		//如果不是超级管理员，则只查询自己所拥有的客户列表
 		if(getUserId() != Constant.SUPER_ADMIN){
 			map.put("createUserId", getUserId());
 		}
@@ -75,56 +75,49 @@ public class AppMcCustomerController extends AbstractController {
 	}
 	
 	/**
-	 * 角色信息
+	 * 客户信息
 	 */
-	@RequestMapping("/info/{roleId}")
+	@RequestMapping("/info/{id}")
 	@RequiresPermissions("customer:customer:info")
-	public ReturnMapInfo info(@PathVariable("roleId") Long roleId){
-		AppMcUserEntity role = appMcCustomerService.queryObject(roleId);
+	public ReturnMapInfo info(@PathVariable("id") Long id){
+		AppMcUserEntity customer = appMcCustomerService.queryObject(id);
 		
-		//查询角色对应的菜单
-		return ReturnMapInfo.ok().put("role", role);
+		//查询客户对应的菜单
+		return ReturnMapInfo.ok().put("customer", customer);
 	}
 	
 	/**
-	 * 保存角色
+	 * 保存客户
 	 */
-	@SysLog("保存角色")
+	@SysLog("保存客户")
 	@RequestMapping("/save")
 	@RequiresPermissions("customer:customer:save")
-	public ReturnMapInfo save(@RequestBody AppMcUserEntity role){
-		ValidatorUtils.validateEntity(role);
-		
-		role.setCreateUserId(getUserId());
-		appMcCustomerService.save(role);
-		
+	public ReturnMapInfo save(@RequestBody AppMcUserEntity customer){
+		ValidatorUtils.validateEntity(customer);
+		appMcCustomerService.save(customer);
 		return ReturnMapInfo.ok();
 	}
 	
 	/**
-	 * 修改角色
+	 * 修改客户
 	 */
-	@SysLog("修改角色")
+	@SysLog("修改客户")
 	@RequestMapping("/update")
 	@RequiresPermissions("customer:customer:update")
-	public ReturnMapInfo update(@RequestBody AppMcUserEntity role){
-		ValidatorUtils.validateEntity(role);
-		
-		role.setCreateUserId(getUserId());
-		appMcCustomerService.update(role);
-		
+	public ReturnMapInfo update(@RequestBody AppMcUserEntity customer){
+		ValidatorUtils.validateEntity(customer);
+		appMcCustomerService.update(customer);
 		return ReturnMapInfo.ok();
 	}
 	
 	/**
-	 * 删除角色
+	 * 删除客户
 	 */
-	@SysLog("删除角色")
+	@SysLog("删除客户")
 	@RequestMapping("/delete")
 	@RequiresPermissions("customer:customer:delete")
-	public ReturnMapInfo delete(@RequestBody Long[] roleIds){
-		appMcCustomerService.deleteBatch(roleIds);
-		
+	public ReturnMapInfo delete(@RequestBody Long[] currentIds){
+		appMcCustomerService.deleteBatch(currentIds);
 		return ReturnMapInfo.ok();
 	}
 }

@@ -15,7 +15,7 @@ import java.util.Map;
  */
 public interface AppMcDeviceService {
 	
-	AppMcDeviceEntity queryObject(Long roleId);
+	AppMcDeviceEntity queryObject(Long id);
 	
 	List<AppMcDeviceEntity> queryList(Map<String, Object> map);
 	

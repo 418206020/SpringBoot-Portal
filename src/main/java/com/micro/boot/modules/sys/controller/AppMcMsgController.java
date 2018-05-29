@@ -35,7 +35,7 @@ public class AppMcMsgController extends AbstractController {
 	@RequestMapping("/list")
 	@RequiresPermissions("msg:msg:list")
 	public ReturnMapInfo list(@RequestParam Map<String, Object> params){
-		//如果不是超级管理员，则只查询自己创建的角色列表
+		//如果不是超级管理员，则只查询自己创建的消息列表
 		if(getUserId() != Constant.SUPER_ADMIN){
 			params.put("createUserId", getUserId());
 		}
@@ -51,14 +51,14 @@ public class AppMcMsgController extends AbstractController {
 	}
 	
 	/**
-	 * 角色列表
+	 * 消息列表
 	 */
 	@RequestMapping("/select")
 	@RequiresPermissions("msg:msg:select")
 	public ReturnMapInfo select(){
 		Map<String, Object> map = new HashMap<>();
 		
-		//如果不是超级管理员，则只查询自己所拥有的角色列表
+		//如果不是超级管理员，则只查询自己所拥有的消息列表
 		if(getUserId() != Constant.SUPER_ADMIN){
 			map.put("createUserId", getUserId());
 		}
@@ -68,21 +68,21 @@ public class AppMcMsgController extends AbstractController {
 	}
 	
 	/**
-	 * 角色信息
+	 * 消息信息
 	 */
 	@RequestMapping("/info/{roleId}")
 	@RequiresPermissions("msg:msg:info")
 	public ReturnMapInfo info(@PathVariable("roleId") Long roleId){
 		AppMcMsgEntity role = appMcMsgService.queryObject(roleId);
 		
-		//查询角色对应的菜单
+		//查询消息对应的菜单
 		return ReturnMapInfo.ok().put("role", role);
 	}
 	
 	/**
-	 * 保存角色
+	 * 保存消息
 	 */
-	@SysLog("保存角色")
+	@SysLog("保存消息")
 	@RequestMapping("/save")
 	@RequiresPermissions("msg:msg:save")
 	public ReturnMapInfo save(@RequestBody AppMcMsgEntity role){
@@ -95,9 +95,9 @@ public class AppMcMsgController extends AbstractController {
 	}
 	
 	/**
-	 * 修改角色
+	 * 修改消息
 	 */
-	@SysLog("修改角色")
+	@SysLog("修改消息")
 	@RequestMapping("/update")
 	@RequiresPermissions("msg:msg:update")
 	public ReturnMapInfo update(@RequestBody AppMcMsgEntity role){
@@ -110,9 +110,9 @@ public class AppMcMsgController extends AbstractController {
 	}
 	
 	/**
-	 * 删除角色
+	 * 删除消息
 	 */
-	@SysLog("删除角色")
+	@SysLog("删除消息")
 	@RequestMapping("/delete")
 	@RequiresPermissions("msg:msg:delete")
 	public ReturnMapInfo delete(@RequestBody Long[] roleIds){

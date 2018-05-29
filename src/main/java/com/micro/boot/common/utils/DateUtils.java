@@ -96,13 +96,30 @@ public class DateUtils {
 
     /**
      * 前一分钟
+     *
      * @param date
+     *
      * @return
      */
     public static Date getOneMinuteBefore(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.MINUTE, -60);
+        date = calendar.getTime();
+        return date;
+    }
+
+    /**
+     * 前minutes分钟
+     *
+     * @param date
+     *
+     * @return
+     */
+    public static Date getMinutesBefore(int minutes, Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.MINUTE, -60 * minutes);
         date = calendar.getTime();
         return date;
     }

@@ -35,7 +35,7 @@ public class AppMcDeviceController extends AbstractController {
 	@RequestMapping("/list")
 	@RequiresPermissions("device:device:list")
 	public ReturnMapInfo list(@RequestParam Map<String, Object> params){
-		//如果不是超级管理员，则只查询自己创建的角色列表
+		//如果不是超级管理员，则只查询自己创建的设备列表
 		if(getUserId() != Constant.SUPER_ADMIN){
 			params.put("createUserId", getUserId());
 		}
@@ -51,14 +51,14 @@ public class AppMcDeviceController extends AbstractController {
 	}
 	
 	/**
-	 * 角色列表
+	 * 设备列表
 	 */
 	@RequestMapping("/select")
 	@RequiresPermissions("device:device:select")
 	public ReturnMapInfo select(){
 		Map<String, Object> map = new HashMap<>();
 		
-		//如果不是超级管理员，则只查询自己所拥有的角色列表
+		//如果不是超级管理员，则只查询自己所拥有的设备列表
 		if(getUserId() != Constant.SUPER_ADMIN){
 			map.put("createUserId", getUserId());
 		}
@@ -68,56 +68,49 @@ public class AppMcDeviceController extends AbstractController {
 	}
 	
 	/**
-	 * 角色信息
+	 * 设备信息
 	 */
-	@RequestMapping("/info/{roleId}")
+	@RequestMapping("/info/{id}")
 	@RequiresPermissions("device:device:info")
-	public ReturnMapInfo info(@PathVariable("roleId") Long roleId){
-		AppMcDeviceEntity role = appMcDeviceService.queryObject(roleId);
+	public ReturnMapInfo info(@PathVariable("id") Long id){
+		AppMcDeviceEntity device = appMcDeviceService.queryObject(id);
 		
-		//查询角色对应的菜单
-		return ReturnMapInfo.ok().put("role", role);
+		//查询设备对应的菜单
+		return ReturnMapInfo.ok().put("device", device);
 	}
 	
 	/**
-	 * 保存角色
+	 * 保存设备
 	 */
-	@SysLog("保存角色")
+	@SysLog("保存设备")
 	@RequestMapping("/save")
 	@RequiresPermissions("device:device:save")
-	public ReturnMapInfo save(@RequestBody AppMcDeviceEntity role){
-		ValidatorUtils.validateEntity(role);
-		
-//		role.setCreateDeviceId(getDeviceId());
-		appMcDeviceService.save(role);
-		
+	public ReturnMapInfo save(@RequestBody AppMcDeviceEntity device){
+		ValidatorUtils.validateEntity(device);
+		appMcDeviceService.save(device);
 		return ReturnMapInfo.ok();
 	}
 	
 	/**
-	 * 修改角色
+	 * 修改设备
 	 */
-	@SysLog("修改角色")
+	@SysLog("修改设备")
 	@RequestMapping("/update")
 	@RequiresPermissions("device:device:update")
-	public ReturnMapInfo update(@RequestBody AppMcDeviceEntity role){
-		ValidatorUtils.validateEntity(role);
-		
-//		role.setCreateDeviceId(getDeviceId());
-		appMcDeviceService.update(role);
-		
+	public ReturnMapInfo update(@RequestBody AppMcDeviceEntity device){
+		appMcDeviceService.update(device);
 		return ReturnMapInfo.ok();
 	}
 	
 	/**
-	 * 删除角色
+	 * 删除设备
 	 */
-	@SysLog("删除角色")
+	@SysLog("删除设备")
 	@RequestMapping("/delete")
 	@RequiresPermissions("device:device:delete")
-	public ReturnMapInfo delete(@RequestBody Long[] roleIds){
-		appMcDeviceService.deleteBatch(roleIds);
-		
+	public ReturnMapInfo delete(@RequestBody Long[] currentIds){
+		appMcDeviceService.deleteBatch(currentIds);
 		return ReturnMapInfo.ok();
 	}
+
 }

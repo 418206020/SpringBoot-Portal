@@ -16,17 +16,17 @@ import java.util.Map;
  */
 public interface AppMcCustomerService {
 	
-	AppMcUserEntity queryObject(Long roleId);
+	AppMcUserEntity queryObject(Long id);
 	
 	List<AppMcUserEntity> queryList(Map<String, Object> map);
 	
 	int queryTotal(Map<String, Object> map);
 	
-	void save(AppMcUserEntity role);
+	void save(AppMcUserEntity customer);
 	
-	void update(AppMcUserEntity role);
+	void update(AppMcUserEntity customer);
 	
-	void deleteBatch(Long[] roleIds);
+	void deleteBatch(Long[] ids);
 
 	/**
 	 * 查询用户创建的角色ID列表

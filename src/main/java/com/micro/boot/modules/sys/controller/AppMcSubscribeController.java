@@ -35,7 +35,7 @@ public class AppMcSubscribeController extends AbstractController {
 	@RequestMapping("/list")
 	@RequiresPermissions("subscribe:subscribe:list")
 	public ReturnMapInfo list(@RequestParam Map<String, Object> params){
-		//如果不是超级管理员，则只查询自己创建的角色列表
+		//如果不是超级管理员，则只查询自己创建的订阅列表
 		if(getUserId() != Constant.SUPER_ADMIN){
 			params.put("createUserId", getUserId());
 		}
@@ -51,14 +51,14 @@ public class AppMcSubscribeController extends AbstractController {
 	}
 	
 	/**
-	 * 角色列表
+	 * 订阅列表
 	 */
 	@RequestMapping("/select")
 	@RequiresPermissions("subscribe:subscribe:select")
 	public ReturnMapInfo select(){
 		Map<String, Object> map = new HashMap<>();
 		
-		//如果不是超级管理员，则只查询自己所拥有的角色列表
+		//如果不是超级管理员，则只查询自己所拥有的订阅列表
 		if(getUserId() != Constant.SUPER_ADMIN){
 			map.put("createUserId", getUserId());
 		}
@@ -68,21 +68,21 @@ public class AppMcSubscribeController extends AbstractController {
 	}
 	
 	/**
-	 * 角色信息
+	 * 订阅信息
 	 */
 	@RequestMapping("/info/{roleId}")
 	@RequiresPermissions("subscribe:subscribe:info")
 	public ReturnMapInfo info(@PathVariable("roleId") Long roleId){
 		AppMcSubscribeEntity role = appMcSubscribeService.queryObject(roleId);
 		
-		//查询角色对应的菜单
+		//查询订阅对应的菜单
 		return ReturnMapInfo.ok().put("role", role);
 	}
 	
 	/**
-	 * 保存角色
+	 * 保存订阅
 	 */
-	@SysLog("保存角色")
+	@SysLog("保存订阅")
 	@RequestMapping("/save")
 	@RequiresPermissions("subscribe:subscribe:save")
 	public ReturnMapInfo save(@RequestBody AppMcSubscribeEntity role){
@@ -95,9 +95,9 @@ public class AppMcSubscribeController extends AbstractController {
 	}
 	
 	/**
-	 * 修改角色
+	 * 修改订阅
 	 */
-	@SysLog("修改角色")
+	@SysLog("修改订阅")
 	@RequestMapping("/update")
 	@RequiresPermissions("subscribe:subscribe:update")
 	public ReturnMapInfo update(@RequestBody AppMcSubscribeEntity role){
@@ -110,9 +110,9 @@ public class AppMcSubscribeController extends AbstractController {
 	}
 	
 	/**
-	 * 删除角色
+	 * 删除订阅
 	 */
-	@SysLog("删除角色")
+	@SysLog("删除订阅")
 	@RequestMapping("/delete")
 	@RequiresPermissions("subscribe:subscribe:delete")
 	public ReturnMapInfo delete(@RequestBody Long[] roleIds){

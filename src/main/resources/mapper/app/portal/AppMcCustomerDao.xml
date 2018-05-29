@@ -4,7 +4,7 @@
 <mapper namespace="com.micro.boot.modules.sys.dao.AppMcCustomerDao">
 
 	<select id="queryObject" resultType="com.micro.boot.modules.sys.entity.AppMcUserEntity">
-		select * from mc_user where mobile = #{value}
+		select * from mc_user where id = #{value}
 	</select>
 	
 	<select id="queryList" resultType="com.micro.boot.modules.sys.entity.AppMcUserEntity">
@@ -35,5 +35,17 @@
 			</if>
 		</where>
 	</select>
+
+	<update id="update" parameterType="com.micro.boot.modules.sys.entity.AppMcUserEntity">
+		update mc_user set `username` = #{username}, `mobile` = #{mobile}, email = #{email}
+		where id = #{id}
+	</update>
+
+	<delete id="deleteBatch" parameterType="int">
+		delete from mc_user where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
 
 </mapper>

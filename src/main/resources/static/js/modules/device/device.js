@@ -51,25 +51,6 @@ $(function () {
     });
 });
 
-var setting = {
-	data: {
-		simpleData: {
-			enable: true,
-			idKey: "menuId",
-			pIdKey: "parentId",
-			rootPId: -1
-		},
-		key: {
-			url:"nourl"
-		}
-	},
-	check:{
-		enable:true,
-		nocheckInherit:true
-	}
-};
-var ztree;
-
 var vm = new Vue({
 	el:'#rrapp',
 	data:{
@@ -88,96 +69,63 @@ var vm = new Vue({
 			vm.showList = false;
 			vm.title = "新增";
 			vm.device = {};
-			vm.getMenuTree(null);
 		},
 		update: function () {
-			var roleId = getSelectedRow();
-			if(roleId == null){
+			var id = getSelectedRow();
+			if(id == null){
 				return ;
 			}
-
-			vm.showList = false;
-            vm.title = "修改";
-            vm.getMenuTree(roleId);
+			$.get(baseURL + "device/device/info/"+id, function(r){
+                            vm.showList = false;
+                            vm.title = "修改";
+                            vm.device = r.device;
+                        });
 		},
 		del: function () {
-			var roleIds = getSelectedRows();
-			if(roleIds == null){
-				return ;
-			}
+        			var ids = getSelectedRows();
+        			if(ids == null){
+        				return ;
+        			}
 
-			confirm('确定要删除选中的记录？', function(){
-				$.ajax({
-					type: "POST",
-				    url: baseURL + "device/device/delete",
-                    contentType: "application/json",
-				    data: JSON.stringify(roleIds),
-				    success: function(r){
-						if(r.code == 0){
-							alert('操作成功', function(index){
-								vm.reload();
-							});
-						}else{
-							alert(r.msg);
-						}
-					}
-				});
-			});
-		},
-		getRole: function(roleId){
-            $.get(baseURL + "device/device/info/"+roleId, function(r){
-            	vm.device = r.device;
-
-                //勾选角色所拥有的菜单
-    			var menuIds = vm.device.menuIdList;
-    			for(var i=0; i<menuIds.length; i++) {
-    				var node = ztree.getNodeByParam("menuId", menuIds[i]);
-    				ztree.checkNode(node, true, false);
-    			}
-    		});
-		},
+        			confirm('确定要删除选中的记录？', function(){
+        				$.ajax({
+        					type: "POST",
+        				    url: baseURL + "device/device/delete",
+                            contentType: "application/json",
+        				    data: JSON.stringify(ids),
+        				    success: function(r){
+        						if(r.code == 0){
+        							alert('操作成功', function(){
+        								vm.reload();
+        							});
+        						}else{
+        							alert(r.msg);
+        						}
+        					}
+        				});
+        			});
+        		},
 		saveOrUpdate: function () {
             if(vm.validator()){
                 return ;
             }
-
-			//获取选择的菜单
-			var nodes = ztree.getCheckedNodes(true);
-			var menuIdList = new Array();
-			for(var i=0; i<nodes.length; i++) {
-				menuIdList.push(nodes[i].menuId);
-			}
-			vm.device.menuIdList = menuIdList;
-
-			var url = vm.device.roleId == null ? "device/device/save" : "device/device/update";
-			$.ajax({
-				type: "POST",
-			    url: baseURL + url,
-                contentType: "application/json",
-			    data: JSON.stringify(vm.device),
-			    success: function(r){
-			    	if(r.code === 0){
-						alert('操作成功', function(){
-							vm.reload();
-						});
-					}else{
-						alert(r.msg);
-					}
-				}
-			});
+			var url = vm.device.id == null ? "device/device/save" : "device/device/update";
+            			$.ajax({
+            				type: "POST",
+            			    url: baseURL + url,
+                            contentType: "application/json",
+            			    data: JSON.stringify(vm.device),
+            			    success: function(r){
+            			    	if(r.code === 0){
+            						alert('操作成功', function(){
+            							vm.reload();
+            						});
+            					}else{
+            						alert(r.msg);
+            					}
+            				}
+            			});
 		},
-		getMenuTree: function(roleId) {
-			//加载菜单树
-			$.get(baseURL + "device/menu/list", function(r){
-				ztree = $.fn.zTree.init($("#menuTree"), setting, r);
-				//展开所有节点
-				ztree.expandAll(true);
-
-				if(roleId != null){
-					vm.getRole(roleId);
-				}
-			});
-	    },
 	    reload: function () {
 	    	vm.showList = true;
 			var page = $("#jqGrid").jqGrid('getGridParam','page');
