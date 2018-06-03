@@ -11,6 +11,8 @@ import com.micro.boot.app.service.queue.McTopicService;
 import com.micro.boot.common.Constants;
 import com.micro.boot.common.utils.DateUtils;
 import com.micro.boot.common.utils.RedisUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,12 +29,14 @@ import java.util.List;
 @Transactional
 public class McSubscriberServiceImpl implements McSubscriberService {
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Resource
     private McSubscribeDao mcSubscribeDao;
 
     /**
      * 订阅记录
+     *
      * @param clientId
      * @param topics
      */
@@ -44,6 +48,7 @@ public class McSubscriberServiceImpl implements McSubscriberService {
         request.setClientid(clientId);
         request.setTopics(topics[0]);//以**分隔符
         mcSubscribeDao.addSubscriber(request);
+        logger.info("subscriber addSubscriber:" + clientId);
     }
 
     /**
@@ -51,9 +56,11 @@ public class McSubscriberServiceImpl implements McSubscriberService {
      */
     @Override public void unsubscribe() {
         mcSubscribeDao.unsubscribe();
+        logger.info("unsubscribe:");
     }
 
     @Override public List<McSubscribeRep> listSubscriber(McSubscribeReq request) {
+        logger.info("listSubscriber:");
         return mcSubscribeDao.listSubsriber(request);
     }
 }
