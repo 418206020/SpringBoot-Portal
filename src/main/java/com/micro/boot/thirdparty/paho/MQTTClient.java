@@ -37,6 +37,8 @@ public class MQTTClient {
      */
     //    private static String serverURL = "tcp://127.0.0.1:61613";
     public static final String HOST = "tcp://mqtt.mym2mcloud.com:61613";
+
+    private static String Client_ID = "mqtt2046ce24fe68aded291888aa88b6eee0";
     private MqttClient client;
     private MqttConnectOptions options;
     private String userName = "admin";
@@ -60,7 +62,7 @@ public class MQTTClient {
      * @throws MqttException
      */
     public void subscribe(String mobile, String[] topics) throws MqttException {
-
+        mobile = Client_ID;//固定的ID
         // host为主机名，clientid即连接MQTT的客户端ID，一般以唯一标识符表示，MemoryPersistence设置clientid的保存形式，默认为以内存保存
         client = new MqttClient(HOST, mobile, new MemoryPersistence());
         // MQTT的连接设置
@@ -72,14 +74,15 @@ public class MQTTClient {
         // 设置连接的密码
         options.setPassword(passWord.toCharArray());
 
+        logger.info("subscribe: client connect..." + options.toString());
         client.connect(options);
         //默认Qos=1
         client.subscribe(topics);
-
         // 设置回调
+        logger.info("subscribe: start MqttCallback..." + client.toString());
+        String finalMobile = mobile;
         client.setCallback(new MqttCallback() {
             public void connectionLost(Throwable cause) {
-                System.out.println("connectionLost, ");
                 logger.info("unsubscribe history..");
                 mcSubscriberService.unsubscribe();//取消
                 //重新订阅
@@ -99,7 +102,7 @@ public class MQTTClient {
                 try {
                     String msg = message.toString();
                     logger.info(topic + msg);
-                    mcMessageService.saveMQTT(mobile, topic, msg);
+                    mcMessageService.saveMQTT(finalMobile, topic, msg);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -117,6 +120,7 @@ public class MQTTClient {
      */
     public void unsubscribe(String clientId, String[] topics) throws MqttException {
 
+        clientId = Client_ID;
         // host为主机名，clientid即连接MQTT的客户端ID，一般以唯一标识符表示，MemoryPersistence设置clientid的保存形式，默认为以内存保存
         client = new MqttClient(HOST, clientId, new MemoryPersistence());
         // MQTT的连接设置

@@ -55,8 +55,8 @@ public class MqttTask {
                 try {
                     try {
                         logger.info("subscribe:" + clientID);
-                        mqttClient.subscribe(clientID, topics);
                         mcSubscriberService.subscriber(clientID, topics);
+                        mqttClient.subscribe(clientID, topics);
                     } catch (MqttException e) {
                         logger.info(e.getMessage());
                     }
