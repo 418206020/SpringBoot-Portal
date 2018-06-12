@@ -4,16 +4,16 @@ $(function () {
         datatype: "json",
         colModel: [
 			{ label: '编号', name: 'id', index: "id", width: 45, key: true },
-			{ label: '订阅主题', name: 'topics', index: "topics", width: 280 },
-			{ label: '客户端', name: 'clientid', index: "clientid", width: 105 },
-			{ label: '状态', name: 'status',width: 80,
+			{ label: '订阅主题', name: 'topics', sortable: false, index: "topics", width: 280 },
+			{ label: '客户端', name: 'clientid', sortable: false, index: "clientid", width: 105 },
+			{ label: '状态', name: 'status',width: 80, sortable: false,
                 formatter: function(value, options, row){
                      return value == 1 ?
                         '<span class="label label-success">运行</span>' :
                         '<span class="label label-warning">终止</span>';
                 }
             },
-			{ label: '订阅时间', name: 'subTime', index: "subTime", width: 80}
+			{ label: '订阅时间', name: 'subTime', sortable: false, index: "subTime", width: 80}
         ],
 		viewrecords: true,
         height: 385,

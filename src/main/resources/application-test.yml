@@ -25,6 +25,9 @@ spring:
             test-while-idle: true
             test-on-borrow: false
             test-on-return: false
+            removeAbandoned: true
+            removeAbandonedTimeout: 180
+            logAbandoned: true
             stat-view-servlet:
                 enabled: true
                 url-pattern: /druid/*

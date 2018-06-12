@@ -31,7 +31,7 @@ public class AppMcDeviceEntity implements Serializable {
     private McAddress mcAddress;
     //设备详细参数信息
     private String devInfoId;
-    //设备状态
+    //告警状态
     private Integer devStatus;
     //设备模式
     private Integer devMode;

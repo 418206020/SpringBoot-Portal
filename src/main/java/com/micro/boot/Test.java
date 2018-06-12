@@ -1,7 +1,10 @@
 package com.micro.boot;
 
+import com.micro.boot.app.object.request.device.McDeviceReq;
 import com.micro.boot.common.Constants;
 import com.micro.boot.common.request.BodyInfo;
+import com.micro.boot.thirdparty.paho.AnalyticUtil;
+import com.micro.boot.thirdparty.paho.DeviceStateRep;
 import com.micro.boot.thirdparty.paho.MQTTClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
@@ -20,7 +23,40 @@ public class Test {
 
     public static void main(String[] args) {
 
-        runTask();
+        String msg = "STATUS:55ED72476FB64D54150100FFFFFFFFFFFFEE\n" +
+                "Sum:1027621\n" +
+                "Alarm:false\n" +
+                "BeepCut:false\n" +
+                "Wifi Status:STA_GOTIP\n" +
+                "IP:192.168.1.3\n" +
+                "MASK:255.255.255.0\n" +
+                "GateWay:192.168.1.1\n" +
+                "WiFiRSSI:-64\n" +
+                "WiFiMode:3\n" +
+                "CmdCallBack:\n";
+
+        DeviceStateRep rep = AnalyticUtil.analytic(msg);
+
+        McDeviceReq devide = new McDeviceReq();
+        devide.setDevMacid("1234567890000000");
+        devide.setElectricity(String.valueOf(rep.getElectricQuantity1()));
+        if(rep.isAlarm()){
+            devide.setDevStatus(1);
+        }else {
+            devide.setDevStatus(0);
+        }
+        if(rep.getWifiStatus().equals("STA_GRTIP")){
+            devide.setStatusWifi(0);
+        }else {
+            devide.setStatusWifi(1);
+        }
+        devide.setPublicExtendParam1(rep.getIP());
+        devide.setPublicExtendParam2(rep.getMac());
+        devide.setPublicExtendParam3(String.valueOf(rep.getBluetoothRSSI()));
+
+
+
+//        runTask();
 
 //        McRequestPage page = new McRequestPage();
 //        page.setOrderBy("createTime");

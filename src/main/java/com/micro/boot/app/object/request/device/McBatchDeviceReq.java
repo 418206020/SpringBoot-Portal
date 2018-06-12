@@ -22,7 +22,7 @@ public class McBatchDeviceReq implements Serializable {
      */
     private Integer offset;
     private Integer limit;
-    //设备状态
+    //告警状态
     private Integer devStatus;
     //排序
     private String orderString;

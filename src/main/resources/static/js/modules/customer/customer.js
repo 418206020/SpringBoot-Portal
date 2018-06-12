@@ -5,16 +5,16 @@ $(function () {
         colModel: [
 			{ label: '编号', name: 'id', index: "id", width: 45, key: true },
 			{ label: '手机号码', name: 'mobile', index: "mobile", width: 65},
-			{ label: '客户名称', name: 'username', index: "username", width: 105 },
-			{ label: '性别', name: 'sex', width: 30,
+			{ label: '客户名称', name: 'username', sortable: false, index: "username", width: 105 },
+			{ label: '性别', name: 'sex', width: 30, sortable: false,
 			    formatter: function(value, options, row){
                     return value === '1' ?
                         '<span>男</span>' :
                         '<span>女</span>';
                 }
             },
-			{ label: '微信识别码', name: 'wechatId', width: 100 },
-			{ label: '邮箱', name: 'email', width: 100 },
+			{ label: '微信识别码', name: 'wechatId', sortable: false, width: 100 },
+			{ label: '邮箱', name: 'email', sortable: false, width: 100 },
 			{ label: '创建时间', name: 'createTime', index: "create_time", width: 80}
         ],
 		viewrecords: true,

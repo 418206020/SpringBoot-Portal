@@ -3,26 +3,27 @@ $(function () {
         url: baseURL + 'device/device/list',
         datatype: "json",
         colModel: [
-            { label: '编号', name: 'id', index: "id", width: 45, key: true },
-			{ label: 'MAC标识', name: 'devMacid', index: "devMacid", width: 120},
-			{ label: '设备中文名称', name: 'devNameZh', index: "devNameZh", width: 105 },
-			{ label: '设备英文名称', name: 'devNameEn', index: "devNameEn", width: 105 },
-			{ label: 'MC用户', name: 'userId', index: "userId", width: 20 },
-			{ label: '开关状态', name: 'statusSwitch',width: 40,
+            { label: '编号', name: 'id', sortable: true, index: "id", width: 45, key: true },
+			{ label: 'MAC标识', name: 'devMacid', sortable: false, index: "devMacid", width: 100},
+			{ label: '设备中文名称', name: 'devNameZh', sortable: false, index: "devNameZh", width: 105 },
+			{ label: '设备英文名称', name: 'devNameEn', sortable: false, index: "devNameEn", width: 105 },
+			{ label: 'MC用户', name: 'userId', sortable: false, index: "userId", width: 40 },
+			{ label: '开关状态', name: 'statusSwitch', sortable: false, width: 40,
                 formatter: function(value, options, row){
                      return value === 1 ?
                         '<span class="label label-info">OPEN</span>' :
                         '<span class="label label-warning">CLOSE</span>';
                 }
             },
-            { label: '设备状态', name: 'devStatus',width: 40,
+            { label: '告警状态', name: 'devStatus',width: 40, sortable: false,
                 formatter: function(value, options, row){
                      return value === 1 ?
                         '<span class="label label-success">正常</span>' :
                         '<span class="label label-warning">危险</span>';
                 }
             },
-			{ label: '电量%', name: 'electricity', index: "electricity", width: 40 }
+			{ label: '电量%', name: 'electricity', index: "electricity", sortable: false, width: 40 },
+			{ label: '扩展字段1', name: 'publicExtendParam1', index: "publicExtendParam1", sortable: false, width: 100 }
         ],
 		viewrecords: true,
         height: 385,

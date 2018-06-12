@@ -15,6 +15,8 @@ import com.micro.boot.common.Constants;
 import com.micro.boot.common.Message;
 import com.micro.boot.common.exception.RRException;
 import com.micro.boot.common.utils.RedisUtils;
+import com.micro.boot.thirdparty.paho.AnalyticUtil;
+import com.micro.boot.thirdparty.paho.DeviceStateRep;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -172,10 +174,27 @@ public class McMessageServiceImpl implements McMessageService {
         mcTopicDao.updateUserByMsg(String.valueOf(request.getId()));
         //更新所属设备
         mcTopicDao.updateDeviceByMsg(String.valueOf(request.getId()));
-        //解析消息，更新设备状态
-//        McDeviceReq devide = new McDeviceReq();
-//        devide.setDevMacid("");
-//        mcDeviceDao.updateDeviceByMacId(devide);
+        //解析消息，更新告警状态F
+        McDeviceReq devide = new McDeviceReq();
+        DeviceStateRep rep = AnalyticUtil.analytic(message);
+        //接收主题作为macId
+        devide.setDevMacid(request.getTopicName());
+        devide.setElectricity(String.valueOf(rep.getElectricQuantity1()));
+        if(rep.isAlarm()){
+            devide.setDevStatus(0);
+        }else {
+            devide.setDevStatus(1);
+        }
+        if(rep.getWifiStatus().equals("STA_GRTIP")){
+            devide.setStatusWifi(0);
+        }else {
+            devide.setStatusWifi(1);
+        }
+        devide.setPublicExtendParam1(rep.getIP());
+        devide.setPublicExtendParam2(rep.getMac());
+        devide.setPublicExtendParam3(String.valueOf(rep.getBluetoothRSSI()));
+
+        mcDeviceDao.updateDeviceByMacId(devide);
     }
 
 }

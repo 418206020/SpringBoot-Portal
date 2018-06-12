@@ -6,10 +6,10 @@ $(function () {
 			{ label: '编号', name: 'id', index: "id", width: 45, key: true },
 			{ label: '设备编号', name: 'devid', index: "devid", width: 30 },
 			{ label: '客户编号', name: 'userid', index: "userid", width: 30 },
-			{ label: '消息来源', name: 'msgType', index: "msgType", width: 105 },
-			{ label: '主题', name: 'topicName', index: "topicName", width: 90 },
-			{ label: '消息内容', name: 'message', index: "message" },
-			{ label: '消费时间', name: 'timeConsumer', index: "timeConsumer", width: 80 }
+			{ label: '消息来源', name: 'msgType', sortable: false, index: "msgType", width: 105 },
+			{ label: '主题', name: 'topicName', sortable: false, index: "topicName", width: 90 },
+			{ label: '消息内容', name: 'message', sortable: false, index: "message" },
+			{ label: '消费时间', name: 'timeConsumer', sortable: false, index: "timeConsumer", width: 80 }
         ],
 		viewrecords: true,
         height: 385,
