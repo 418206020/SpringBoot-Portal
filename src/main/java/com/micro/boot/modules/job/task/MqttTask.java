@@ -51,7 +51,8 @@ public class MqttTask {
         Runnable runnable = new Runnable() {
             public void run() {
                 String[] topics = {Constants.M2M + "#"};
-                String clientID = String.valueOf(System.currentTimeMillis());
+//                String clientID = String.valueOf(System.currentTimeMillis());
+                String clientID = params;
                 try {
                     try {
                         logger.info("subscribe:" + clientID);
@@ -64,14 +65,6 @@ public class MqttTask {
                 } catch (InterruptedException e) {
                     logger.info(e.getMessage());
                 }
-//                finally {
-//                    try {
-//                        logger.info("unsubscribe:" + clientID);
-//                        mqttClient.unsubscribe(clientID, topics);
-//                    } catch (MqttException e) {
-//                        logger.info(e.getMessage());
-//                    }
-//                }
             }
         };
         Thread thread = new Thread(runnable);
@@ -93,7 +86,7 @@ public class MqttTask {
         try {
             int min = Integer.parseInt(minutes);
             mcTopicService.deleteHistory(min);
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }

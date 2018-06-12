@@ -24,7 +24,7 @@ public class AppMcMsgEntity implements Serializable {
     private String topicName;
     private String message;
     //消息分类
-    private Long msgType;
+    private String msgType;
     //消息报文
     private String requestQos;
     //返回报文
@@ -94,11 +94,11 @@ public class AppMcMsgEntity implements Serializable {
         this.message = message;
     }
 
-    public Long getMsgType() {
+    public String getMsgType() {
         return msgType;
     }
 
-    public void setMsgType(Long msgType) {
+    public void setMsgType(String msgType) {
         this.msgType = msgType;
     }
 

@@ -1,12 +1,10 @@
 package com.micro.boot.app.service.message.impl;
 
-import com.micro.boot.app.dao.McAddressDao;
-import com.micro.boot.app.dao.McMsgDao;
-import com.micro.boot.app.dao.McTopicDao;
-import com.micro.boot.app.dao.McUserDao;
+import com.micro.boot.app.dao.*;
 import com.micro.boot.app.object.McAddress;
 import com.micro.boot.app.object.McRegion;
 import com.micro.boot.app.object.McRequestPage;
+import com.micro.boot.app.object.request.device.McDeviceReq;
 import com.micro.boot.app.object.request.msg.McBatchMsgReq;
 import com.micro.boot.app.object.request.msg.McMsgReq;
 import com.micro.boot.app.object.response.msg.McMsgRep;
@@ -46,6 +44,8 @@ public class McMessageServiceImpl implements McMessageService {
 
     @Resource
     private McTopicDao mcTopicDao;
+    @Resource
+    private McDeviceDao mcDeviceDao;
 
     @Resource
     private McUserDao mcUserDao;
@@ -157,14 +157,14 @@ public class McMessageServiceImpl implements McMessageService {
         String[] topicName = topic.split(Constants.SEPPARATOR_SLASH);
         if (topicName.length > Constants.ONE) {
             request.setTopicName(topicName[Constants.ONE]);
-            request.setMsgType((long) Constants.ZERO);//类别
+            request.setMsgType(String.valueOf(Constants.ZERO));//类别
         } else {
             request.setTopicName(topic);
-            request.setMsgType((long) Constants.ONE);//类别
+            request.setMsgType(String.valueOf(Constants.ONE));//类别
         }
         request.setTimeConsumer(new Date());
         request.setTimeProducer(new Date());
-        request.setMsgType(Long.valueOf(client));
+        request.setMsgType(client);
         request.setMessage(message);
         mcMessageDao.messageAdd(request);
 
@@ -172,6 +172,10 @@ public class McMessageServiceImpl implements McMessageService {
         mcTopicDao.updateUserByMsg(String.valueOf(request.getId()));
         //更新所属设备
         mcTopicDao.updateDeviceByMsg(String.valueOf(request.getId()));
+        //解析消息，更新设备状态
+//        McDeviceReq devide = new McDeviceReq();
+//        devide.setDevMacid("");
+//        mcDeviceDao.updateDeviceByMacId(devide);
     }
 
 }

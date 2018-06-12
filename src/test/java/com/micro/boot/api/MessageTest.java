@@ -72,7 +72,7 @@ public class MessageTest {
         McMsgReq req = new McMsgReq();
         req.setUserid(1l);
         req.setDevid(29l);//所属设备id
-        req.setMsgType(1l);
+        req.setMsgType("225");
         req.setMsgSize("256k");
         req.setRequestQos("Qos");
         req.setStatus(1);
@@ -127,7 +127,7 @@ public class MessageTest {
         McMsgReq req = new McMsgReq();
         req.setId(Long.valueOf(msgId));
         req.setUserid(1l);
-        req.setMsgType(1l);
+        req.setMsgType("2256");
         req.setMsgSize("512k");
         req.setRequestQos("Qos update");
         req.setStatus(1);

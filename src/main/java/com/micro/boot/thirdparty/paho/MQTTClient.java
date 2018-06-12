@@ -62,17 +62,21 @@ public class MQTTClient {
      * @throws MqttException
      */
     public void subscribe(String mobile, String[] topics) throws MqttException {
-        mobile = Client_ID;//固定的ID
+        if(mobile.isEmpty()) {
+            mobile = Client_ID;//固定的ID
+        }
         // host为主机名，clientid即连接MQTT的客户端ID，一般以唯一标识符表示，MemoryPersistence设置clientid的保存形式，默认为以内存保存
         client = new MqttClient(HOST, mobile, new MemoryPersistence());
         // MQTT的连接设置
         options = new MqttConnectOptions();
-        // 设置是否清空session,这里如果设置为false表示服务器会保留客户端的连接记录，设置为true表示每次连接到服务器都以新的身份连接
-        options.setCleanSession(false);
+        // 持久化订阅设置false设置是否清空session,这里如果设置为false表示服务器会保留客户端的连接记录，设置为true表示每次连接到服务器都以新的身份连接
+        options.setCleanSession(true);
         // 设置连接的用户名
         options.setUserName(userName);
         // 设置连接的密码
         options.setPassword(passWord.toCharArray());
+
+        options.setCleanSession(true);
 
         logger.info("subscribe: client connect..." + options.toString());
         client.connect(options);
