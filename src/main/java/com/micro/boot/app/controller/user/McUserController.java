@@ -99,7 +99,7 @@ public class McUserController {
 
         mcUserService.passwordReset(request);
         //修改密码成功
-        return ReturnAppInfo.successEncrypt(null);
+        return ReturnAppInfo.successEncrypt("");
     }
 
     /**
@@ -117,6 +117,7 @@ public class McUserController {
             @ApiResponse(code = AppCode.CODE_ERROR_VERIFY_CODE, message = Message.MSG_EN_ERROR_VERIFY_CODE),
             @ApiResponse(code = AppCode.CODE_ERROR_PASSWORD, message = Message.MSG_EN_ERROR_PASSWORD),
             @ApiResponse(code = AppCode.ERROR_CODE_404, message = Message.MSG_EN_ERROR_404),
+            @ApiResponse(code = AppCode.CODE_ERROR_USER, message = Message.MSG_NOT_EXIST_USER),
             @ApiResponse(code = AppCode.EXCETPTION_FAIL, message = Message.MSG_EN_ERROR_500)}
     )
     @PostMapping(AppRestUrl.LOGIN_PWD_VERIFYCODE)

@@ -145,7 +145,7 @@ public class McDeviceController {
     {
         logger.info(AppRestUrl.MC_DEVICE_DEL + ",Param:", headers);
         mcDeviceService.deleteDevice(macId);
-        return ReturnAppInfo.successEncrypt(null);
+        return ReturnAppInfo.successEncrypt("");
     }
 
     /**

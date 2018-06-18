@@ -79,6 +79,8 @@ public class Message {
      */
     public final static String MSG_EN_EXIST_USER = "user has been register";
 
+    public final static String MSG_NOT_EXIST_USER = "user has not been register";
+
     /**
      * MSG_EN_DATABASE
      */

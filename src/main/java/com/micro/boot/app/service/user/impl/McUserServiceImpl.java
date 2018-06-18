@@ -131,7 +131,7 @@ public class McUserServiceImpl implements McUserService {
             //校验密码是否正确
             McUserRegisterRep userRegister = mcUserDao.getUserByMobile(request.getMobile());
             if (null == userRegister) {
-                throw new RRException(AppCode.CODE_ERROR_USER, Message.MSG_EN_EXIST_USER);
+                throw new RRException(AppCode.CODE_ERROR_USER, Message.MSG_NOT_EXIST_USER);
             }
             if (!userRegister.getPassword().equals(
                     PwdTools.encodeHexPwd(request.getPassword(), userRegister.getSalt())
